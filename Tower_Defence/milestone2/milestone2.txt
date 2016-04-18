@@ -1,0 +1,17 @@
+Milestone #2:
+
+As a Developer I want to have all aspects of the map done
+As a Developer I want to have enemies that travel a set path on the map
+As a Developer I want to have the whole project in mercurial with finishing tags and comments so others can see the work we have done
+As a Developer I want to have a side menu where the user can pick towers and place them in the grid with ease
+As a Player I want to be able to see my “gold” and how many units I have destroyed
+As a Developer I want tower artwork designs done and loaded into the game
+As a Developer I want to have the artwork done for the projectiles
+As a Developer I want to have the artwork done for the enemies
+As a Developer I want to have tracking projectiles that towers shoot
+As a Developer I want to have unit test for every output
+As a Player I want to be able to play a complete game
+As a Developer I want to have a completed game that is very user friendly
+As a Developer I want to have enemies no longer appear when “dead”
+As a Player I want to be able to place towers in the grid
+As a Player I want to be able to see a path for enemies to travel on

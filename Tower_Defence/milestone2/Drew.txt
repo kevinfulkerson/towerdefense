@@ -1,0 +1,11 @@
+
+Fix text of title bar
+
+DONE --------------------------------
+
+As a Developer I want to have enemies no longer appear when dead
+As a Player I want to be able to place towers in the grid
+As a Player I want to be able to see a path for enemies to travel on
+As a Player I want to be able to see my gold and how many units I have destroyed
+As a Developer I want to have enemies that travel a set path on the map
+As a Developer I want to have all aspects of the map done
