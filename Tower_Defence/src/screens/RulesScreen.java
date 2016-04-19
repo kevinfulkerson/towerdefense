@@ -1,23 +1,23 @@
 package screens;
 
+import towerdefense.TowerDefense;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import Tower.Defence.TowerDefence;
-
 public class RulesScreen implements Screen{
 
-	private TowerDefence game;
+	private TowerDefense game;
 	private SpriteBatch batch;
 	private Sprite background, text;
 	private static float width, height;
 	
-	public RulesScreen(TowerDefence towerDefence) {
+	public RulesScreen(TowerDefense towerDefense) {
 		// TODO Auto-generated constructor stub
-		this.game = towerDefence;
+		this.game = towerDefense;
 	}
 
 	@Override
@@ -45,10 +45,10 @@ public class RulesScreen implements Screen{
 		width = Gdx.graphics.getWidth();
 		height = Gdx.graphics.getHeight();
 		
-		background = new Sprite(TowerDefence.manager.get("space2.jpg", Texture.class));
+		background = new Sprite(TowerDefense.assetManager.get("space2.jpg", Texture.class));
 		background.setBounds(0, 0, width, height);
 		
-		text = new Sprite(TowerDefence.manager.get("ScreenIntro.png", Texture.class));
+		text = new Sprite(TowerDefense.assetManager.get("ScreenIntro.png", Texture.class));
 		text.setBounds((width * 1/12), (height * 1/12), (width * 5/6), (height * 5/6));
 	}
 

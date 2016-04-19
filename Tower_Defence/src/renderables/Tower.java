@@ -1,9 +1,9 @@
 package renderables;
 
 import screens.GridScreen;
+import towerdefense.TowerDefense;
 import gamelogic.AttackType;
 import gamelogic.Tile;
-import Tower.Defence.TowerDefence;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -47,7 +47,7 @@ public class Tower extends Entity{
 	}
 	
 	public Entity shoot(Entity target){
-		return Entity.createProjectile(TowerDefence.manager.get("fireBall.png", Texture.class), this, target);
+		return Entity.createProjectile(TowerDefense.assetManager.get("fireBall.png", Texture.class), this, target);
 	}
 	
 	public boolean canFire(float delta){

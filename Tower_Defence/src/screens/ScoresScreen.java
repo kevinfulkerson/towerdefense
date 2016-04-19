@@ -2,6 +2,7 @@ package screens;
 
 import java.util.ArrayList;
 
+import towerdefense.TowerDefense;
 import logging.Constants;
 
 import com.badlogic.gdx.Gdx;
@@ -13,13 +14,11 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
-import Tower.Defence.TowerDefence;
-
 public class ScoresScreen implements Screen {
 
 	private int state = 1;
 	private static final int PAUSED = 1, PLAYING = 0;
-	private TowerDefence game;
+	private TowerDefense game;
 	private SpriteBatch batch;
 	private Sprite background, sprite1, sprite2;
 	private static float width, height;
@@ -30,8 +29,8 @@ public class ScoresScreen implements Screen {
 	private BitmapFont text;
 	private boolean setUp = false;
 
-	public ScoresScreen(TowerDefence towerDefence) {
-		this.game = towerDefence;
+	public ScoresScreen(TowerDefense towerDefense) {
+		this.game = towerDefense;
 	}
 
 	@Override
@@ -79,16 +78,16 @@ public class ScoresScreen implements Screen {
 
 			width = Gdx.graphics.getWidth();
 			height = Gdx.graphics.getHeight();
-			background = new Sprite(TowerDefence.manager.get("space2.jpg", Texture.class));
+			background = new Sprite(TowerDefense.assetManager.get("space2.jpg", Texture.class));
 			background.setBounds(0, 0, width, height);
 
-			sprite1 = new Sprite(TowerDefence.manager.get("tower-green.png", Texture.class));
+			sprite1 = new Sprite(TowerDefense.assetManager.get("tower-green.png", Texture.class));
 			sprite1.rotate90(true);
 			sprite1.rotate90(true);
 			sprite1.rotate90(true);
 			sprite1.setBounds(width, (height - (width / 6)), width / 10, width / 10);
 
-			sprite2 = new Sprite(TowerDefence.manager.get("tower-red.png", Texture.class));
+			sprite2 = new Sprite(TowerDefense.assetManager.get("tower-red.png", Texture.class));
 			sprite2.rotate90(true);
 			sprite2.setBounds(-width / 10, height / 6, width / 10, width / 10);
 

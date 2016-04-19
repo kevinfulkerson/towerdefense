@@ -15,7 +15,7 @@ public class ScreenStateManager {
 	private ScreenStateManager()
 	{
 		// default current screen to the Main Screen
-		this.currentScreenState = ScreenState.MAIN_SCREEN;
+		this.currentScreenState = ScreenState.HOME_SCREEN;
 	}
 	
 	public static ScreenStateManager instance()

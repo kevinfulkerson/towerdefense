@@ -1,4 +1,4 @@
-package Tower.Defence;
+package towerdefense;
 
 import logging.Constants;
 
