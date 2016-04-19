@@ -50,22 +50,18 @@ public class HomePage implements Screen {
 			}
 			
 			if (Gdx.input.justTouched()) {
-				int y = (int) ((Gdx.input.getY() - h) * -1);
+				int y = Gdx.input.getY();
 				int x = Gdx.input.getX();
 				
-				if ((playButton.getX() < x && x < (playButton.getX() + playButton.getWidth())) && 
-						(playButton.getY() < y && y < (playButton.getY() + playButton.getHeight()))){
+				if (playButton.getBoundingRectangle().contains(x, y)){
 					this.pause();
 					game.setScreen(game.gridScreen);
-				} else if ((quitButton.getX() < x && x < (quitButton.getX() + quitButton.getWidth())) && 
-						(quitButton.getY() < y && y < (quitButton.getY() + quitButton.getHeight()))){
+				} else if (quitButton.getBoundingRectangle().contains(x, y)){
 					Gdx.app.exit();
-				} else if ((scoresButton.getX() < x && x < (scoresButton.getX() + scoresButton.getWidth())) && 
-						(scoresButton.getY() < y && y < (scoresButton.getY() + scoresButton.getHeight()))){
+				} else if (scoresButton.getBoundingRectangle().contains(x, y)){
 					this.pause();
 					game.setScreen(game.scoresScreen);
-				} else if ((howToPlayButton.getX() < x && x < (howToPlayButton.getX() + howToPlayButton.getWidth())) && 
-						(howToPlayButton.getY() < y && y < (howToPlayButton.getY() + howToPlayButton.getHeight()))){
+				} else if (howToPlayButton.getBoundingRectangle().contains(x, y)){
 					this.pause();
 					game.setScreen(game.rulesScreen);
 				}
@@ -134,6 +130,11 @@ public class HomePage implements Screen {
 		// TODO Auto-generated method stub
 		loadingScreenSprite.getTexture().dispose();
 		backgroundSprite.getTexture().dispose();
+		playButton.getTexture().dispose();
+		quitButton.getTexture().dispose();
+		scoresButton.getTexture().dispose();
+		howToPlayButton.getTexture().dispose();
+		title.getTexture().dispose();
 		batch.dispose();
 	}
 

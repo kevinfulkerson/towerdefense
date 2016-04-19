@@ -5,7 +5,6 @@ import screens.GridScreen;
 import screens.HomePage;
 import screens.RulesScreen;
 import screens.ScoresScreen;
-//import frankScreen.FrankScreen;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -16,7 +15,6 @@ import com.badlogic.gdx.graphics.Texture;
 public class TowerDefence extends Game {
 	
 	public HomePage homeScreen = new HomePage(this);
-	//public FrankScreen frankScreen = new FrankScreen(this);
 	public GridScreen gridScreen = new GridScreen(this);
 	public ScoresScreen scoresScreen = new ScoresScreen(this);
 	public RulesScreen rulesScreen = new RulesScreen(this);
