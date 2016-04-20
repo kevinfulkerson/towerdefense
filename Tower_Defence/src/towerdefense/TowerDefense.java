@@ -21,11 +21,6 @@ import com.badlogic.gdx.graphics.Texture;
 
 public class TowerDefense extends Game {
 	
-	public HomeScreen homeScreen = new HomeScreen(this);
-	public GridScreen gridScreen = new GridScreen(this);
-	public ScoresScreen scoresScreen = new ScoresScreen(this);
-	public RulesScreen rulesScreen = new RulesScreen(this);
-	public LoadingScreen loadingScreen = new LoadingScreen();
 	public static AssetManager assetManager = new AssetManager();
 	public InputProcessor processor;
 	
@@ -86,7 +81,7 @@ public class TowerDefense extends Game {
 	public void create() {
 		Gdx.input.setCatchBackKey(true);
 		Texture.setEnforcePotImages(false);
-		this.setScreen(loadingScreen);
+		this.setScreen(ScreenState.LOADING_SCREEN.getScreen());
 		
 		Gdx.input.setInputProcessor(InputProcessorManager.instance());
 	}
@@ -103,11 +98,6 @@ public class TowerDefense extends Game {
 
 	@Override
 	public void dispose() {
-		homeScreen.dispose();
-		gridScreen.dispose();
-		scoresScreen.dispose();
-		rulesScreen.dispose();
-		loadingScreen.dispose();
 		assetManager.dispose();
 		super.dispose();
 	}

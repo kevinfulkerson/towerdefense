@@ -1,8 +1,6 @@
 package gamelogic;
 
-import screens.HomeScreen;
-import screens.LoadingScreen;
-import towerdefense.TowerDefense;
+import screens.*;
 import inputprocessing.HomeScreenProcessor;
 
 import com.badlogic.gdx.InputProcessor;
@@ -11,7 +9,10 @@ import com.badlogic.gdx.Screen;
 public enum ScreenState {
 
 	LOADING_SCREEN(0),
-	HOME_SCREEN(1);
+	HOME_SCREEN(1),
+	GRID_SCREEN(2),
+	RULES_SCREEN(3),
+	SCORES_SCREEN(4);
 
 	private Screen screen;
 	private InputProcessor inputProcessor;
@@ -22,15 +23,40 @@ public enum ScreenState {
 		{
 		case 0:
 		{
-			this.inputProcessor = new HomeScreenProcessor();
 			this.screen = new LoadingScreen();
+			this.inputProcessor = new HomeScreenProcessor(this.screen);
+			
 		}
 		break;
 		
 		case 1:
 		{
-			this.inputProcessor = new HomeScreenProcessor();
-			this.screen = new HomeScreen(TowerDefense.instance());
+			this.screen = new HomeScreen();
+			this.inputProcessor = new HomeScreenProcessor(this.screen);
+			
+		}
+		break;
+		
+		case 2:
+		{
+			this.screen = new GridScreen();
+			this.inputProcessor = new HomeScreenProcessor(this.screen);
+		}
+		break;
+		
+		case 3:
+		{
+			this.screen = new RulesScreen();
+			this.inputProcessor = new HomeScreenProcessor(this.screen);
+			
+		}
+		break;
+		
+		case 4:
+		{
+			this.screen = new ScoresScreen();
+			this.inputProcessor = new HomeScreenProcessor(this.screen);
+			
 		}
 		break;
 		

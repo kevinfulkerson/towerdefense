@@ -1,5 +1,6 @@
 package screens;
 
+import gamelogic.ScreenState;
 import towerdefense.TowerDefense;
 
 import com.badlogic.gdx.Gdx;
@@ -10,22 +11,16 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class RulesScreen implements Screen{
 
-	private TowerDefense game;
 	private SpriteBatch batch;
 	private Sprite background, text;
 	private static float width, height;
-	
-	public RulesScreen(TowerDefense towerDefense) {
-		// TODO Auto-generated constructor stub
-		this.game = towerDefense;
-	}
 
 	@Override
 	public void render(float delta) {
 		// TODO Auto-generated method stub
 		
 		if (Gdx.input.justTouched()) {
-			game.setScreen(game.homeScreen);
+			TowerDefense.instance().setScreen(ScreenState.HOME_SCREEN.getScreen());
 		}
 		
 		batch.begin();

@@ -1,5 +1,6 @@
 package screens;
 
+import gamelogic.ScreenState;
 import towerdefense.TowerDefense;
 
 import com.badlogic.gdx.Gdx;
@@ -11,15 +12,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class HomeScreen implements Screen {
 
-	private TowerDefense game;
 	private SpriteBatch batch;
 	private Sprite backgroundSprite, playButton, quitButton, scoresButton, howToPlayButton, title;
 
 	private float w, h;
-
-	public HomeScreen(TowerDefense game) {
-		this.game = game;
-	}
 
 	@Override
 	public void render(float delta) {
@@ -32,15 +28,15 @@ public class HomeScreen implements Screen {
 			
 			if (playButton.getBoundingRectangle().contains(x, y)){
 				this.pause();
-				game.setScreen(game.gridScreen);
+				TowerDefense.instance().setScreen(ScreenState.GRID_SCREEN.getScreen());
 			} else if (quitButton.getBoundingRectangle().contains(x, y)){
 				Gdx.app.exit();
 			} else if (scoresButton.getBoundingRectangle().contains(x, y)){
 				this.pause();
-				game.setScreen(game.scoresScreen);
+				TowerDefense.instance().setScreen(ScreenState.SCORES_SCREEN.getScreen());
 			} else if (howToPlayButton.getBoundingRectangle().contains(x, y)){
 				this.pause();
-				game.setScreen(game.rulesScreen);
+				TowerDefense.instance().setScreen(ScreenState.RULES_SCREEN.getScreen());
 			}
 		}
 

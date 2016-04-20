@@ -1,5 +1,7 @@
 package screens;
 
+import gamelogic.ScreenState;
+
 import java.util.ArrayList;
 
 import towerdefense.TowerDefense;
@@ -18,7 +20,6 @@ public class ScoresScreen implements Screen {
 
 	private int state = 1;
 	private static final int PAUSED = 1, PLAYING = 0;
-	private TowerDefense game;
 	private SpriteBatch batch;
 	private Sprite background, sprite1, sprite2;
 	private static float width, height;
@@ -29,10 +30,6 @@ public class ScoresScreen implements Screen {
 	private BitmapFont text;
 	private boolean setUp = false;
 
-	public ScoresScreen(TowerDefense towerDefense) {
-		this.game = towerDefense;
-	}
-
 	@Override
 	public void render(float delta) {
 		if (state == PAUSED) {
@@ -41,7 +38,7 @@ public class ScoresScreen implements Screen {
 
 		if (Gdx.input.justTouched()) {
 			this.pause();
-			game.setScreen(game.homeScreen);
+			TowerDefense.instance().setScreen(ScreenState.HOME_SCREEN.getScreen());
 		}
 
 		sprite1.translateX(-9);

@@ -1,8 +1,16 @@
 package inputprocessing;
 
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.Screen;
 
 public class HomeScreenProcessor implements InputProcessor{
+	
+	private Screen view;
+	
+	public HomeScreenProcessor(Screen view)
+	{
+		this.view = view;
+	}
 
 	@Override
 	public boolean keyDown(int keycode) {

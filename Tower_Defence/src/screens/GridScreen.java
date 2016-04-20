@@ -26,11 +26,10 @@ import com.badlogic.gdx.math.Vector2;
 import exceptions.InvalidActionOnEntityException;
 import gamelogic.Grid;
 import gamelogic.Road;
+import gamelogic.ScreenState;
 
 public class GridScreen implements Screen {
 
-	public static TowerDefense game;
-	
 	private static final int GAME_PAUSED = 0, GAME_RUNNING = 1;
 	private static int state = 1;
 	private float scaleFactorX, scaleFactorY;
@@ -70,10 +69,6 @@ public class GridScreen implements Screen {
 	// ---------------------------------------------------------
 	// ---------------------------------------------------------
 	// ----------------------Begin Methods----------------------
-
-	public GridScreen(TowerDefense game) {
-		GridScreen.game = game;
-	}
 
 	@Override
 	public void render(float delta) {
@@ -259,8 +254,8 @@ public class GridScreen implements Screen {
 	public void updateWhileRunning(float delta) {
 		if (player.playerDead()){
 			isSetup = false;
-			game.scoresScreen.sendScore(player.getScore());
-			game.setScreen(game.homeScreen);
+			((ScoresScreen) ScreenState.SCORES_SCREEN.getScreen()).sendScore(player.getScore());
+			TowerDefense.instance().setScreen(ScreenState.HOME_SCREEN.getScreen());
 		}
 		
 		processInputs();
@@ -333,7 +328,7 @@ public class GridScreen implements Screen {
 
 		if(Gdx.input.getInputProcessor().keyDown(Input.Keys.W)){
 			this.pause();
-			game.setScreen(game.homeScreen);
+			TowerDefense.instance().setScreen(ScreenState.HOME_SCREEN.getScreen());
 		}
 
 		if (canPerformSafeTilt) {

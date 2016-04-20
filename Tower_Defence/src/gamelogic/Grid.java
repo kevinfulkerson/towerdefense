@@ -1,6 +1,7 @@
 package gamelogic;
 
 import screens.GridScreen;
+import towerdefense.TowerDefense;
 import logging.Constants;
 
 import com.badlogic.gdx.Gdx;
@@ -66,8 +67,8 @@ public class Grid {
 				return true;
 			}
 		} else {
-			GridScreen.game.pause();
-			GridScreen.game.setScreen(GridScreen.game.homeScreen);
+			TowerDefense.instance().pause();
+			TowerDefense.instance().setScreen(ScreenState.HOME_SCREEN.getScreen());
 			return false;
 		}
 	}
