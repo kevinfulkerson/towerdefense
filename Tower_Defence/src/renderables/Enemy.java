@@ -16,7 +16,7 @@ public class Enemy extends Entity{
 	public Enemy(int unitType, int waveMultiplier) {
 		type = 1;
 		if (unitType == 1){
-			sprite = new Sprite(TowerDefense.assetManager.get("enemy1.png", Texture.class));
+			sprite = new Sprite(TowerDefense.instance().getAssetManager().get("enemy1.png", Texture.class));
 			attackType = AttackType.NORMAL;
 			defenseType = DefenseType.HEAVY;
 			isRotatable = true;
@@ -28,7 +28,7 @@ public class Enemy extends Entity{
 			worth = 7;
 			score = 10;
 		} else if (unitType == 2){
-			sprite = new Sprite(TowerDefense.assetManager.get("enemy2.png", Texture.class));
+			sprite = new Sprite(TowerDefense.instance().getAssetManager().get("enemy2.png", Texture.class));
 			attackType = AttackType.NORMAL;
 			defenseType = DefenseType.HEAVY;
 			isRotatable = true;

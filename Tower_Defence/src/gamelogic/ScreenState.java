@@ -74,5 +74,10 @@ public enum ScreenState {
 	{
 		return this.screen;
 	}
-
+	
+	public void dispose()
+	{
+		this.inputProcessor = null;
+		this.screen.dispose();
+	}
 }

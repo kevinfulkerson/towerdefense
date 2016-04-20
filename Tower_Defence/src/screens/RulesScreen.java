@@ -40,10 +40,10 @@ public class RulesScreen implements Screen{
 		width = Gdx.graphics.getWidth();
 		height = Gdx.graphics.getHeight();
 		
-		background = new Sprite(TowerDefense.assetManager.get("space2.jpg", Texture.class));
+		background = new Sprite(TowerDefense.instance().getAssetManager().get("space2.jpg", Texture.class));
 		background.setBounds(0, 0, width, height);
 		
-		text = new Sprite(TowerDefense.assetManager.get("ScreenIntro.png", Texture.class));
+		text = new Sprite(TowerDefense.instance().getAssetManager().get("ScreenIntro.png", Texture.class));
 		text.setBounds((width * 1/12), (height * 1/12), (width * 5/6), (height * 5/6));
 	}
 

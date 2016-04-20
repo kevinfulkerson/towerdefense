@@ -13,9 +13,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class HomeScreen implements Screen {
 
 	private SpriteBatch batch;
-	private Sprite backgroundSprite, playButton, quitButton, scoresButton, howToPlayButton, title;
-
-	private float w, h;
+	private Sprite backgroundSprite;
+	private Sprite playButton;
+	private Sprite quitButton;
+	private Sprite scoresButton;
+	private Sprite howToPlayButton;
+	private Sprite title;
 
 	@Override
 	public void render(float delta) {
@@ -26,15 +29,22 @@ public class HomeScreen implements Screen {
 			int y = Gdx.input.getY();
 			int x = Gdx.input.getX();
 			
-			if (playButton.getBoundingRectangle().contains(x, y)){
+			if (playButton.getBoundingRectangle().contains(x, y))
+			{
 				this.pause();
 				TowerDefense.instance().setScreen(ScreenState.GRID_SCREEN.getScreen());
-			} else if (quitButton.getBoundingRectangle().contains(x, y)){
+			} 
+			else if (quitButton.getBoundingRectangle().contains(x, y))
+			{
 				Gdx.app.exit();
-			} else if (scoresButton.getBoundingRectangle().contains(x, y)){
+			} 
+			else if (scoresButton.getBoundingRectangle().contains(x, y))
+			{
 				this.pause();
 				TowerDefense.instance().setScreen(ScreenState.SCORES_SCREEN.getScreen());
-			} else if (howToPlayButton.getBoundingRectangle().contains(x, y)){
+			} 
+			else if (howToPlayButton.getBoundingRectangle().contains(x, y))
+			{
 				this.pause();
 				TowerDefense.instance().setScreen(ScreenState.RULES_SCREEN.getScreen());
 			}
@@ -57,32 +67,18 @@ public class HomeScreen implements Screen {
 		Texture.setEnforcePotImages(false);
 		batch = new SpriteBatch();
 
-		w = Gdx.graphics.getWidth();
-		h = Gdx.graphics.getHeight();
-		
 		backgroundSprite = new Sprite(TowerDefense.instance().getAssetManager().get("space2.jpg", Texture.class));
-		backgroundSprite.setSize(w, h);
-
 		playButton = new Sprite(TowerDefense.instance().getAssetManager().get("buttonPlay.png", Texture.class));
-		playButton.setBounds((w * 1/3), (h * 9/24), (w * 1/3), (h * 1/3));
-
 		quitButton = new Sprite(TowerDefense.instance().getAssetManager().get("buttonQuit.png", Texture.class));
-		quitButton.setBounds((w * 10/24), (h * 1/24), (w * 2/12), (h * 2/12));
-		
 		scoresButton = new Sprite(TowerDefense.instance().getAssetManager().get("buttonScore.png", Texture.class));
-		scoresButton.setBounds((w  * 5/24), (h * 4/24), (w * 2/12), (h * 2/12));
-		
 		howToPlayButton = new Sprite(TowerDefense.instance().getAssetManager().get("buttonIntro.png", Texture.class));
-		howToPlayButton.setBounds((w * 15/24), (h * 4/24), (w * 2/12), (h * 2/12));
-		
 		title = new Sprite(TowerDefense.instance().getAssetManager().get("galacticTD.png", Texture.class));
-		title.setBounds((w * 1/3), (h * 15/24), (w * 1/3), (h * 1/3));
 	}
 
 	@Override
 	public void resize(int width, int height) {
 		// TODO Auto-generated method stub
-
+		this.setSpriteBounds(width, height);
 	}
 
 	@Override
@@ -112,6 +108,19 @@ public class HomeScreen implements Screen {
 		howToPlayButton.getTexture().dispose();
 		title.getTexture().dispose();
 		batch.dispose();
+	}
+	
+	private void setSpriteBounds(float width, float height)
+	{
+		// this is all completely wrong
+		// 100% shit
+		// fix immediately
+		backgroundSprite.setSize(width, height);
+		playButton.setBounds((width * 1/3), (height * 3/8), (width * 1/3), (height * 1/9));
+		quitButton.setBounds((width * 5/12), (height * 5/24), (width * 1/6), (height * 1/6));
+		scoresButton.setBounds((width  * 5/24), (height * 1/6), (width * 1/6), (height * 1/6));
+		howToPlayButton.setBounds((width * 5/8), (height * 1/6), (width * 1/6), (height * 1/6));
+		title.setBounds((width * 1/3), (height * 5/8), (width * 1/3), (height * 1/3));
 	}
 
 }

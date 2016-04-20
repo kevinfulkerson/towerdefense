@@ -147,13 +147,13 @@ public class GridScreen implements Screen {
 			screenOffset = screenHeight / 15;
 			menuHeight = screenHeight - screenOffset;
 
-			road = new Road(TowerDefense.assetManager);
-			grid = new Grid(TowerDefense.assetManager, screenWidth, screenHeight - screenOffset, 10, 5, road);
+			road = new Road(TowerDefense.instance().getAssetManager());
+			grid = new Grid(TowerDefense.instance().getAssetManager(), screenWidth, screenHeight - screenOffset, 10, 5, road);
 			
 			drawableEntities = new ArrayList<Entity>();
 			projectiles = new ArrayList<Entity>();
 			trash = new ArrayList<Entity>();
-			background = new Sprite(TowerDefense.assetManager.get("space2.jpg", Texture.class));
+			background = new Sprite(TowerDefense.instance().getAssetManager().get("space2.jpg", Texture.class));
 			scaleFactorX = (background.getWidth() / (screenWidth + 110));
 			scaleFactorY = (background.getHeight() / (screenHeight + 110));
 			if (scaleFactorX >= 1.15f)
@@ -167,31 +167,31 @@ public class GridScreen implements Screen {
 			background.setSize((scaleFactorX * (screenWidth + 110)), (scaleFactorY * (screenHeight + 110)));
 			canPerformSafeTilt = (Gdx.input.isPeripheralAvailable(Peripheral.Accelerometer) && (scaleFactorY >= 1.0f) && (scaleFactorX >= 1.0f));
 			
-			offsetOverlay = new Sprite(TowerDefense.assetManager.get("topBar.png", Texture.class));
+			offsetOverlay = new Sprite(TowerDefense.instance().getAssetManager().get("topBar.png", Texture.class));
 			offsetOverlay.setBounds(0, screenHeight-screenOffset, screenWidth, screenOffset);
 			
-			overlay = new Sprite(TowerDefense.assetManager.get("border.png", Texture.class));
+			overlay = new Sprite(TowerDefense.instance().getAssetManager().get("border.png", Texture.class));
 			overlay.setBounds(0, 0, screenHeight, menuHeight);
 			
-			towerOptionOne = new Sprite(TowerDefense.assetManager.get("border.png",Texture.class));
+			towerOptionOne = new Sprite(TowerDefense.instance().getAssetManager().get("border.png",Texture.class));
 			towerOptionOne.setBounds((screenHeight * 3/32), (menuHeight * 15/32), (screenHeight * 3/8), (screenHeight * 3/8));
 			
-			towerOneMenuImage = new Sprite(TowerDefense.assetManager.get("tower-green.png",Texture.class));
+			towerOneMenuImage = new Sprite(TowerDefense.instance().getAssetManager().get("tower-green.png",Texture.class));
 			towerOneMenuImage.setBounds(screenHeight * 5/32, (menuHeight * 9/16), (screenHeight/4), (screenHeight/4));
 			
-			towerOptionTwo = new Sprite(TowerDefense.assetManager.get("border.png",Texture.class));
+			towerOptionTwo = new Sprite(TowerDefense.instance().getAssetManager().get("border.png",Texture.class));
 			towerOptionTwo.setBounds((screenHeight*17/32), (menuHeight * 15/32), (screenHeight * 3/8), (screenHeight * 3/8));
 			
-			towerTwoMenuImage = new Sprite(TowerDefense.assetManager.get("tower-red.png",Texture.class));
+			towerTwoMenuImage = new Sprite(TowerDefense.instance().getAssetManager().get("tower-red.png",Texture.class));
 			towerTwoMenuImage.setBounds((screenHeight*19/32),(menuHeight*9/16),(screenHeight/4),(screenHeight/4));
 			
-			buyButton = new Sprite(TowerDefense.assetManager.get("buttonBuy.png",Texture.class));
+			buyButton = new Sprite(TowerDefense.instance().getAssetManager().get("buttonBuy.png",Texture.class));
 			buyButton.setBounds((screenHeight * 3/32), menuHeight/8, (screenHeight * 3/8), (menuHeight * 3/16));
 			
-			cancelButton = new Sprite(TowerDefense.assetManager.get("buttonCancel.png",Texture.class));
+			cancelButton = new Sprite(TowerDefense.instance().getAssetManager().get("buttonCancel.png",Texture.class));
 			cancelButton.setBounds((screenHeight * 17/32), (menuHeight/8), (screenHeight * 3/8), (menuHeight * 3/16));
 			
-			towerToolTip = new Sprite(TowerDefense.assetManager.get("border.png",Texture.class));
+			towerToolTip = new Sprite(TowerDefense.instance().getAssetManager().get("border.png",Texture.class));
 			towerToolTip.setBounds(screenHeight * 33/32, menuHeight * 15/32, screenHeight/2, menuHeight/2);
 			
 			
@@ -270,21 +270,21 @@ public class GridScreen implements Screen {
 			{
 				Gdx.input.vibrate(20);
 				selectedTower = 1;
-				towerOptionOne.setTexture(TowerDefense.assetManager.get("borderSelected.png", Texture.class));
-				towerOptionTwo.setTexture(TowerDefense.assetManager.get("border.png", Texture.class));
+				towerOptionOne.setTexture(TowerDefense.instance().getAssetManager().get("borderSelected.png", Texture.class));
+				towerOptionTwo.setTexture(TowerDefense.instance().getAssetManager().get("border.png", Texture.class));
 			} else if(spriteWasSelected(towerOptionTwo))
 			{
 				Gdx.input.vibrate(20);
 				selectedTower = 2;
-				towerOptionOne.setTexture(TowerDefense.assetManager.get("border.png", Texture.class));
-				towerOptionTwo.setTexture(TowerDefense.assetManager.get("borderSelected.png", Texture.class));
+				towerOptionOne.setTexture(TowerDefense.instance().getAssetManager().get("border.png", Texture.class));
+				towerOptionTwo.setTexture(TowerDefense.instance().getAssetManager().get("borderSelected.png", Texture.class));
 			}
 			
 			if(spriteWasSelected(cancelButton))
 			{
 				Gdx.input.vibrate(20);
-				towerOptionOne.setTexture(TowerDefense.assetManager.get("border.png", Texture.class));
-				towerOptionTwo.setTexture(TowerDefense.assetManager.get("border.png", Texture.class));
+				towerOptionOne.setTexture(TowerDefense.instance().getAssetManager().get("border.png", Texture.class));
+				towerOptionTwo.setTexture(TowerDefense.instance().getAssetManager().get("border.png", Texture.class));
 				selectedTower = 0;
 				grid.resetTile();
 				this.resume();
@@ -387,10 +387,10 @@ public class GridScreen implements Screen {
 	public void addNewTower(byte towerOption){
 		switch(towerOption){
 		case 1: 
-			drawableEntities.add(new Tower(TowerDefense.assetManager.get("tower-green.png", Texture.class), gridClickedLocation, 1));
+			drawableEntities.add(new Tower(TowerDefense.instance().getAssetManager().get("tower-green.png", Texture.class), gridClickedLocation, 1));
 			break;
 		case 2:
-			drawableEntities.add(new Tower(TowerDefense.assetManager.get("tower-red.png", Texture.class), gridClickedLocation, 2));
+			drawableEntities.add(new Tower(TowerDefense.instance().getAssetManager().get("tower-red.png", Texture.class), gridClickedLocation, 2));
 			break;
 		}
 		
@@ -401,8 +401,8 @@ public class GridScreen implements Screen {
 		this.resume();
 		Gdx.input.vibrate(20);
 		selectedTower = 0;
-		towerOptionOne.setTexture(TowerDefense.assetManager.get("border.png", Texture.class));
-		towerOptionTwo.setTexture(TowerDefense.assetManager.get("border.png", Texture.class));
+		towerOptionOne.setTexture(TowerDefense.instance().getAssetManager().get("border.png", Texture.class));
+		towerOptionTwo.setTexture(TowerDefense.instance().getAssetManager().get("border.png", Texture.class));
 	}
 	
 	public boolean spriteWasSelected(Sprite selectedSprite){

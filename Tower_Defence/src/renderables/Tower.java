@@ -47,7 +47,7 @@ public class Tower extends Entity{
 	}
 	
 	public Entity shoot(Entity target){
-		return Entity.createProjectile(TowerDefense.assetManager.get("fireBall.png", Texture.class), this, target);
+		return Entity.createProjectile(TowerDefense.instance().getAssetManager().get("fireBall.png", Texture.class), this, target);
 	}
 	
 	public boolean canFire(float delta){

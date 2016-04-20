@@ -7,27 +7,20 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import managers.InputProcessorManager;
 import managers.ScreenStateManager;
-import screens.GridScreen;
-import screens.HomeScreen;
-import screens.LoadingScreen;
-import screens.RulesScreen;
-import screens.ScoresScreen;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 
 public class TowerDefense extends Game {
 	
-	public static AssetManager assetManager = new AssetManager();
-	public InputProcessor processor;
-	
 	//https://github.com/libgdx/libgdx/blob/master/demos/superjumper/superjumper/src/com/badlogicgames/superjumper/GameScreen.java
 	
 	private static TowerDefense instance;
 	private static Lock creationLock = new ReentrantLock();
+	
+	private AssetManager assetManager = new AssetManager();
 	
 	private TowerDefense()
 	{
@@ -99,6 +92,7 @@ public class TowerDefense extends Game {
 	@Override
 	public void dispose() {
 		assetManager.dispose();
+		ScreenStateManager.instance().dispose();
 		super.dispose();
 	}
 	

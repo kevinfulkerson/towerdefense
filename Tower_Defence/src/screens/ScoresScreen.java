@@ -75,16 +75,16 @@ public class ScoresScreen implements Screen {
 
 			width = Gdx.graphics.getWidth();
 			height = Gdx.graphics.getHeight();
-			background = new Sprite(TowerDefense.assetManager.get("space2.jpg", Texture.class));
+			background = new Sprite(TowerDefense.instance().getAssetManager().get("space2.jpg", Texture.class));
 			background.setBounds(0, 0, width, height);
 
-			sprite1 = new Sprite(TowerDefense.assetManager.get("tower-green.png", Texture.class));
+			sprite1 = new Sprite(TowerDefense.instance().getAssetManager().get("tower-green.png", Texture.class));
 			sprite1.rotate90(true);
 			sprite1.rotate90(true);
 			sprite1.rotate90(true);
 			sprite1.setBounds(width, (height - (width / 6)), width / 10, width / 10);
 
-			sprite2 = new Sprite(TowerDefense.assetManager.get("tower-red.png", Texture.class));
+			sprite2 = new Sprite(TowerDefense.instance().getAssetManager().get("tower-red.png", Texture.class));
 			sprite2.rotate90(true);
 			sprite2.setBounds(-width / 10, height / 6, width / 10, width / 10);
 

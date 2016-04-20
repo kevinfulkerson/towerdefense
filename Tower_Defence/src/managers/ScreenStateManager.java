@@ -47,4 +47,12 @@ public class ScreenStateManager {
 		this.currentScreenState = newState;
 	}
 	
+	public void dispose()
+	{
+		this.currentScreenState = null;
+		for(ScreenState ss :ScreenState.values())
+		{
+			ss.dispose();
+		}
+	}
 }
