@@ -26,7 +26,10 @@ public class HomeScreen implements Screen {
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		
 		if (Gdx.input.justTouched()) {
-			int y = Gdx.input.getY();
+			// Translate the coordinates from input coordinate system 
+			// into graphics coordinate system
+			int y = (int) ((Gdx.input.getY() - Gdx.graphics.getHeight()) * -1);
+			// This coordinate is already correct
 			int x = Gdx.input.getX();
 			
 			if (playButton.getBoundingRectangle().contains(x, y))
@@ -112,9 +115,6 @@ public class HomeScreen implements Screen {
 	
 	private void setSpriteBounds(float width, float height)
 	{
-		// this is all completely wrong
-		// 100% shit
-		// fix immediately
 		backgroundSprite.setSize(width, height);
 		playButton.setBounds((width * 1/3), (height * 3/8), (width * 1/3), (height * 1/9));
 		quitButton.setBounds((width * 5/12), (height * 5/24), (width * 1/6), (height * 1/6));
