@@ -1,5 +1,6 @@
 package screens;
 
+import interfaces.IScreenInput;
 import gamelogic.ScreenState;
 import towerdefense.TowerDefense;
 
@@ -9,7 +10,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class LoadingScreen implements Screen{
+public class LoadingScreen implements Screen, IScreenInput{
 
 	private Sprite loadingScreenSprite;
 	private SpriteBatch batch;
@@ -18,7 +19,7 @@ public class LoadingScreen implements Screen{
 	public void render(float delta) {
 		if (TowerDefense.instance().getAssetManager().update())
 		{
-			TowerDefense.instance().setScreen(ScreenState.HOME_SCREEN.getScreen());
+			TowerDefense.instance().setScreen(ScreenState.HOME_SCREEN);
 		}
 		else
 		{
@@ -60,6 +61,12 @@ public class LoadingScreen implements Screen{
 	@Override
 	public void dispose() {
 		loadingScreenSprite.getTexture().dispose();
+	}
+
+	@Override
+	public void handleTouchDown(int screenX, int screenY, int pointer, int button) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

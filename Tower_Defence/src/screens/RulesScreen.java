@@ -1,5 +1,6 @@
 package screens;
 
+import interfaces.IScreenInput;
 import gamelogic.ScreenState;
 import towerdefense.TowerDefense;
 
@@ -9,7 +10,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class RulesScreen implements Screen{
+public class RulesScreen implements Screen, IScreenInput{
 
 	private SpriteBatch batch;
 	private Sprite background, text;
@@ -73,6 +74,12 @@ public class RulesScreen implements Screen{
 
 	@Override
 	public void dispose() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void handleTouchDown(int screenX, int screenY, int pointer, int button) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -1,5 +1,6 @@
 package screens;
 
+import interfaces.IScreenInput;
 import gamelogic.ScreenState;
 import towerdefense.TowerDefense;
 
@@ -10,7 +11,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class HomeScreen implements Screen {
+public class HomeScreen implements Screen, IScreenInput {
 
 	private SpriteBatch batch;
 	private Sprite backgroundSprite;
@@ -24,34 +25,6 @@ public class HomeScreen implements Screen {
 	public void render(float delta) {
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-		
-		if (Gdx.input.justTouched()) {
-			// Translate the coordinates from input coordinate system 
-			// into graphics coordinate system
-			int y = (int) ((Gdx.input.getY() - Gdx.graphics.getHeight()) * -1);
-			// This coordinate is already correct
-			int x = Gdx.input.getX();
-			
-			if (playButton.getBoundingRectangle().contains(x, y))
-			{
-				this.pause();
-				TowerDefense.instance().setScreen(ScreenState.GRID_SCREEN.getScreen());
-			} 
-			else if (quitButton.getBoundingRectangle().contains(x, y))
-			{
-				Gdx.app.exit();
-			} 
-			else if (scoresButton.getBoundingRectangle().contains(x, y))
-			{
-				this.pause();
-				TowerDefense.instance().setScreen(ScreenState.SCORES_SCREEN.getScreen());
-			} 
-			else if (howToPlayButton.getBoundingRectangle().contains(x, y))
-			{
-				this.pause();
-				TowerDefense.instance().setScreen(ScreenState.RULES_SCREEN.getScreen());
-			}
-		}
 
 		batch.begin();
 
@@ -113,6 +86,29 @@ public class HomeScreen implements Screen {
 		batch.dispose();
 	}
 	
+	@Override
+	public void handleTouchDown(int screenX, int screenY, int pointer, int button) {
+		if (playButton.getBoundingRectangle().contains(screenX, screenY))
+		{
+			this.pause();
+			TowerDefense.instance().setScreen(ScreenState.GRID_SCREEN);
+		} 
+		else if (quitButton.getBoundingRectangle().contains(screenX, screenY))
+		{
+			Gdx.app.exit();
+		} 
+		else if (scoresButton.getBoundingRectangle().contains(screenX, screenY))
+		{
+			this.pause();
+			TowerDefense.instance().setScreen(ScreenState.SCORES_SCREEN);
+		} 
+		else if (howToPlayButton.getBoundingRectangle().contains(screenX, screenY))
+		{
+			this.pause();
+			TowerDefense.instance().setScreen(ScreenState.RULES_SCREEN);
+		}
+	}
+	
 	private void setSpriteBounds(float width, float height)
 	{
 		backgroundSprite.setSize(width, height);
@@ -122,5 +118,4 @@ public class HomeScreen implements Screen {
 		howToPlayButton.setBounds((width * 5/8), (height * 1/6), (width * 1/6), (height * 1/6));
 		title.setBounds((width * 1/3), (height * 5/8), (width * 1/3), (height * 1/3));
 	}
-
 }

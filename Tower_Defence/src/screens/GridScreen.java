@@ -1,5 +1,7 @@
 package screens;
 
+import interfaces.IScreenInput;
+
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 
@@ -28,7 +30,7 @@ import gamelogic.Grid;
 import gamelogic.Road;
 import gamelogic.ScreenState;
 
-public class GridScreen implements Screen {
+public class GridScreen implements Screen, IScreenInput {
 
 	private static final int GAME_PAUSED = 0, GAME_RUNNING = 1;
 	private static int state = 1;
@@ -421,6 +423,12 @@ public class GridScreen implements Screen {
 		float positionY = -(-Gdx.input.getAccelerometerX() * 5 + (background.getHeight() - Gdx.graphics.getHeight())
 				/ (2 * scaleFactorY));
 		background.setPosition(positionX, positionY);
+	}
+
+	@Override
+	public void handleTouchDown(int screenX, int screenY, int pointer, int button) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 

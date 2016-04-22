@@ -1,13 +1,16 @@
 package inputprocessing;
 
+import interfaces.IScreenInput;
+
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 
 public class HomeScreenProcessor implements InputProcessor{
 	
-	private Screen view;
+	private IScreenInput view;
 	
-	public HomeScreenProcessor(Screen view)
+	public HomeScreenProcessor(IScreenInput view)
 	{
 		this.view = view;
 	}
@@ -32,8 +35,14 @@ public class HomeScreenProcessor implements InputProcessor{
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		// TODO Auto-generated method stub
-		return false;
+		// Translate the coordinates from input coordinate system 
+		// into graphics coordinate system
+		int y = (int) ((screenY - Gdx.graphics.getHeight()) * -1);
+		// This coordinate is already correct
+		int x = screenX;
+		
+		this.view.handleTouchDown(x, y, pointer, button);
+		return true;
 	}
 
 	@Override

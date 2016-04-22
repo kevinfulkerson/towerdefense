@@ -1,6 +1,7 @@
 package screens;
 
 import gamelogic.ScreenState;
+import interfaces.IScreenInput;
 
 import java.util.ArrayList;
 
@@ -16,7 +17,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
-public class ScoresScreen implements Screen {
+public class ScoresScreen implements Screen, IScreenInput {
 
 	private int state = 1;
 	private static final int PAUSED = 1, PLAYING = 0;
@@ -188,6 +189,12 @@ public class ScoresScreen implements Screen {
 	public void dispose() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void handleTouchDown(int screenX, int screenY, int pointer, int button) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

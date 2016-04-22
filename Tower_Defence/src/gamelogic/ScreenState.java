@@ -2,6 +2,7 @@ package gamelogic;
 
 import screens.*;
 import inputprocessing.HomeScreenProcessor;
+import interfaces.IScreenInput;
 
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
@@ -14,7 +15,7 @@ public enum ScreenState {
 	RULES_SCREEN(3),
 	SCORES_SCREEN(4);
 
-	private Screen screen;
+	private IScreenInput screen;
 	private InputProcessor inputProcessor;
 
 	private ScreenState(int screenType) 
@@ -70,7 +71,7 @@ public enum ScreenState {
 		return this.inputProcessor;
 	}
 	
-	public Screen getScreen()
+	public IScreenInput getScreen()
 	{
 		return this.screen;
 	}

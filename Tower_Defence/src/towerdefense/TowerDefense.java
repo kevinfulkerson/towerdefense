@@ -10,6 +10,7 @@ import managers.ScreenStateManager;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 
@@ -74,11 +75,17 @@ public class TowerDefense extends Game {
 	public void create() {
 		Gdx.input.setCatchBackKey(true);
 		Texture.setEnforcePotImages(false);
-		this.setScreen(ScreenState.LOADING_SCREEN.getScreen());
+		this.setScreen(ScreenState.LOADING_SCREEN);
 		
 		Gdx.input.setInputProcessor(InputProcessorManager.instance());
 	}
 	
+	public void setScreen(ScreenState screen) {
+		// TODO Auto-generated method stub
+		ScreenStateManager.instance().setCurrentScreenState(screen);
+		super.setScreen(screen.getScreen());
+	}
+
 	@Override //delete this line if issue, maybe
 	public void render(){
 		super.render();
