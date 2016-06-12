@@ -1,20 +1,20 @@
 package com.goonsquad.galactictd;
 
-import com.goonsquad.galactictd.gamelogic.ScreenState;
-
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 //import managers.InputProcessorManager;
-import com.goonsquad.galactictd.managers.ScreenStateManager;
+import com.goonsquad.galactictd.managers.ScreenManager;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
+import com.goonsquad.galactictd.screens.LoadingScreen;
 
 public class GalacticTDGame extends Game {
 
+    private final String tag = "GalacticTDGame";
     private static GalacticTDGame instance;
     private static Lock creationLock = new ReentrantLock();
     private AssetManager assetManager = new AssetManager();
@@ -39,8 +39,9 @@ public class GalacticTDGame extends Game {
     public void create() {
         Gdx.input.setCatchBackKey(true);
         this.loadGameAssets();
+        Gdx.app.log(tag, "create() called.");
+        ScreenManager.instance().setScreen(LoadingScreen.class);
 //        this.setScreen(ScreenState.LOADING_SCREEN);
-
 //        Gdx.input.setInputProcessor(InputProcessorManager.instance());
     }
 
@@ -72,11 +73,6 @@ public class GalacticTDGame extends Game {
         assetManager.load("Owens_Frank.jpg", Texture.class);
     }
 
-    public void setScreen(ScreenState screenState) {
-       ScreenStateManager.instance().setCurrentScreenState(screenState);
-        super.setScreen(screenState.getScreen());
-    }
-
     @Override
     public void render() {
         super.render();
@@ -90,7 +86,7 @@ public class GalacticTDGame extends Game {
     @Override
     public void dispose() {
         assetManager.dispose();
-        ScreenStateManager.instance().dispose();
+        ScreenManager.instance().dispose();
         super.dispose();
     }
 
