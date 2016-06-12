@@ -6,7 +6,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 //import managers.InputProcessorManager;
-//import managers.ScreenStateManager;
+import com.goonsquad.galactictd.managers.ScreenStateManager;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -44,7 +44,7 @@ public class GalacticTDGame extends Game {
 //        Gdx.input.setInputProcessor(InputProcessorManager.instance());
     }
 
-    private void loadGameAssets(){
+    private void loadGameAssets() {
         assetManager.load("blankTextBorder.png", Texture.class);
         assetManager.load("border.png", Texture.class);
         assetManager.load("borderSelected.png", Texture.class);
@@ -72,26 +72,25 @@ public class GalacticTDGame extends Game {
         assetManager.load("Owens_Frank.jpg", Texture.class);
     }
 
-//    public void setScreen(ScreenState screen) {
-//        // TODO Auto-generated method stub
-//       ScreenStateManager.instance().setCurrentScreenState(screen);
-//        super.setScreen(screen.getScreen());
-//    }
+    public void setScreen(ScreenState screenState) {
+       ScreenStateManager.instance().setCurrentScreenState(screenState);
+        super.setScreen(screenState.getScreen());
+    }
 
-    @Override //delete this line if issue, maybe
+    @Override
     public void render() {
         super.render();
     }
 
     @Override
     public void pause() {
-		this.dispose();
+        this.dispose();
     }
 
     @Override
     public void dispose() {
         assetManager.dispose();
-//        ScreenStateManager.instance().dispose();
+        ScreenStateManager.instance().dispose();
         super.dispose();
     }
 

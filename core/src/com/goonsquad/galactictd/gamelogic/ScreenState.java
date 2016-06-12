@@ -2,7 +2,8 @@ package com.goonsquad.galactictd.gamelogic;
 
 //import com.goonsquad.galactictd.screens.*;
 //import com.goonsquad.galactictd.inputprocessing.HomeScreenProcessor;
-//import com.goonsquad.galactictd.interfaces.IScreenInput;
+
+import com.goonsquad.galactictd.interfaces.IScreenInput;
 
 import com.badlogic.gdx.InputProcessor;
 
@@ -14,46 +15,39 @@ public enum ScreenState {
     RULES_SCREEN(3),
     SCORES_SCREEN(4);
 
-//    private IScreenInput screen;
+    private IScreenInput screen;
     private InputProcessor inputProcessor;
 
-    private ScreenState(int screenType)
-    {
-        switch (screenType)
-        {
-            case 0:
-            {
+    private ScreenState(int screenType) {
+        switch (screenType) {
+            case 0: {
 //                this.screen = new LoadingScreen();
 //                this.inputProcessor = new HomeScreenProcessor(this.screen);
 
             }
             break;
 
-            case 1:
-            {
+            case 1: {
 //                this.screen = new HomeScreen();
 //                this.inputProcessor = new HomeScreenProcessor(this.screen);
 
             }
             break;
 
-            case 2:
-            {
+            case 2: {
 //                this.screen = new GridScreen();
 //                this.inputProcessor = new HomeScreenProcessor(this.screen);
             }
             break;
 
-            case 3:
-            {
+            case 3: {
 //                this.screen = new RulesScreen();
 //                this.inputProcessor = new HomeScreenProcessor(this.screen);
 
             }
             break;
 
-            case 4:
-            {
+            case 4: {
 //                this.screen = new ScoresScreen();
 //                this.inputProcessor = new HomeScreenProcessor(this.screen);
 
@@ -65,18 +59,15 @@ public enum ScreenState {
         }
     }
 
-    public InputProcessor getInputProcessor()
-    {
+    public InputProcessor getInputProcessor() {
         return this.inputProcessor;
     }
 
-//    public IScreenInput getScreen()
-//    {
-//        return this.screen;
-//    }
+    public IScreenInput getScreen() {
+        return this.screen;
+    }
 
-    public void dispose()
-    {
+    public void dispose() {
         this.inputProcessor = null;
 //        this.screen.dispose();
     }
