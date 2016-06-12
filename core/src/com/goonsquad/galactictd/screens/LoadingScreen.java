@@ -11,7 +11,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.goonsquad.galactictd.GalacticTDGame;
-import com.goonsquad.galactictd.managers.ScreenManager;
 
 public class LoadingScreen implements Screen {
 
@@ -28,7 +27,7 @@ public class LoadingScreen implements Screen {
     @Override
     public void render(float delta) {
         if (GalacticTDGame.instance().getAssetManager().update()) {
-            ScreenManager.instance().setScreen(LoadingScreen.class);
+//            ScreenManager.instance().setScreen(LoadingScreen.class);
         } else {
             batch.begin();
             loadingScreenSprite.draw(batch);

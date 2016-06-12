@@ -50,7 +50,6 @@ public class ScreenManager {
     }
 
     public void dispose() {
-        this.manager = null;
         for (Screen screen : this.gameScreens) {
             screen.dispose();
         }

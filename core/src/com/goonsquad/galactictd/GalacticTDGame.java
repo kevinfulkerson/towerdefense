@@ -3,7 +3,6 @@ package com.goonsquad.galactictd;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-//import managers.InputProcessorManager;
 import com.goonsquad.galactictd.managers.ScreenManager;
 
 import com.badlogic.gdx.Game;
@@ -37,12 +36,10 @@ public class GalacticTDGame extends Game {
 
     @Override
     public void create() {
+        Gdx.app.log(tag, "create() called.");
         Gdx.input.setCatchBackKey(true);
         this.loadGameAssets();
-        Gdx.app.log(tag, "create() called.");
         ScreenManager.instance().setScreen(LoadingScreen.class);
-//        this.setScreen(ScreenState.LOADING_SCREEN);
-//        Gdx.input.setInputProcessor(InputProcessorManager.instance());
     }
 
     private void loadGameAssets() {
