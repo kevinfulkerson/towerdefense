@@ -1,6 +1,6 @@
 package com.goonsquad.galactictd;
 
-//import gamelogic.ScreenState;
+import com.goonsquad.galactictd.gamelogic.ScreenState;
 
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -20,6 +20,31 @@ public class GalacticTDGame extends Game {
     private AssetManager assetManager = new AssetManager();
 
     private GalacticTDGame() {
+    }
+
+    public static GalacticTDGame instance() {
+        if (creationLock.tryLock()) {
+            try {
+                if (instance == null) {
+                    instance = new GalacticTDGame();
+                }
+            } finally {
+                creationLock.unlock();
+            }
+        }
+        return instance;
+    }
+
+    @Override
+    public void create() {
+        Gdx.input.setCatchBackKey(true);
+        this.loadGameAssets();
+//        this.setScreen(ScreenState.LOADING_SCREEN);
+
+//        Gdx.input.setInputProcessor(InputProcessorManager.instance());
+    }
+
+    private void loadGameAssets(){
         assetManager.load("blankTextBorder.png", Texture.class);
         assetManager.load("border.png", Texture.class);
         assetManager.load("borderSelected.png", Texture.class);
@@ -47,27 +72,6 @@ public class GalacticTDGame extends Game {
         assetManager.load("Owens_Frank.jpg", Texture.class);
     }
 
-    public static GalacticTDGame instance() {
-        if (creationLock.tryLock()) {
-            try {
-                if (instance == null) {
-                    instance = new GalacticTDGame();
-                }
-            } finally {
-                creationLock.unlock();
-            }
-        }
-        return instance;
-    }
-
-    @Override
-    public void create() {
-        Gdx.input.setCatchBackKey(true);
-//        this.setScreen(ScreenState.LOADING_SCREEN);
-
-//        Gdx.input.setInputProcessor(InputProcessorManager.instance());
-    }
-
 //    public void setScreen(ScreenState screen) {
 //        // TODO Auto-generated method stub
 //       ScreenStateManager.instance().setCurrentScreenState(screen);
@@ -81,7 +85,7 @@ public class GalacticTDGame extends Game {
 
     @Override
     public void pause() {
-//		this.dispose();
+		this.dispose();
     }
 
     @Override
