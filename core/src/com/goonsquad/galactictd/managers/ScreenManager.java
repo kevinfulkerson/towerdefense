@@ -7,6 +7,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.goonsquad.galactictd.GalacticTDGame;
+import com.goonsquad.galactictd.screens.HomeScreen;
 import com.goonsquad.galactictd.screens.LoadingScreen;
 
 public class ScreenManager {
@@ -16,7 +17,6 @@ public class ScreenManager {
     private static Lock creationLock = new ReentrantLock();
 
     private final ArrayList<Screen> gameScreens;
-    private Screen currentScreen;
 
     public static ScreenManager instance() {
         if (creationLock.tryLock()) {
@@ -38,13 +38,18 @@ public class ScreenManager {
 
         final LoadingScreen loadingScreen = new LoadingScreen();
         this.gameScreens.add(loadingScreen);
+        Gdx.app.log(tag, "LoadingScreen added");
+
+        final HomeScreen homeScreen = new HomeScreen();
+        this.gameScreens.add(homeScreen);
+        Gdx.app.log(tag, "HomeScreen added");
+
     }
 
     public void setScreen(Class<? extends Screen> newScreen) {
         for (Screen s : this.gameScreens) {
             if (s.getClass().equals(newScreen)) {
                 GalacticTDGame.instance().setScreen(s);
-                this.currentScreen = s;
             }
         }
     }

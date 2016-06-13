@@ -77,7 +77,6 @@ public class GalacticTDGame extends Game {
 
     @Override
     public void pause() {
-        this.dispose();
     }
 
     @Override
@@ -85,6 +84,7 @@ public class GalacticTDGame extends Game {
         assetManager.dispose();
         ScreenManager.instance().dispose();
         super.dispose();
+        Gdx.app.log(tag, "dispose() called.");
     }
 
     public AssetManager getAssetManager() {
