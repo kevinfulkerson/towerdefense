@@ -3,6 +3,7 @@ package com.goonsquad.galactictd;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import com.badlogic.gdx.graphics.GL20;
 import com.goonsquad.galactictd.managers.ScreenManager;
 
 import com.badlogic.gdx.Game;
@@ -43,6 +44,7 @@ public class GalacticTDGame extends Game {
     }
 
     private void loadGameAssets() {
+        Gdx.app.log(tag, "Loading game assets.");
         assetManager.load("blankTextBorder.png", Texture.class);
         assetManager.load("border.png", Texture.class);
         assetManager.load("borderSelected.png", Texture.class);
@@ -68,10 +70,13 @@ public class GalacticTDGame extends Game {
         assetManager.load("tower-green.png", Texture.class);
         assetManager.load("tower-red.png", Texture.class);
         assetManager.load("Owens_Frank.jpg", Texture.class);
+        Gdx.app.log(tag, "Game assets loaded.");
     }
 
     @Override
     public void render() {
+        Gdx.gl.glClearColor(1, 1, 1, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         super.render();
     }
 

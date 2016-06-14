@@ -4,11 +4,11 @@ package com.goonsquad.galactictd.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.goonsquad.galactictd.GalacticTDGame;
+import com.goonsquad.galactictd.managers.ScreenManager;
 
 public class HomeScreen implements Screen, InputProcessor {
     private final String tag = "HomeScreen";
@@ -21,11 +21,12 @@ public class HomeScreen implements Screen, InputProcessor {
     private Sprite howToPlayButton;
     private Sprite title;
 
+    public HomeScreen() {
+        Gdx.app.log(tag, "Initialized " + tag);
+    }
+
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(1, 1, 1, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
         batch.begin();
 
         backgroundSprite.draw(batch);
@@ -40,6 +41,8 @@ public class HomeScreen implements Screen, InputProcessor {
 
     @Override
     public void show() {
+        Gdx.app.log(tag, "show() called.");
+        Gdx.input.setInputProcessor(this);
         batch = new SpriteBatch();
 
         backgroundSprite = new Sprite(GalacticTDGame.instance().getAssetManager().get("space2.jpg", Texture.class));
@@ -49,7 +52,7 @@ public class HomeScreen implements Screen, InputProcessor {
         howToPlayButton = new Sprite(GalacticTDGame.instance().getAssetManager().get("buttonIntro.png", Texture.class));
         title = new Sprite(GalacticTDGame.instance().getAssetManager().get("galacticTD.png", Texture.class));
 
-        Gdx.input.setInputProcessor(this);
+
     }
 
     @Override
@@ -119,7 +122,7 @@ public class HomeScreen implements Screen, InputProcessor {
         } else if (quitButton.getBoundingRectangle().contains(screenX, y)) {
             Gdx.app.exit();
         } else if (scoresButton.getBoundingRectangle().contains(screenX, y)) {
-//            GalacticTDGame.instance().setScreen(ScreenState.SCORES_SCREEN);
+            ScreenManager.instance().setScreen(ScoreScreen.class);
         } else if (howToPlayButton.getBoundingRectangle().contains(screenX, y)) {
 //            GalacticTDGame.instance().setScreen(ScreenState.RULES_SCREEN);
         }
