@@ -12,57 +12,59 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.GdxRuntimeException;
+import com.goonsquad.galactictd.GalacticTDGame;
 import com.goonsquad.galactictd.managers.ScreenManager;
 
 public class ScoreScreen implements Screen, InputProcessor {
 
     private final String tag = "ScoreScreen";
     private SpriteBatch batch;
-    private Sprite background, sprite1, sprite2;
+    private Sprite background;
+    private Sprite greenShip;
+    private Sprite redShip;
     private FileHandle scoresDataFile;
     private String scoresAsString;
     private ArrayList<Integer> highScores = new ArrayList<Integer>();
     private String[] stringArray;
     private BitmapFont text;
+    private boolean loaded;
 
     public ScoreScreen() {
         Gdx.app.log(tag, "Initialized " + tag);
         batch = new SpriteBatch();
-        createScoreScreenSprites();
+        loaded = false;
     }
 
-    private void createScoreScreenSprites() {
-        background = new Sprite(new Texture(Gdx.files.internal("enemy1.png")));
-//
-//        sprite1 = new Sprite(GalacticTDGame.instance().getAssetManager().get("tower-green.png", Texture.class));
-//        sprite1.rotate90(true);
-//        sprite1.rotate90(true);
-//        sprite1.rotate90(true);
-//        sprite1.setBounds(width, (height - (width / 6)), width / 10, width / 10);
-//
-//
-//        sprite2 = new Sprite(GalacticTDGame.instance().getAssetManager().get("tower-red.png", Texture.class));
-//        sprite2.rotate90(true);
-//        sprite2.setBounds(-width / 10, height / 6, width / 10, width / 10);
+    private void loadScreenObjects() {
+        background = new Sprite(GalacticTDGame.instance().getAssetManager().get("space2.jpg", Texture.class));
+
+        greenShip = new Sprite(GalacticTDGame.instance().getAssetManager().get("tower-green.png", Texture.class));
+//        greenShip.rotate(90);
+
+//        redShip = new Sprite(GalacticTDGame.instance().getAssetManager().get("tower-red.png", Texture.class));
+//        redShip.setOriginCenter();
+//        redShip.rotate(270);
+
+        loaded = true;
     }
 
     @Override
     public void render(float delta) {
-//        sprite1.translateX(-9);
-//        sprite2.translateX(7);
-//
-//        if (sprite1.getX() < -width / 10) {
-//            sprite1.setPosition(width, (height - (width / 6)));
+        greenShip.translateX(-9);
+//        redShip.translateX(7);
+
+//        if (greenShip.getX() < -width / 10) {
+//            greenShip.setPosition(width, (height - (width / 6)));
 //        }
-//        if (sprite2.getX() > width) {
-//            sprite2.setPosition(-width / 10, height / 6);
+//        if (redShip.getX() > width) {
+//            redShip.setPosition(-width / 10, height / 6);
 //        }
 
         batch.begin();
 
         background.draw(batch);
-//        sprite1.draw(batch);
-//        sprite2.draw(batch);
+        greenShip.draw(batch);
+//        redShip.draw(batch);
 //
 //        text.draw(batch, "HIGH SCORES:", (width / 10), (height / 16) * 15);
 //        text.draw(batch, "" + highScores.get(0), (width / 10) * 6, (height / 16) * 15);
@@ -78,6 +80,7 @@ public class ScoreScreen implements Screen, InputProcessor {
     public void show() {
         Gdx.app.log(this.tag, "show() called.");
         Gdx.input.setInputProcessor(this);
+        if (!loaded) loadScreenObjects();
 
 //        getScoresFile();
 
@@ -146,7 +149,11 @@ public class ScoreScreen implements Screen, InputProcessor {
 
     @Override
     public void resize(int width, int height) {
+        Gdx.app.log(tag, "resize() called. Width: " + width + " Height: " + height);
         background.setBounds(0, 0, width, height);
+        greenShip.setBounds(width * .5f, height * .75f, width / 10f, width / 10f);
+        greenShip.setOriginCenter();
+        greenShip.rotate(90);
     }
 
     @Override

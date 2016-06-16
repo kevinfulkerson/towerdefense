@@ -20,9 +20,12 @@ public class HomeScreen implements Screen, InputProcessor {
     private Sprite scoresButton;
     private Sprite howToPlayButton;
     private Sprite title;
+    private boolean loaded;
 
     public HomeScreen() {
         Gdx.app.log(tag, "Initialized " + tag);
+        batch = new SpriteBatch();
+        this.loaded = false;
     }
 
     @Override
@@ -43,51 +46,48 @@ public class HomeScreen implements Screen, InputProcessor {
     public void show() {
         Gdx.app.log(tag, "show() called.");
         Gdx.input.setInputProcessor(this);
-        batch = new SpriteBatch();
+        if (!loaded) loadScreenObjects();
+    }
 
+    public void loadScreenObjects() {
         backgroundSprite = new Sprite(GalacticTDGame.instance().getAssetManager().get("space2.jpg", Texture.class));
         playButton = new Sprite(GalacticTDGame.instance().getAssetManager().get("buttonPlay.png", Texture.class));
         quitButton = new Sprite(GalacticTDGame.instance().getAssetManager().get("buttonQuit.png", Texture.class));
         scoresButton = new Sprite(GalacticTDGame.instance().getAssetManager().get("buttonScore.png", Texture.class));
         howToPlayButton = new Sprite(GalacticTDGame.instance().getAssetManager().get("buttonIntro.png", Texture.class));
         title = new Sprite(GalacticTDGame.instance().getAssetManager().get("galacticTD.png", Texture.class));
-
-
+        this.loaded = true;
     }
 
     @Override
     public void resize(int width, int height) {
-        // TODO Auto-generated method stub
         this.setSpriteBounds(width, height);
     }
 
     @Override
     public void hide() {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void pause() {
-        // TODO Auto-generated method stub
     }
 
     @Override
     public void resume() {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void dispose() {
         Gdx.app.log(tag, "dispose() called.");
         batch.dispose();
-        backgroundSprite.getTexture().dispose();
-        playButton.getTexture().dispose();
-        quitButton.getTexture().dispose();
-        scoresButton.getTexture().dispose();
-        howToPlayButton.getTexture().dispose();
-        title.getTexture().dispose();
+        if (loaded) {
+            backgroundSprite.getTexture().dispose();
+            playButton.getTexture().dispose();
+            quitButton.getTexture().dispose();
+            scoresButton.getTexture().dispose();
+            howToPlayButton.getTexture().dispose();
+            title.getTexture().dispose();
+        }
     }
 
     private void setSpriteBounds(float width, float height) {

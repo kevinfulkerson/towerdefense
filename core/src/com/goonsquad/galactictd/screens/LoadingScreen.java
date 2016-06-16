@@ -17,11 +17,14 @@ public class LoadingScreen implements Screen {
     public LoadingScreen() {
         Gdx.app.log(tag, "Initialized " + tag);
         batch = new SpriteBatch();
-        loadingScreenSprite = new Sprite(new Texture(Gdx.files.internal("loading.jpg")));
+        loadingScreenSprite = new Sprite(
+                new Texture(Gdx.files.internal("loading.jpg")));
+        loadingScreenSprite.setSize(GalacticTDGame.UI_WIDTH, GalacticTDGame.UI_HEIGHT);
     }
 
     @Override
     public void render(float delta) {
+        batch.setProjectionMatrix(GalacticTDGame.instance().getUiProjection());
         batch.begin();
         loadingScreenSprite.draw(batch);
         batch.end();
@@ -39,7 +42,6 @@ public class LoadingScreen implements Screen {
     @Override
     public void show() {
         Gdx.app.log(this.tag, "show() called.");
-        loadingScreenSprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 
     @Override
