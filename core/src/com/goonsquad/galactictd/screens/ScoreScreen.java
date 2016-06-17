@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.goonsquad.galactictd.GalacticTDGame;
 
@@ -39,13 +40,18 @@ public class ScoreScreen implements Screen, InputProcessor {
     private void loadScreenObjects() {
         background = new Sprite(gameInstance.getAssetManager().get("space2.jpg", Texture.class));
         background.setSize(GalacticTDGame.UI_WIDTH, GalacticTDGame.UI_HEIGHT);
-//
-//        greenShip = new Sprite(gameInstance.getAssetManager().get("tower-green.png", Texture.class));
-//        greenShip.rotate(90);
 
-//        redShip = new Sprite(GalacticTDGame.instance().getAssetManager().get("tower-red.png", Texture.class));
-//        redShip.setOriginCenter();
-//        redShip.rotate(270);
+        Vector2 shipSize = new Vector2(GalacticTDGame.UI_WIDTH / 16, GalacticTDGame.UI_WIDTH / 16f);
+        greenShip = new Sprite(gameInstance.getAssetManager().get("tower-green.png", Texture.class));
+        greenShip.setSize(shipSize.x, shipSize.y);
+        greenShip.setOriginCenter();
+        greenShip.setPosition(GalacticTDGame.UI_WIDTH - greenShip.getWidth(), GalacticTDGame.UI_HEIGHT - greenShip.getHeight());
+        greenShip.rotate(90);
+
+        redShip = new Sprite(gameInstance.getAssetManager().get("tower-red.png", Texture.class));
+        redShip.setSize(shipSize.x, shipSize.y);
+        redShip.setOriginCenter();
+        redShip.rotate(-90);
 
         loaded = true;
     }
@@ -61,12 +67,12 @@ public class ScoreScreen implements Screen, InputProcessor {
 //        if (redShip.getX() > width) {
 //            redShip.setPosition(-width / 10, height / 6);
 //        }
-
+        batch.setProjectionMatrix(gameInstance.getUiProjection());
         batch.begin();
 
         background.draw(batch);
-//        greenShip.draw(batch);
-//        redShip.draw(batch);
+        greenShip.draw(batch);
+        redShip.draw(batch);
 //
 //        text.draw(batch, "HIGH SCORES:", (width / 10), (height / 16) * 15);
 //        text.draw(batch, "" + highScores.get(0), (width / 10) * 6, (height / 16) * 15);
@@ -85,8 +91,6 @@ public class ScoreScreen implements Screen, InputProcessor {
         if (!loaded) loadScreenObjects();
 
 //        getScoresFile();
-
-
 //        text = new BitmapFont();
     }
 
@@ -152,10 +156,6 @@ public class ScoreScreen implements Screen, InputProcessor {
     @Override
     public void resize(int width, int height) {
         Gdx.app.log(TAG, "resize() called. Width: " + width + " Height: " + height);
-//        background.setBounds(0, 0, width, height);
-//        greenShip.setBounds(width * .5f, height * .75f, width / 10f, width / 10f);
-//        greenShip.setOriginCenter();
-//        greenShip.rotate(90);
     }
 
     @Override
