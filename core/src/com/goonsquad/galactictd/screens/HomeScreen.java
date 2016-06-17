@@ -12,7 +12,7 @@ import com.goonsquad.galactictd.managers.ScreenManager;
 
 public class HomeScreen implements Screen, InputProcessor {
     private final String tag = "HomeScreen";
-
+    private GalacticTDGame gameInstance;
     private SpriteBatch batch;
     private Sprite backgroundSprite;
     private Sprite playButton;
@@ -22,8 +22,9 @@ public class HomeScreen implements Screen, InputProcessor {
     private Sprite title;
     private boolean loaded;
 
-    public HomeScreen() {
+    public HomeScreen(GalacticTDGame game) {
         Gdx.app.log(tag, "Initialized " + tag);
+        this.gameInstance = game;
         batch = new SpriteBatch();
         this.loaded = false;
     }
@@ -50,30 +51,34 @@ public class HomeScreen implements Screen, InputProcessor {
     }
 
     public void loadScreenObjects() {
-        backgroundSprite = new Sprite(GalacticTDGame.instance().getAssetManager().get("space2.jpg", Texture.class));
-        playButton = new Sprite(GalacticTDGame.instance().getAssetManager().get("buttonPlay.png", Texture.class));
-        quitButton = new Sprite(GalacticTDGame.instance().getAssetManager().get("buttonQuit.png", Texture.class));
-        scoresButton = new Sprite(GalacticTDGame.instance().getAssetManager().get("buttonScore.png", Texture.class));
-        howToPlayButton = new Sprite(GalacticTDGame.instance().getAssetManager().get("buttonIntro.png", Texture.class));
-        title = new Sprite(GalacticTDGame.instance().getAssetManager().get("galacticTD.png", Texture.class));
+        backgroundSprite = new Sprite(gameInstance.getAssetManager().get("space2.jpg", Texture.class));
+        playButton = new Sprite(gameInstance.getAssetManager().get("buttonPlay.png", Texture.class));
+        quitButton = new Sprite(gameInstance.getAssetManager().get("buttonQuit.png", Texture.class));
+        scoresButton = new Sprite(gameInstance.getAssetManager().get("buttonScore.png", Texture.class));
+        howToPlayButton = new Sprite(gameInstance.getAssetManager().get("buttonIntro.png", Texture.class));
+        title = new Sprite(gameInstance.getAssetManager().get("galacticTD.png", Texture.class));
         this.loaded = true;
     }
 
     @Override
     public void resize(int width, int height) {
+        Gdx.app.log(tag, "resize() called.");
         this.setSpriteBounds(width, height);
     }
 
     @Override
     public void hide() {
+        Gdx.app.log(tag, "hide() called");
     }
 
     @Override
     public void pause() {
+        Gdx.app.log(tag, "pause() called");
     }
 
     @Override
     public void resume() {
+        Gdx.app.log(tag, "resume() called");
     }
 
     @Override
@@ -122,7 +127,7 @@ public class HomeScreen implements Screen, InputProcessor {
         } else if (quitButton.getBoundingRectangle().contains(screenX, y)) {
             Gdx.app.exit();
         } else if (scoresButton.getBoundingRectangle().contains(screenX, y)) {
-            ScreenManager.instance().setScreen(ScoreScreen.class);
+            gameInstance.getScreenManager().setScreen(ScoreScreen.class);
         } else if (howToPlayButton.getBoundingRectangle().contains(screenX, y)) {
 //            GalacticTDGame.instance().setScreen(ScreenState.RULES_SCREEN);
         }

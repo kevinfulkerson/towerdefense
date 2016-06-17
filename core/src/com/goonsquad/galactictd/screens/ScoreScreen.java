@@ -16,7 +16,7 @@ import com.goonsquad.galactictd.GalacticTDGame;
 import com.goonsquad.galactictd.managers.ScreenManager;
 
 public class ScoreScreen implements Screen, InputProcessor {
-
+    private GalacticTDGame gameInstance;
     private final String tag = "ScoreScreen";
     private SpriteBatch batch;
     private Sprite background;
@@ -29,16 +29,17 @@ public class ScoreScreen implements Screen, InputProcessor {
     private BitmapFont text;
     private boolean loaded;
 
-    public ScoreScreen() {
+    public ScoreScreen(GalacticTDGame game) {
         Gdx.app.log(tag, "Initialized " + tag);
+        this.gameInstance = game;
         batch = new SpriteBatch();
         loaded = false;
     }
 
     private void loadScreenObjects() {
-        background = new Sprite(GalacticTDGame.instance().getAssetManager().get("space2.jpg", Texture.class));
+        background = new Sprite(gameInstance.getAssetManager().get("space2.jpg", Texture.class));
 
-        greenShip = new Sprite(GalacticTDGame.instance().getAssetManager().get("tower-green.png", Texture.class));
+        greenShip = new Sprite(gameInstance.getAssetManager().get("tower-green.png", Texture.class));
 //        greenShip.rotate(90);
 
 //        redShip = new Sprite(GalacticTDGame.instance().getAssetManager().get("tower-red.png", Texture.class));
@@ -191,7 +192,7 @@ public class ScoreScreen implements Screen, InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        ScreenManager.instance().setScreen(HomeScreen.class);
+        gameInstance.getScreenManager().setScreen(HomeScreen.class);
         return true;
     }
 

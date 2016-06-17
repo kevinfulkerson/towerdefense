@@ -3,6 +3,7 @@ package com.goonsquad.galactictd;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 
@@ -16,45 +17,42 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.goonsquad.galactictd.managers.ScreenManager;
 import com.goonsquad.galactictd.screens.LoadingScreen;
 
-public class GalacticTDGame extends Game {
+public class GalacticTDGame extends Game implements ApplicationListener {
     private static final String tag = "GalacticTDGame";
-    private static GalacticTDGame instance;
-    private static Lock creationLock = new ReentrantLock();
-    private AssetManager assetManager = new AssetManager();
     public static final int UI_WIDTH = 1920;
     public static final int UI_HEIGHT = 1080;
+
+    private AssetManager assetManager = new AssetManager();
+    private ScreenManager screenManager;
     private OrthographicCamera uiCamera;
     private FitViewport uiViewport;
 
-    private GalacticTDGame() {
-    }
-
-    public static GalacticTDGame instance() {
-        if (creationLock.tryLock()) {
-            try {
-                if (instance == null) {
-                    instance = new GalacticTDGame();
-                }
-            } finally {
-                creationLock.unlock();
-            }
-        }
-        return instance;
+    public GalacticTDGame() {
     }
 
     @Override
     public void create() {
         Gdx.app.log(tag, "create() called.");
         Gdx.input.setCatchBackKey(true);
+        assetManager = new AssetManager();
+        this.loadGameAssets();
+        screenManager = new ScreenManager(this);
         uiCamera = new OrthographicCamera();
         uiViewport = new FitViewport(UI_WIDTH, UI_HEIGHT, uiCamera);
         uiViewport.apply(true);
-        this.loadGameAssets();
-        ScreenManager.instance().setScreen(LoadingScreen.class);
+        screenManager.setScreen(LoadingScreen.class);
     }
 
     public Matrix4 getUiProjection() {
         return uiCamera.combined;
+    }
+
+    public AssetManager getAssetManager() {
+        return assetManager;
+    }
+
+    public ScreenManager getScreenManager() {
+        return screenManager;
     }
 
     private void loadGameAssets() {
@@ -107,12 +105,9 @@ public class GalacticTDGame extends Game {
     @Override
     public void dispose() {
         Gdx.app.log(tag, "dispose() called.");
+        screenManager.dispose();
         assetManager.dispose();
-        ScreenManager.instance().dispose();
         super.dispose();
     }
 
-    public AssetManager getAssetManager() {
-        return assetManager;
-    }
 }

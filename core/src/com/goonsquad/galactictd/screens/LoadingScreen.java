@@ -9,13 +9,15 @@ import com.goonsquad.galactictd.GalacticTDGame;
 import com.goonsquad.galactictd.managers.ScreenManager;
 
 public class LoadingScreen implements Screen {
+    private static final String TAG = "LoadingScreen";
+    private GalacticTDGame gameInstance;
 
-    private final String tag = "LoadingScreen";
     private Sprite loadingScreenSprite;
     private SpriteBatch batch;
 
-    public LoadingScreen() {
-        Gdx.app.log(tag, "Initialized " + tag);
+    public LoadingScreen(GalacticTDGame game) {
+        Gdx.app.log(TAG, "Initialized " + TAG);
+        this.gameInstance = game;
         batch = new SpriteBatch();
         loadingScreenSprite = new Sprite(
                 new Texture(Gdx.files.internal("loading.jpg")));
@@ -24,44 +26,44 @@ public class LoadingScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        batch.setProjectionMatrix(GalacticTDGame.instance().getUiProjection());
+        batch.setProjectionMatrix(gameInstance.getUiProjection());
         batch.begin();
         loadingScreenSprite.draw(batch);
         batch.end();
 
-        if (GalacticTDGame.instance().getAssetManager().update()) {
-            ScreenManager.instance().setScreen(HomeScreen.class);
+        if (gameInstance.getAssetManager().update()) {
+            gameInstance.getScreenManager().setScreen(HomeScreen.class);
         }
     }
 
     @Override
     public void resize(int width, int height) {
-        Gdx.app.log(tag, "resize() called.");
+        Gdx.app.log(TAG, "resize() called.");
     }
 
     @Override
     public void show() {
-        Gdx.app.log(this.tag, "show() called.");
+        Gdx.app.log(TAG, "show() called.");
     }
 
     @Override
     public void hide() {
-        Gdx.app.log(tag, "hide() called.");
+        Gdx.app.log(TAG, "hide() called.");
     }
 
     @Override
     public void pause() {
-        Gdx.app.log(tag, "pause() called.");
+        Gdx.app.log(TAG, "pause() called.");
     }
 
     @Override
     public void resume() {
-        Gdx.app.log(tag, "pause() called.");
+        Gdx.app.log(TAG, "pause() called.");
     }
 
     @Override
     public void dispose() {
-        Gdx.app.log(tag, "dispose() called.");
+        Gdx.app.log(TAG, "dispose() called.");
         loadingScreenSprite.getTexture().dispose();
     }
 }
