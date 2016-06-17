@@ -7,6 +7,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector3;
 import com.goonsquad.galactictd.GalacticTDGame;
 
 public class HomeScreen implements Screen, InputProcessor {
@@ -30,6 +31,7 @@ public class HomeScreen implements Screen, InputProcessor {
 
     @Override
     public void render(float delta) {
+        batch.setProjectionMatrix(gameInstance.getUiProjection());
         batch.begin();
 
         backgroundSprite.draw(batch);
@@ -56,13 +58,13 @@ public class HomeScreen implements Screen, InputProcessor {
         scoresButton = new Sprite(gameInstance.getAssetManager().get("buttonScore.png", Texture.class));
         howToPlayButton = new Sprite(gameInstance.getAssetManager().get("buttonIntro.png", Texture.class));
         title = new Sprite(gameInstance.getAssetManager().get("galacticTD.png", Texture.class));
+        this.setSpriteBounds(GalacticTDGame.UI_WIDTH, GalacticTDGame.UI_HEIGHT);
         this.loaded = true;
     }
 
     @Override
     public void resize(int width, int height) {
         Gdx.app.log(tag, "resize() called.");
-        this.setSpriteBounds(width, height);
     }
 
     @Override
@@ -96,8 +98,8 @@ public class HomeScreen implements Screen, InputProcessor {
 
     private void setSpriteBounds(float width, float height) {
         backgroundSprite.setSize(width, height);
-        playButton.setBounds((width * 1 / 3), (height * 3 / 8), (width * 1 / 3), (height * 1 / 9));
-        quitButton.setBounds((width * 5 / 12), (height * 5 / 24), (width * 1 / 6), (height * 1 / 6));
+        playButton.setBounds((width * 1 / 3), (height * 3 / 8), (width * 1 / 3), (height * 1 / 3));
+        quitButton.setBounds((width * 5 / 12), (height * 1 / 24), (width * 1 / 6), (height * 1 / 6));
         scoresButton.setBounds((width * 5 / 24), (height * 1 / 6), (width * 1 / 6), (height * 1 / 6));
         howToPlayButton.setBounds((width * 5 / 8), (height * 1 / 6), (width * 1 / 6), (height * 1 / 6));
         title.setBounds((width * 1 / 3), (height * 5 / 8), (width * 1 / 3), (height * 1 / 3));
@@ -120,14 +122,15 @@ public class HomeScreen implements Screen, InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        int y = (int) ((screenY - Gdx.graphics.getHeight()) * -1);
-        if (playButton.getBoundingRectangle().contains(screenX, y)) {
+        Vector3 touchLocation = new Vector3(screenX, screenY, 0);
+        touchLocation = gameInstance.getUiCamera().unproject(touchLocation);
+        if (playButton.getBoundingRectangle().contains(touchLocation.x, touchLocation.y)) {
 //            GalacticTDGame.instance().setScreen(ScreenState.GRID_SCREEN);
-        } else if (quitButton.getBoundingRectangle().contains(screenX, y)) {
+        } else if (quitButton.getBoundingRectangle().contains(touchLocation.x, touchLocation.y)) {
             Gdx.app.exit();
-        } else if (scoresButton.getBoundingRectangle().contains(screenX, y)) {
+        } else if (scoresButton.getBoundingRectangle().contains(touchLocation.x, touchLocation.y)) {
             gameInstance.getScreenManager().setScreen(ScoreScreen.class);
-        } else if (howToPlayButton.getBoundingRectangle().contains(screenX, y)) {
+        } else if (howToPlayButton.getBoundingRectangle().contains(touchLocation.x, touchLocation.y)) {
 //            GalacticTDGame.instance().setScreen(ScreenState.RULES_SCREEN);
         }
         return true;

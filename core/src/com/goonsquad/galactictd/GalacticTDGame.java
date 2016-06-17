@@ -42,6 +42,10 @@ public class GalacticTDGame extends Game implements ApplicationListener {
         screenManager.setScreen(LoadingScreen.class);
     }
 
+    public OrthographicCamera getUiCamera() {
+        return uiCamera;
+    }
+
     public Matrix4 getUiProjection() {
         return uiCamera.combined;
     }

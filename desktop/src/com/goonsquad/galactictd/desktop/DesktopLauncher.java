@@ -9,7 +9,6 @@ public class DesktopLauncher {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
         config.width = 1000;
         config.height = 500;
-        config.resizable = false;
         new LwjglApplication(new GalacticTDGame(), config);
     }
 }
