@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.goonsquad.galactictd.GalacticTDGame;
-import com.goonsquad.galactictd.managers.ScreenManager;
 
 public class HomeScreen implements Screen, InputProcessor {
     private final String tag = "HomeScreen";

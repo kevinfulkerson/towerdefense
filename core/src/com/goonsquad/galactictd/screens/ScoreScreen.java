@@ -1,8 +1,6 @@
 package com.goonsquad.galactictd.screens;
 
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
@@ -13,11 +11,13 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.goonsquad.galactictd.GalacticTDGame;
-import com.goonsquad.galactictd.managers.ScreenManager;
+
+import java.util.ArrayList;
 
 public class ScoreScreen implements Screen, InputProcessor {
+    private static final String TAG = "ScoreScreen";
+
     private GalacticTDGame gameInstance;
-    private final String tag = "ScoreScreen";
     private SpriteBatch batch;
     private Sprite background;
     private Sprite greenShip;
@@ -30,7 +30,7 @@ public class ScoreScreen implements Screen, InputProcessor {
     private boolean loaded;
 
     public ScoreScreen(GalacticTDGame game) {
-        Gdx.app.log(tag, "Initialized " + tag);
+        Gdx.app.log(TAG, "Initialized " + TAG);
         this.gameInstance = game;
         batch = new SpriteBatch();
         loaded = false;
@@ -38,8 +38,9 @@ public class ScoreScreen implements Screen, InputProcessor {
 
     private void loadScreenObjects() {
         background = new Sprite(gameInstance.getAssetManager().get("space2.jpg", Texture.class));
-
-        greenShip = new Sprite(gameInstance.getAssetManager().get("tower-green.png", Texture.class));
+        background.setSize(GalacticTDGame.UI_WIDTH, GalacticTDGame.UI_HEIGHT);
+//
+//        greenShip = new Sprite(gameInstance.getAssetManager().get("tower-green.png", Texture.class));
 //        greenShip.rotate(90);
 
 //        redShip = new Sprite(GalacticTDGame.instance().getAssetManager().get("tower-red.png", Texture.class));
@@ -51,7 +52,7 @@ public class ScoreScreen implements Screen, InputProcessor {
 
     @Override
     public void render(float delta) {
-        greenShip.translateX(-9);
+//        greenShip.translateX(-9);
 //        redShip.translateX(7);
 
 //        if (greenShip.getX() < -width / 10) {
@@ -64,7 +65,7 @@ public class ScoreScreen implements Screen, InputProcessor {
         batch.begin();
 
         background.draw(batch);
-        greenShip.draw(batch);
+//        greenShip.draw(batch);
 //        redShip.draw(batch);
 //
 //        text.draw(batch, "HIGH SCORES:", (width / 10), (height / 16) * 15);
@@ -79,7 +80,7 @@ public class ScoreScreen implements Screen, InputProcessor {
 
     @Override
     public void show() {
-        Gdx.app.log(this.tag, "show() called.");
+        Gdx.app.log(TAG, "show() called.");
         Gdx.input.setInputProcessor(this);
         if (!loaded) loadScreenObjects();
 
@@ -150,29 +151,32 @@ public class ScoreScreen implements Screen, InputProcessor {
 
     @Override
     public void resize(int width, int height) {
-        Gdx.app.log(tag, "resize() called. Width: " + width + " Height: " + height);
-        background.setBounds(0, 0, width, height);
-        greenShip.setBounds(width * .5f, height * .75f, width / 10f, width / 10f);
-        greenShip.setOriginCenter();
-        greenShip.rotate(90);
+        Gdx.app.log(TAG, "resize() called. Width: " + width + " Height: " + height);
+//        background.setBounds(0, 0, width, height);
+//        greenShip.setBounds(width * .5f, height * .75f, width / 10f, width / 10f);
+//        greenShip.setOriginCenter();
+//        greenShip.rotate(90);
     }
 
     @Override
     public void hide() {
+        Gdx.app.log(TAG, "hide() called.");
     }
 
     @Override
     public void pause() {
+        Gdx.app.log(TAG, "pause() called.");
     }
 
     @Override
     public void resume() {
+        Gdx.app.log(TAG, "resume() called.");
 //        scoresDataFile = null;
     }
 
     @Override
     public void dispose() {
-        Gdx.app.log(tag, "dispose() called.");
+        Gdx.app.log(TAG, "dispose() called.");
     }
 
     @Override
