@@ -1,15 +1,10 @@
 package com.goonsquad.galactictd;
 
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-
 import com.badlogic.gdx.ApplicationListener;
-import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.GL20;
-
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Matrix4;
@@ -34,12 +29,16 @@ public class GalacticTDGame extends Game implements ApplicationListener {
     public void create() {
         Gdx.app.log(tag, "create() called.");
         Gdx.input.setCatchBackKey(true);
+
         assetManager = new AssetManager();
         this.loadGameAssets();
+
         screenManager = new ScreenManager(this);
+
         uiCamera = new OrthographicCamera();
         uiViewport = new FitViewport(UI_WIDTH, UI_HEIGHT, uiCamera);
         uiViewport.apply(true);
+
         screenManager.setScreen(LoadingScreen.class);
     }
 
@@ -109,5 +108,4 @@ public class GalacticTDGame extends Game implements ApplicationListener {
         assetManager.dispose();
         super.dispose();
     }
-
 }
