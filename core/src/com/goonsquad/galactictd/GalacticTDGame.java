@@ -116,6 +116,7 @@ public class GalacticTDGame extends Game implements ApplicationListener {
     @Override
     public void dispose() {
         Gdx.app.log(tag, "dispose() called.");
+        scoreManager.dispose();
         screenManager.dispose();
         assetManager.dispose();
         super.dispose();
