@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.goonsquad.galactictd.gamelogic.HighScore;
 import com.goonsquad.galactictd.managers.ScoreManager;
 import com.goonsquad.galactictd.managers.ScreenManager;
 import com.goonsquad.galactictd.screens.LoadingScreen;
@@ -36,7 +35,6 @@ public class GalacticTDGame extends Game implements ApplicationListener {
         this.loadGameAssets();
 
         scoreManager = new ScoreManager(5);
-        scoreManager.addScore(new HighScore(200));
 
         screenManager = new ScreenManager(this);
 
