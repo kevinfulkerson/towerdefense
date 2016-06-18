@@ -28,5 +28,8 @@ public class ScoreManager {
     }
 
     public void addScore(int newScore) {
+        for (int i = highScores.length - 1; i > 0; i--) {
+            if (highScores[i] < newScore) highScores[i] = newScore;
+        }
     }
 }
