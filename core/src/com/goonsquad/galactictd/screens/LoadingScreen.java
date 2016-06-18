@@ -26,7 +26,7 @@ public class LoadingScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        batch.setProjectionMatrix(gameInstance.getUiProjection());
+        batch.setProjectionMatrix(gameInstance.getUiCamera().combined);
         batch.begin();
         loadingScreenSprite.draw(batch);
         batch.end();

@@ -31,7 +31,7 @@ public class HomeScreen implements Screen, InputProcessor {
 
     @Override
     public void render(float delta) {
-        batch.setProjectionMatrix(gameInstance.getUiProjection());
+        batch.setProjectionMatrix(gameInstance.getUiCamera().combined);
         batch.begin();
 
         backgroundSprite.draw(batch);

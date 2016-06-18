@@ -67,7 +67,7 @@ public class ScoreScreen implements Screen, InputProcessor {
 //        if (redShip.getX() > width) {
 //            redShip.setPosition(-width / 10, height / 6);
 //        }
-        batch.setProjectionMatrix(gameInstance.getUiProjection());
+        batch.setProjectionMatrix(gameInstance.getUiCamera().combined);
         batch.begin();
 
         background.draw(batch);
