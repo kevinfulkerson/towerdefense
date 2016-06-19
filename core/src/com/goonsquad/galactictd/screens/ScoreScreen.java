@@ -4,10 +4,13 @@ package com.goonsquad.galactictd.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.math.Vector2;
 import com.goonsquad.galactictd.GalacticTDGame;
 import com.goonsquad.galactictd.gamelogic.HighScore;
@@ -23,8 +26,6 @@ public class ScoreScreen implements Screen, InputProcessor {
     private Sprite background;
     private Sprite greenShip;
     private Sprite redShip;
-    private String scoresAsString;
-    private String[] stringArray;
     private ArrayList<HighScore> highScoreArrayList;
     private BitmapFont text;
     private boolean loaded;
@@ -56,14 +57,19 @@ public class ScoreScreen implements Screen, InputProcessor {
         redShip.setPosition(0 - shipSize.x, 0);
         redShip.rotate(-90);
 
-        text = new BitmapFont();
-        textPosition = new Vector2(GalacticTDGame.UI_WIDTH / 10, GalacticTDGame.UI_HEIGHT / 16);
+        textPosition = new Vector2(GalacticTDGame.UI_WIDTH / 5, GalacticTDGame.UI_HEIGHT / 20);
         generateFont();
         loaded = true;
     }
 
     private void generateFont() {
-
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("NixieOne.ttf"));
+        FreeTypeFontParameter parameter = new FreeTypeFontParameter();
+        parameter.size = 48;
+        parameter.borderColor = Color.WHITE;
+        parameter.borderWidth = 1.3f;
+        text = generator.generateFont(parameter);
+        generator.dispose();
     }
 
     @Override
@@ -88,7 +94,7 @@ public class ScoreScreen implements Screen, InputProcessor {
         int textHeightPercentage = 15;
         text.draw(batch, "HIGH SCORES:", textPosition.x, textPosition.y * 15);
         for (HighScore highScore : highScoreArrayList) {
-            text.draw(batch, "" + highScore.getScore(), textPosition.x * 6, textPosition.y * textHeightPercentage);
+            text.draw(batch, "" + highScore.getScore(), textPosition.x * 3, textPosition.y * textHeightPercentage);
             textHeightPercentage -= 2;
         }
         batch.end();
