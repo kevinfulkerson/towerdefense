@@ -40,6 +40,10 @@ public class ScoreManager implements Disposable {
         scoreHolder.addScore(incomingScore);
     }
 
+    public ArrayList<HighScore> getScores() {
+        return scoreHolder.getScoresAsArrayList();
+    }
+
     @Override
     public void dispose() {
         writeScores();

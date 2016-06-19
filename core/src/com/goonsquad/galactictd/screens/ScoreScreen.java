@@ -10,17 +10,22 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.goonsquad.galactictd.GalacticTDGame;
+import com.goonsquad.galactictd.gamelogic.HighScore;
+
+import java.util.ArrayList;
 
 public class ScoreScreen implements Screen, InputProcessor {
     private static final String TAG = "ScoreScreen";
 
     private GalacticTDGame gameInstance;
+    private Vector2 textPosition;
     private SpriteBatch batch;
     private Sprite background;
     private Sprite greenShip;
     private Sprite redShip;
     private String scoresAsString;
     private String[] stringArray;
+    private ArrayList<HighScore> highScoreArrayList;
     private BitmapFont text;
     private boolean loaded;
     private float shipSpeedPerSecond;
@@ -51,7 +56,14 @@ public class ScoreScreen implements Screen, InputProcessor {
         redShip.setPosition(0 - shipSize.x, 0);
         redShip.rotate(-90);
 
+        text = new BitmapFont();
+        textPosition = new Vector2(GalacticTDGame.UI_WIDTH / 10, GalacticTDGame.UI_HEIGHT / 16);
+        generateFont();
         loaded = true;
+    }
+
+    private void generateFont() {
+
     }
 
     @Override
@@ -72,14 +84,13 @@ public class ScoreScreen implements Screen, InputProcessor {
         background.draw(batch);
         greenShip.draw(batch);
         redShip.draw(batch);
-//
-//        text.draw(batch, "HIGH SCORES:", (width / 10), (height / 16) * 15);
-//        text.draw(batch, "" + highScores.get(0), (width / 10) * 6, (height / 16) * 15);
-//        text.draw(batch, "" + highScores.get(1), (width / 10) * 6, (height / 16) * 13);
-//        text.draw(batch, "" + highScores.get(2), (width / 10) * 6, (height / 16) * 11);
-//        text.draw(batch, "" + highScores.get(3), (width / 10) * 6, (height / 16) * 9);
-//        text.draw(batch, "" + highScores.get(4), (width / 10) * 6, (height / 16) * 7);
 
+        int textHeightPercentage = 15;
+        text.draw(batch, "HIGH SCORES:", textPosition.x, textPosition.y * 15);
+        for (HighScore highScore : highScoreArrayList) {
+            text.draw(batch, "" + highScore.getScore(), textPosition.x * 6, textPosition.y * textHeightPercentage);
+            textHeightPercentage -= 2;
+        }
         batch.end();
     }
 
@@ -88,8 +99,7 @@ public class ScoreScreen implements Screen, InputProcessor {
         Gdx.app.log(TAG, "show() called.");
         Gdx.input.setInputProcessor(this);
         if (!loaded) loadScreenObjects();
-
-//        text = new BitmapFont();
+        highScoreArrayList = gameInstance.getScoreManager().getScores();
     }
 
 
