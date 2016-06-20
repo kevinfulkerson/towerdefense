@@ -5,11 +5,14 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.SerializationException;
 import com.goonsquad.galactictd.gamelogic.HighScore;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class ScoreManager implements Disposable {
+    private static final String TAG = "ScoreManager";
     private Json jsonUtil;
     private FileHandle saveFile;
     private ScoreHolder scoreHolder;
@@ -24,15 +27,23 @@ public class ScoreManager implements Disposable {
     private void readScores() {
         try {
             String text = saveFile.readString();
-            ArrayList<HighScore> savedScores = jsonUtil.fromJson(ArrayList.class, text);
-            scoreHolder.addArrayListOfScores(savedScores);
+            if (text == null || text.equals("")) throw new GdxRuntimeException("Save file empty.");
+            try {
+                ArrayList<HighScore> savedScores = jsonUtil.fromJson(ArrayList.class, HighScore.class, text);
+                scoreHolder.addArrayListOfScores(savedScores);
+            } catch (SerializationException se) {
+                logErrorReadingSaveFile();
+            }
         } catch (GdxRuntimeException e) {
-
+            logErrorReadingSaveFile();
         }
     }
 
+    private void logErrorReadingSaveFile() {
+        Gdx.app.log(TAG, "Error reading save file.");
+    }
+
     private void writeScores() {
-        saveFile.writeString("", false);
         saveFile.writeString(jsonUtil.toJson(scoreHolder.getScoresAsArrayList()), false);
     }
 
@@ -52,15 +63,13 @@ public class ScoreManager implements Disposable {
     private class ScoreHolder {
         private HighScore[] highScores;
 
-        ScoreHolder(int maxSize) {
+        protected ScoreHolder(int maxSize) {
             initScores(maxSize);
         }
 
         private void initScores(int maxSize) {
             highScores = new HighScore[maxSize];
-            for (int i = 0; i < maxSize; i++) {
-                highScores[i] = new HighScore(0);
-            }
+            Arrays.fill(highScores, new HighScore());
         }
 
         public void addScore(HighScore incomingScore) {
@@ -86,9 +95,7 @@ public class ScoreManager implements Disposable {
 
         public ArrayList<HighScore> getScoresAsArrayList() {
             ArrayList<HighScore> returnList = new ArrayList<HighScore>();
-            for (HighScore hs : highScores) {
-                returnList.add(hs);
-            }
+            returnList.addAll(Arrays.asList(highScores));
             return returnList;
         }
     }

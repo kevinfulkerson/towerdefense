@@ -31,6 +31,7 @@ public class ScoreScreen implements Screen, InputProcessor {
     private BitmapFont text;
     private boolean loaded;
     private float shipSpeedPerSecond;
+    private int textHeightFactor;
 
     public ScoreScreen(GalacticTDGame game) {
         Gdx.app.log(TAG, "Initialized " + TAG);
@@ -39,6 +40,7 @@ public class ScoreScreen implements Screen, InputProcessor {
         generateFont();
         loaded = false;
         shipSpeedPerSecond = 400f;
+
     }
 
     private void loadScreenObjects() {
@@ -94,11 +96,11 @@ public class ScoreScreen implements Screen, InputProcessor {
         greenShip.draw(batch);
         redShip.draw(batch);
 
-        int textHeightPercentage = 15;
+        textHeightFactor = 15;
         text.draw(batch, "High Scores:", textPosition.x, textPosition.y * 15);
         for (HighScore highScore : highScoreArrayList) {
-            text.draw(batch, "" + highScore.getScore(), textPosition.x * 3, textPosition.y * textHeightPercentage);
-            textHeightPercentage -= 2;
+            text.draw(batch, "" + highScore.getScore(), textPosition.x * 3, textPosition.y * textHeightFactor);
+            textHeightFactor -= 2;
         }
         batch.end();
     }
