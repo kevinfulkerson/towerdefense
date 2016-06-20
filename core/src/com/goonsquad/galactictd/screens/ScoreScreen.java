@@ -1,6 +1,5 @@
 package com.goonsquad.galactictd.screens;
 
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
@@ -22,6 +21,8 @@ public class ScoreScreen implements Screen, InputProcessor {
 
     private GalacticTDGame gameInstance;
     private Vector2 textPosition;
+    private Vector2 greenShipStartPosition;
+    private Vector2 redShipStartPosition;
     private SpriteBatch batch;
     private Sprite background;
     private Sprite greenShip;
@@ -35,6 +36,7 @@ public class ScoreScreen implements Screen, InputProcessor {
         Gdx.app.log(TAG, "Initialized " + TAG);
         this.gameInstance = game;
         batch = new SpriteBatch();
+        generateFont();
         loaded = false;
         shipSpeedPerSecond = 400f;
     }
@@ -48,17 +50,18 @@ public class ScoreScreen implements Screen, InputProcessor {
         greenShip = new Sprite(gameInstance.getAssetManager().get("tower-green.png", Texture.class));
         greenShip.setSize(shipSize.x, shipSize.y);
         greenShip.setOriginCenter();
-        greenShip.setPosition(GalacticTDGame.UI_WIDTH, GalacticTDGame.UI_HEIGHT - shipSize.y);
+        greenShipStartPosition = new Vector2(GalacticTDGame.UI_WIDTH, GalacticTDGame.UI_HEIGHT - shipSize.y);
+        greenShip.setPosition(greenShipStartPosition.x, greenShipStartPosition.y);
         greenShip.rotate(90);
 
         redShip = new Sprite(gameInstance.getAssetManager().get("tower-red.png", Texture.class));
         redShip.setSize(shipSize.x, shipSize.y);
         redShip.setOriginCenter();
-        redShip.setPosition(0 - shipSize.x, 0);
+        redShipStartPosition = new Vector2(0 - shipSize.x, 0);
+        redShip.setPosition(redShipStartPosition.x, redShipStartPosition.y);
         redShip.rotate(-90);
 
         textPosition = new Vector2(GalacticTDGame.UI_WIDTH / 5, GalacticTDGame.UI_HEIGHT / 20);
-        generateFont();
         loaded = true;
     }
 
@@ -78,11 +81,11 @@ public class ScoreScreen implements Screen, InputProcessor {
         redShip.translateX(shipSpeedPerSecond * delta);
 
         if (greenShip.getX() < (0 - greenShip.getWidth() * 2)) {
-            greenShip.setX(GalacticTDGame.UI_WIDTH);
+            greenShip.setX(greenShipStartPosition.x);
         }
 
         if (redShip.getX() > GalacticTDGame.UI_WIDTH + redShip.getWidth()) {
-            redShip.setX(0 - (redShip.getWidth()));
+            redShip.setX(redShipStartPosition.x);
         }
         batch.setProjectionMatrix(gameInstance.getUiCamera().combined);
         batch.begin();
@@ -92,7 +95,7 @@ public class ScoreScreen implements Screen, InputProcessor {
         redShip.draw(batch);
 
         int textHeightPercentage = 15;
-        text.draw(batch, "HIGH SCORES:", textPosition.x, textPosition.y * 15);
+        text.draw(batch, "High Scores:", textPosition.x, textPosition.y * 15);
         for (HighScore highScore : highScoreArrayList) {
             text.draw(batch, "" + highScore.getScore(), textPosition.x * 3, textPosition.y * textHeightPercentage);
             textHeightPercentage -= 2;
@@ -132,6 +135,8 @@ public class ScoreScreen implements Screen, InputProcessor {
     @Override
     public void dispose() {
         Gdx.app.log(TAG, "dispose() called.");
+        text.dispose();
+        batch.dispose();
     }
 
     @Override
