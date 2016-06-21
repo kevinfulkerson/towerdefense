@@ -7,7 +7,9 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.goonsquad.galactictd.GalacticTDGame;
 
 public class HomeScreen implements Screen, InputProcessor {
@@ -31,7 +33,7 @@ public class HomeScreen implements Screen, InputProcessor {
 
     @Override
     public void render(float delta) {
-        batch.setProjectionMatrix(gameInstance.getUiProjection());
+        batch.setProjectionMatrix(gameInstance.getUiCamera().combined);
         batch.begin();
 
         backgroundSprite.draw(batch);
@@ -56,7 +58,7 @@ public class HomeScreen implements Screen, InputProcessor {
         playButton = new Sprite(gameInstance.getAssetManager().get("buttonPlay.png", Texture.class));
         quitButton = new Sprite(gameInstance.getAssetManager().get("buttonQuit.png", Texture.class));
         scoresButton = new Sprite(gameInstance.getAssetManager().get("buttonScore.png", Texture.class));
-        howToPlayButton = new Sprite(gameInstance.getAssetManager().get("buttonIntro.png", Texture.class));
+        howToPlayButton = new Sprite(gameInstance.getAssetManager().get("settings.png", Texture.class));
         title = new Sprite(gameInstance.getAssetManager().get("galacticTD.png", Texture.class));
         this.setSpriteBounds(GalacticTDGame.UI_WIDTH, GalacticTDGame.UI_HEIGHT);
         this.loaded = true;
@@ -97,11 +99,13 @@ public class HomeScreen implements Screen, InputProcessor {
     }
 
     private void setSpriteBounds(float width, float height) {
+        Vector2 buttonSize = new Vector2(300f, 150f);
         backgroundSprite.setSize(width, height);
-        playButton.setBounds((width * 1 / 3), (height * 3 / 8), (width * 1 / 3), (height * 1 / 3));
-        quitButton.setBounds((width * 5 / 12), (height * 1 / 24), (width * 1 / 6), (height * 1 / 6));
-        scoresButton.setBounds((width * 5 / 24), (height * 1 / 6), (width * 1 / 6), (height * 1 / 6));
-        howToPlayButton.setBounds((width * 5 / 8), (height * 1 / 6), (width * 1 / 6), (height * 1 / 6));
+        playButton.setBounds((width * 1f / 3f), (height * 3f / 8f), (width * 1f / 3f), (height * 1f / 3f));
+        quitButton.setBounds((width * 5f / 12f), (height * 1f / 24f), buttonSize.x, buttonSize.y);
+        scoresButton.setBounds((width * 1f / 24f), (height * 1f / 8f), buttonSize.x, buttonSize.y);
+        Gdx.app.log("scores x is", scoresButton.getX() + "");
+        howToPlayButton.setBounds((width - (width * 1 / 24) - buttonSize.x), (height * 1 / 8), buttonSize.x, buttonSize.y);
         title.setBounds((width * 1 / 3), (height * 5 / 8), (width * 1 / 3), (height * 1 / 3));
     }
 
@@ -122,8 +126,10 @@ public class HomeScreen implements Screen, InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        Vector3 touchLocation = new Vector3(screenX, screenY, 0);
-        touchLocation = gameInstance.getUiCamera().unproject(touchLocation);
+        Vector3 touchLocation = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
+        touchLocation = gameInstance.getUiViewport().unproject(touchLocation);
+        Gdx.app.log("Touch x is", touchLocation.x + "");
+        Gdx.app.log("Score's x is", scoresButton.getX() + "");
         if (playButton.getBoundingRectangle().contains(touchLocation.x, touchLocation.y)) {
 //            GalacticTDGame.instance().setScreen(ScreenState.GRID_SCREEN);
         } else if (quitButton.getBoundingRectangle().contains(touchLocation.x, touchLocation.y)) {
@@ -132,6 +138,7 @@ public class HomeScreen implements Screen, InputProcessor {
             gameInstance.getScreenManager().setScreen(ScoreScreen.class);
         } else if (howToPlayButton.getBoundingRectangle().contains(touchLocation.x, touchLocation.y)) {
 //            GalacticTDGame.instance().setScreen(ScreenState.RULES_SCREEN);
+            Gdx.app.log("HomeScreen", "settings pressed");
         }
         return true;
     }
