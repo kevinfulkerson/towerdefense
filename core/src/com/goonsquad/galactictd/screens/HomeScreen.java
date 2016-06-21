@@ -7,6 +7,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.goonsquad.galactictd.GalacticTDGame;
@@ -26,6 +27,7 @@ public class HomeScreen implements Screen, InputProcessor {
     private Vector2 settingsMenuEnd;
     private Vector2 settingsMenuStart;
     private final float settingsMenuSpeed = 1f;
+    private float settingsMenuElapsedTime = 0f;
     private Sprite vibrateButton;
     private Sprite soundButton;
     private boolean settingsOn;
@@ -109,7 +111,15 @@ public class HomeScreen implements Screen, InputProcessor {
     }
 
     private void updateSettings(float delta) {
-        
+        if (settingsMenuElapsedTime < settingsMenuSpeed) {
+            settingsMenuElapsedTime += delta;
+            float movementAmount = MathUtils.clamp(settingsMenuElapsedTime, 0, settingsMenuSpeed);
+
+            float newX = MathUtils.lerp(settingsMenu.getX(), settingsMenuEnd.x, movementAmount);
+            float newY = MathUtils.lerp(settingsMenu.getY(), settingsMenuEnd.y, movementAmount);
+
+            settingsMenu.setPosition(newX, newY);
+        }
     }
 
     private void renderSettings(SpriteBatch batch) {
@@ -123,6 +133,7 @@ public class HomeScreen implements Screen, InputProcessor {
 
     private boolean toggleSettings() {
         settingsMenu.setPosition(settingsMenuStart.x, settingsMenuStart.y);
+        settingsMenuElapsedTime = 0f;
         settingsOn = !settingsOn;
         return true;
     }
