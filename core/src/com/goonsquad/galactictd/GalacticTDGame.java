@@ -67,6 +67,7 @@ public class GalacticTDGame extends Game implements ApplicationListener {
 
     private void loadGameAssets() {
         Gdx.app.log(tag, "Loading game assets.");
+        assetManager.load("black.png", Texture.class);
         assetManager.load("blankTextBorder.png", Texture.class);
         assetManager.load("border.png", Texture.class);
         assetManager.load("borderSelected.png", Texture.class);
@@ -100,15 +101,12 @@ public class GalacticTDGame extends Game implements ApplicationListener {
     public void render() {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        uiCamera.update();
         super.render();
     }
 
     @Override
     public void resize(int width, int height) {
         uiViewport.update(width, height, true);
-        uiViewport.apply();
-        uiCamera.update();
         super.resize(width, height);
     }
 
