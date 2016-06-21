@@ -7,7 +7,6 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.goonsquad.galactictd.managers.ScoreManager;
 import com.goonsquad.galactictd.managers.ScreenManager;
@@ -35,7 +34,7 @@ public class GalacticTDGame extends Game implements ApplicationListener {
         assetManager = new AssetManager();
         this.loadGameAssets();
 
-        scoreManager = new ScoreManager();
+        scoreManager = new ScoreManager(5);
 
         screenManager = new ScreenManager(this);
 
@@ -50,8 +49,8 @@ public class GalacticTDGame extends Game implements ApplicationListener {
         return uiCamera;
     }
 
-    public FitViewport getUiViewport(){
-        return  uiViewport;
+    public FitViewport getUiViewport() {
+        return uiViewport;
     }
 
     public AssetManager getAssetManager() {
