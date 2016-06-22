@@ -4,6 +4,7 @@ package com.goonsquad.galactictd.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -79,14 +80,20 @@ public class HomeScreen implements Screen, InputProcessor {
         settingsBackdrop = new Sprite(gameInstance.getAssetManager().get("black.png", Texture.class));
         settingsBackdrop.setAlpha(.8f);
         settingsMenu = new Sprite(gameInstance.getAssetManager().get("border.png", Texture.class));
+        soundButton = new Sprite(gameInstance.getAssetManager().get("music_icon.png", Texture.class));
+        soundButton.setColor(255, 255, 255, 255);
     }
 
     private void setSettingsSpriteBounds(float width, float height) {
         settingsBackdrop.setSize(width, height);
+
         settingsMenu.setSize(width / 4f, width / 4f);
         settingsMenuEnd = new Vector2(width - settingsMenu.getWidth(), 0);
         settingsMenuStart = new Vector2(width, -settingsMenu.getHeight());
         settingsMenu.setPosition(settingsMenuStart.x, settingsMenuStart.y);
+
+        soundButton.setSize(width / 16f, width / 16f);
+        soundButton.setPosition(settingsMenuEnd.x + soundButton.getWidth(), settingsMenu.getHeight() - soundButton.getHeight());
     }
 
     @Override
@@ -125,6 +132,7 @@ public class HomeScreen implements Screen, InputProcessor {
     private void renderSettings(SpriteBatch batch) {
         settingsBackdrop.draw(batch);
         settingsMenu.draw(batch);
+        soundButton.draw(batch);
     }
 
     private boolean handleSettingsTouch(Vector3 touchLocation) {

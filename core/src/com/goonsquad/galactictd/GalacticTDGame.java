@@ -67,6 +67,7 @@ public class GalacticTDGame extends Game implements ApplicationListener {
 
     private void loadGameAssets() {
         Gdx.app.log(tag, "Loading game assets.");
+        assetManager.load("music_icon.png", Texture.class);
         assetManager.load("black.png", Texture.class);
         assetManager.load("blankTextBorder.png", Texture.class);
         assetManager.load("border.png", Texture.class);
