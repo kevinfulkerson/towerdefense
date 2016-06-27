@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.goonsquad.galactictd.GalacticTDGame;
-import com.goonsquad.galactictd.managers.ScreenManager;
 
 public class LoadingScreen implements Screen {
     private static final String TAG = "LoadingScreen";
@@ -32,7 +31,7 @@ public class LoadingScreen implements Screen {
         batch.end();
 
         if (gameInstance.getAssetManager().update()) {
-            gameInstance.getScreenManager().setScreen(HomeScreen.class);
+            gameInstance.getScreenManager().setScreen(WorldScreen.class);
         }
     }
 

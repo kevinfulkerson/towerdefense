@@ -40,7 +40,6 @@ public class ScoreScreen implements Screen, InputProcessor {
         generateFont();
         loaded = false;
         shipSpeedPerSecond = 400f;
-
     }
 
     private void loadScreenObjects() {
