@@ -36,7 +36,7 @@ public class MovementSystem extends IteratingSystem {
         currentPosition.x = MathUtils.lerp(currentPosition.x, location.destinationX, progress);
         currentPosition.y = MathUtils.lerp(currentPosition.y, location.destinationY, progress);
 
-        if (location.rotateTowardsPoint) {
+        if (location.rotateTowardsPoint && progress < 1) {
             float xDiff = location.destinationX - currentPosition.x;
             double yDiff = location.destinationY - currentPosition.y;
             currentPosition.rotation = (float) Math.toDegrees(Math.atan2(yDiff, xDiff));
