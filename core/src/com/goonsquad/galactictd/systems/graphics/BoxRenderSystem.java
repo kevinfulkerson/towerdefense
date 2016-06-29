@@ -3,6 +3,7 @@ package com.goonsquad.galactictd.systems.graphics;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.systems.IteratingSystem;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -12,7 +13,7 @@ import com.goonsquad.galactictd.components.positional.Position;
 
 public class BoxRenderSystem extends IteratingSystem {
     ComponentMapper<Position> positionComponentMapper;
-    ComponentMapper<DrawBoxAround> boxAroundComponentMapper;
+
     private ShapeRenderer shapeRenderer;
     private Camera camera;
 
@@ -26,7 +27,6 @@ public class BoxRenderSystem extends IteratingSystem {
         this.shapeRenderer = new ShapeRenderer();
         shapeRenderer.setProjectionMatrix(camera.combined);
         shapeRenderer.setAutoShapeType(true);
-
     }
 
     @Override

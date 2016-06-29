@@ -31,7 +31,7 @@ public class LoadingScreen implements Screen {
         batch.end();
 
         if (gameInstance.getAssetManager().update()) {
-            gameInstance.getScreenManager().setScreen(WorldScreen.class);
+            gameInstance.getScreenManager().setScreen(HomeScreen.class);
         }
     }
 

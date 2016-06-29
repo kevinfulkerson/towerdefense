@@ -8,12 +8,12 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.goonsquad.galactictd.Archetypes.ArchetypeSheet;
+import com.goonsquad.galactictd.archetypesdeprecated.ArchetypeSheet;
 import com.goonsquad.galactictd.GalacticTDGame;
 import com.goonsquad.galactictd.systems.graphics.BoxRenderSystem;
 import com.goonsquad.galactictd.systems.input.MoveToTouchSystem;
 import com.goonsquad.galactictd.systems.positional.MovementSystem;
-import com.goonsquad.galactictd.systems.initialization.WorldScreenInitSystem;
+import com.goonsquad.galactictd.systems.initialization.WorldScreenInitSystemOld;
 import com.goonsquad.galactictd.systems.graphics.GameRenderSystem;
 
 public class WorldScreen implements Screen {
@@ -46,7 +46,7 @@ public class WorldScreen implements Screen {
         MoveToTouchSystem moveToTouchSystem = new MoveToTouchSystem(gameViewport);
         world = new World(
                 new WorldConfiguration()
-                        .setSystem(new WorldScreenInitSystem(archetypeSheet, gameInstance))
+                        .setSystem(new WorldScreenInitSystemOld(archetypeSheet, gameInstance))
                         .setSystem(MovementSystem.class)
                         .setSystem(new GameRenderSystem(gameCamera))
                         .setSystem(new BoxRenderSystem(gameCamera))

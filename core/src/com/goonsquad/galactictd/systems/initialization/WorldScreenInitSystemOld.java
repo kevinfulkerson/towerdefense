@@ -2,7 +2,7 @@ package com.goonsquad.galactictd.systems.initialization;
 
 import com.artemis.ComponentMapper;
 import com.badlogic.gdx.graphics.Texture;
-import com.goonsquad.galactictd.Archetypes.ArchetypeSheet;
+import com.goonsquad.galactictd.archetypesdeprecated.ArchetypeSheet;
 import com.goonsquad.galactictd.Archetypes.WorldScreenSheet;
 import com.goonsquad.galactictd.GalacticTDGame;
 import com.goonsquad.galactictd.components.graphics.Renderable;

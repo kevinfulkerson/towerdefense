@@ -1,7 +1,7 @@
 package com.goonsquad.galactictd.systems.initialization;
 
 import com.artemis.BaseSystem;
-import com.goonsquad.galactictd.Archetypes.ArchetypeSheet;
+import com.goonsquad.galactictd.archetypesdeprecated.ArchetypeSheet;
 
 public abstract class InitializationSystemOld extends BaseSystem {
     protected ArchetypeSheet sheet;

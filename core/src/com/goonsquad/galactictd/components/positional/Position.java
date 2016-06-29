@@ -17,6 +17,13 @@ public class Position extends com.artemis.PooledComponent {
         rotation = 0;
     }
 
+    public void setBounds(float x, float y, float width, float height) {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+    }
+
     public float getOriginX() {
         return x + width / 2f;
     }

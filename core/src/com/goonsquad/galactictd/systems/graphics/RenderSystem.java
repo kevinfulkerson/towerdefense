@@ -40,8 +40,8 @@ public abstract class RenderSystem extends IteratingSystem {
                 entityRenderable.texture,
                 entityPosition.x,
                 entityPosition.y,
-                entityRenderable.texture.getWidth() / 2f,
-                entityRenderable.texture.getHeight() / 2f,
+                entityPosition.getOriginX(),
+                entityPosition.getOriginY(),
                 entityPosition.width,
                 entityPosition.height,
                 entityRenderable.scaleX,
@@ -49,7 +49,8 @@ public abstract class RenderSystem extends IteratingSystem {
                 entityPosition.rotation,
                 0, 0,
                 entityRenderable.texture.getWidth(),
-                entityRenderable.texture.getHeight(), false, false);
+                entityRenderable.texture.getHeight(),
+                false, false);
     }
 
     @Override

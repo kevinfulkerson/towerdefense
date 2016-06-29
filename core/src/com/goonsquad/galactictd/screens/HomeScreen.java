@@ -3,7 +3,6 @@ package com.goonsquad.galactictd.screens;
 
 import com.artemis.World;
 import com.artemis.WorldConfiguration;
-import com.artemis.WorldConfigurationBuilder;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
@@ -13,22 +12,20 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.goonsquad.galactictd.Archetypes.ArchetypeSheet;
 import com.goonsquad.galactictd.GalacticTDGame;
+import com.goonsquad.galactictd.systems.archtypes.HomeScreenArchetypeBuilder;
+import com.goonsquad.galactictd.systems.graphics.BoxRenderSystem;
+import com.goonsquad.galactictd.systems.graphics.UiRenderSystem;
 import com.goonsquad.galactictd.systems.initialization.HomeScreenInitSystem;
 
 public class HomeScreen implements Screen, InputProcessor {
     private static final String TAG = "HomeScreen";
     private World homeScreenWorld;
-    private ArchetypeSheet sheet;
     private GalacticTDGame gameInstance;
     private SpriteBatch batch;
-    private Sprite backgroundSprite;
     private Sprite playButton;
     private Sprite quitButton;
-    private Sprite scoresButton;
     private Sprite settingsButton;
-    private Sprite title;
     private Sprite settingsBackdrop;
     private Sprite settingsMenu;
     private Vector2 settingsMenuEnd;
@@ -47,19 +44,30 @@ public class HomeScreen implements Screen, InputProcessor {
         this.loaded = false;
     }
 
+    //A WorldConfig is used to build a world so that dependency injection can occur.
     public void createWorld() {
-        if (homeScreenWorld != null) {
+        if (homeScreenWorld == null) {
             WorldConfiguration worldConfig = new WorldConfiguration();
-            worldConfig.setSystem(new HomeScreenInitSystem(sheet));
+            worldConfig.setSystem(new HomeScreenArchetypeBuilder());
+            worldConfig.setSystem(new HomeScreenInitSystem(gameInstance));
+            worldConfig.setSystem(new BoxRenderSystem(gameInstance.getUiCamera()));
+            worldConfig.setSystem(new UiRenderSystem(gameInstance.getUiCamera()));
+            /*
+            When a new world is created, it will tell its instance of worldconfig to go through all
+            the set systems and do the following:
+            Inject dependencies that are tagged with @Wire, Mappers and Systems are automatically injected.
+            Set the current system's world dependency to the world that was instantiated.
+            Call the system's initialize() method.
+            */
+            homeScreenWorld = new World(worldConfig);
         }
     }
 
     @Override
     public void show() {
-        createWorld();
         Gdx.app.log(TAG, "show() called.");
+        createWorld();
         Gdx.input.setInputProcessor(this);
-        if (!loaded) loadScreenObjects();
     }
 
     public void loadScreenObjects() {
@@ -71,22 +79,13 @@ public class HomeScreen implements Screen, InputProcessor {
     }
 
     private void createHomeScreenObjects() {
-        title = new Sprite(gameInstance.getAssetManager().get("galacticTD.png", Texture.class));
-        backgroundSprite = new Sprite(gameInstance.getAssetManager().get("space2.jpg", Texture.class));
-        playButton = new Sprite(gameInstance.getAssetManager().get("buttonPlay.png", Texture.class));
         quitButton = new Sprite(gameInstance.getAssetManager().get("buttonQuit.png", Texture.class));
-        scoresButton = new Sprite(gameInstance.getAssetManager().get("buttonScore.png", Texture.class));
-        settingsButton = new Sprite(gameInstance.getAssetManager().get("settings.png", Texture.class));
+
     }
 
     private void setHomeScreenSpriteBounds(float width, float height) {
         Vector2 buttonSize = new Vector2(300f, 150f);
-        backgroundSprite.setSize(width, height);
-        playButton.setBounds((width * 1f / 3f), (height * 3f / 8f), (width * 1f / 3f), (height * 1f / 3f));
-        quitButton.setBounds((width * 5f / 12f), (height * 1f / 24f), buttonSize.x, buttonSize.y);
-        scoresButton.setBounds((width * 1f / 24f), (height * 1f / 8f), buttonSize.x, buttonSize.y);
-        settingsButton.setBounds((width - (width * 1 / 24) - buttonSize.x), (height * 1 / 8), buttonSize.x, buttonSize.y);
-        title.setBounds((width * 1 / 3), (height * 5 / 8), (width * 1 / 3), (height * 1 / 3));
+
     }
 
     private void createSettingsObjects() {
@@ -111,22 +110,22 @@ public class HomeScreen implements Screen, InputProcessor {
 
     @Override
     public void render(float delta) {
-        batch.setProjectionMatrix(gameInstance.getUiCamera().combined);
-        batch.begin();
-        renderHome(batch);
-        if (settingsOn) {
-            updateSettings(delta);
-            renderSettings(batch);
-        }
-        batch.end();
+//        batch.setProjectionMatrix(gameInstance.getUiCamera().combined);
+//        batch.begin();
+//        renderHome(batch);
+//        if (settingsOn) {
+//            updateSettings(delta);
+//            renderSettings(batch);
+//        }
+//        batch.end();
+        homeScreenWorld.setDelta(delta);
+        homeScreenWorld.process();
     }
 
     private void renderHome(SpriteBatch batch) {
         playButton.draw(batch);
         quitButton.draw(batch);
-        scoresButton.draw(batch);
         settingsButton.draw(batch);
-        title.draw(batch);
     }
 
     private void updateSettings(float delta) {
@@ -159,17 +158,19 @@ public class HomeScreen implements Screen, InputProcessor {
     }
 
     private boolean handleHomeTouch(Vector3 touchLocation) {
-        if (playButton.getBoundingRectangle().contains(touchLocation.x, touchLocation.y)) {
-            return true;
-        } else if (quitButton.getBoundingRectangle().contains(touchLocation.x, touchLocation.y)) {
-            Gdx.app.exit();
-            return true;
-        } else if (scoresButton.getBoundingRectangle().contains(touchLocation.x, touchLocation.y)) {
-            gameInstance.getScreenManager().setScreen(ScoreScreen.class);
-            return true;
-        } else if (settingsButton.getBoundingRectangle().contains(touchLocation.x, touchLocation.y)) {
-            return toggleSettings();
-        }
+//        if (playButton.getBoundingRectangle().contains(touchLocation.x, touchLocation.y)) {
+//            return true;
+//        } else if (quitButton.getBoundingRectangle().contains(touchLocation.x, touchLocation.y)) {
+//            Gdx.app.exit();
+//            return true;
+//        }
+//        else if (scoresButton.getBoundingRectangle().contains(touchLocation.x, touchLocation.y)) {
+//            gameInstance.getScreenManager().setScreen(ScoreScreen.class);
+//            return true;
+//        }
+//        else if (settingsButton.getBoundingRectangle().contains(touchLocation.x, touchLocation.y)) {
+//            return toggleSettings();
+//        }
         return false;
     }
 
@@ -245,12 +246,8 @@ public class HomeScreen implements Screen, InputProcessor {
         Gdx.app.log(TAG, "dispose() called.");
         batch.dispose();
         if (loaded) {
-            backgroundSprite.getTexture().dispose();
-            playButton.getTexture().dispose();
             quitButton.getTexture().dispose();
-            scoresButton.getTexture().dispose();
             settingsButton.getTexture().dispose();
-            title.getTexture().dispose();
         }
     }
 }

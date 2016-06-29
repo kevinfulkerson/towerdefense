@@ -28,9 +28,6 @@ public class GalacticTDGame extends Game implements ApplicationListener {
     private SpriteBatch batch;
     private Texture background;
 
-    public GalacticTDGame() {
-    }
-
     @Override
     public void create() {
         Gdx.app.log(tag, "create() called.");
@@ -40,7 +37,7 @@ public class GalacticTDGame extends Game implements ApplicationListener {
         background = PixmapUtils.generateRandomRepeatedTintedTexture(
                 Gdx.files.internal("star.png"),
                 UI_WIDTH, UI_HEIGHT,
-                Color.BLUE, Color.WHITE, Color.WHITE, Color.WHITE, Color.WHITE, Color.WHITE);
+                Color.WHITE, new Color(0xffb3b3ff), new Color(0x99c2ffff), new Color(0xffffccff));
 
         assetManager = new AssetManager();
         this.loadGameAssets();
@@ -101,7 +98,6 @@ public class GalacticTDGame extends Game implements ApplicationListener {
         assetManager.load("pathRight.png", Texture.class);
         assetManager.load("pathStraight.png", Texture.class);
         assetManager.load("ScreenIntro.png", Texture.class);
-        assetManager.load("space2.jpg", Texture.class);
         assetManager.load("topBar.png", Texture.class);
         assetManager.load("tower-green.png", Texture.class);
         assetManager.load("tower-red.png", Texture.class);

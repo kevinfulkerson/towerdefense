@@ -10,7 +10,7 @@ import com.goonsquad.galactictd.components.positional.SetDestinationOnTouch;
 import com.goonsquad.galactictd.components.positional.Position;
 import com.goonsquad.galactictd.components.graphics.Renderable;
 
-public class WorldScreenSheet extends ArchetypeSheet {
+public class WorldScreenSheet extends com.goonsquad.galactictd.archetypesdeprecated.ArchetypeSheet {
 
     public WorldScreenSheet(World world) {
         super(world);
