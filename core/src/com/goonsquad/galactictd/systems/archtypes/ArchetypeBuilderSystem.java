@@ -1,42 +1,46 @@
-package com.goonsquad.galactictd.Archetypes;
+package com.goonsquad.galactictd.systems.archtypes;
 
 import com.artemis.Archetype;
 import com.artemis.ArchetypeBuilder;
+import com.artemis.BaseSystem;
 import com.artemis.Component;
-import com.artemis.World;
-import com.goonsquad.galactictd.components.positional.Position;
-import com.goonsquad.galactictd.components.graphics.Renderable;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class ArchetypeSheet {
-    protected World world;
+public class ArchetypeBuilderSystem extends BaseSystem {
     private Map<String, Archetype> createdArchetypes;
 
-    public ArchetypeSheet(World world) {
-        this.world = world;
+    public ArchetypeBuilderSystem() {
         createdArchetypes = new HashMap<String, Archetype>();
         createdArchetypes.put(null, null);
-        createDefaultArchetypes();
+        this.setEnabled(false);
     }
 
-    protected void createDefaultArchetypes() {
-        addArchetype("sprite", Position.class, Renderable.class);
+    @Override
+    protected void initialize() {
+
     }
 
-    public int createEntity(String archeTypeName) {
-        if (createdArchetypes.containsKey(archeTypeName)) {
-            return world.create(createdArchetypes.get(archeTypeName));
+    @Override
+    protected void processSystem() {
+
+    }
+
+    public int build(String archtypeKey) {
+        if (createdArchetypes.containsKey(archtypeKey)) {
+            return world.create(createdArchetypes.get(archtypeKey));
         } else {
-            throw new RuntimeException("Key" + archeTypeName + " not found");
+            throw new RuntimeException("Key" + archtypeKey + " not found");
         }
     }
 
-    public void addArchetype(String archeTypeName, Class<? extends Component>... components) {
-        addArchetype(archeTypeName, null, components);
+    //Creates an archtype that doesn't inherit any components from a parent archtype.
+    public void addArchetype(String archetypeKey, Class<? extends Component>... components) {
+        addArchetype(archetypeKey, null, components);
     }
 
+    //Creates an archtype that can be referenced by ar
     public void addArchetype(String archeTypeName, String parentName, Class<? extends Component>... components) {
         Archetype archeType = createdArchetypes.get(archeTypeName);
         if (archeType == null) {

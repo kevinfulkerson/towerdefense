@@ -9,13 +9,13 @@ import com.goonsquad.galactictd.components.graphics.Renderable;
 import com.goonsquad.galactictd.components.positional.MoveToPoint;
 import com.goonsquad.galactictd.components.positional.Position;
 
-public class WorldScreenInitSystem extends InitializationSystem {
+public class WorldScreenInitSystemOld extends InitializationSystemOld {
     ComponentMapper<Renderable> renderableComponentMapper;
     ComponentMapper<MoveToPoint> moveMapper;
     ComponentMapper<Position> positionComponentMapper;
     GalacticTDGame gameInstance;
 
-    public WorldScreenInitSystem(ArchetypeSheet archeSheet, GalacticTDGame game) {
+    public WorldScreenInitSystemOld(ArchetypeSheet archeSheet, GalacticTDGame game) {
         super(archeSheet);
         this.gameInstance = game;
     }

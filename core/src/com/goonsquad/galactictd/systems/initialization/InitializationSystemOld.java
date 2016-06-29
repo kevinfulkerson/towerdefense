@@ -3,10 +3,10 @@ package com.goonsquad.galactictd.systems.initialization;
 import com.artemis.BaseSystem;
 import com.goonsquad.galactictd.Archetypes.ArchetypeSheet;
 
-public abstract class InitializationSystem extends BaseSystem {
+public abstract class InitializationSystemOld extends BaseSystem {
     protected ArchetypeSheet sheet;
 
-    public InitializationSystem(ArchetypeSheet sheet) {
+    public InitializationSystemOld(ArchetypeSheet sheet) {
         this.sheet = sheet;
     }
 

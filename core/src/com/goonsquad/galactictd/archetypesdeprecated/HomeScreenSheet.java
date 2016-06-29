@@ -1,4 +1,4 @@
-package com.goonsquad.galactictd.Archetypes;
+package com.goonsquad.galactictd.archetypesdeprecated;
 
 import com.artemis.World;
 
