@@ -33,10 +33,10 @@ public class HomeScreen implements Screen {
             worldConfig.setSystem(new BoxRenderSystem(gameInstance.getUiCamera()));
             worldConfig.setSystem(new UiRenderSystem(gameInstance.getUiCamera()));
             /*
-            When a new world is created, it will tell its instance of worldconfig to go through all
-            the set systems and do the following:
-            Inject dependencies that are tagged with @Wire, Mappers and Systems are automatically injected.
-            Set the current system's world dependency to the world that was instantiated.
+            When a new world is created, it will tell the passed in instance of worldconfig to go through all
+            the set systems and do the following for each system:
+            Inject dependencies that are tagged with @Wire. Mappers and System objects are automatically injected.
+            Set the current system's world variable to the world that was instantiated.
             Call the system's initialize() method.
             */
             homeScreenWorld = new World(worldConfig);
