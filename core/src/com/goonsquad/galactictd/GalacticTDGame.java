@@ -60,6 +60,10 @@ public class GalacticTDGame extends Game implements ApplicationListener {
         return uiCamera;
     }
 
+    public FitViewport getUiViewport() {
+        return uiViewport;
+    }
+
     public AssetManager getAssetManager() {
         return assetManager;
     }
@@ -75,6 +79,8 @@ public class GalacticTDGame extends Game implements ApplicationListener {
     private void loadGameAssets() {
         Gdx.app.log(tag, "Loading game assets.");
         assetManager.load("star.png", Texture.class);
+        assetManager.load("music_icon.png", Texture.class);
+        assetManager.load("black.png", Texture.class);
         assetManager.load("blankTextBorder.png", Texture.class);
         assetManager.load("border.png", Texture.class);
         assetManager.load("borderSelected.png", Texture.class);
@@ -100,6 +106,7 @@ public class GalacticTDGame extends Game implements ApplicationListener {
         assetManager.load("tower-green.png", Texture.class);
         assetManager.load("tower-red.png", Texture.class);
         assetManager.load("Owens_Frank.jpg", Texture.class);
+        assetManager.load("settings.png", Texture.class);
         Gdx.app.log(tag, "Game assets loaded.");
     }
 
@@ -116,7 +123,7 @@ public class GalacticTDGame extends Game implements ApplicationListener {
 
     @Override
     public void resize(int width, int height) {
-        uiViewport.update(width, height);
+        uiViewport.update(width, height, true);
         super.resize(width, height);
     }
 
