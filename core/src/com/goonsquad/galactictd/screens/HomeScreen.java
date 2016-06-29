@@ -4,7 +4,6 @@ package com.goonsquad.galactictd.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -109,7 +108,6 @@ public class HomeScreen implements Screen, InputProcessor {
     }
 
     private void renderHome(SpriteBatch batch) {
-        backgroundSprite.draw(batch);
         playButton.draw(batch);
         quitButton.draw(batch);
         scoresButton.draw(batch);

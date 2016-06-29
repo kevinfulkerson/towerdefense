@@ -91,7 +91,7 @@ public class ScoreScreen implements Screen, InputProcessor {
         batch.setProjectionMatrix(gameInstance.getUiCamera().combined);
         batch.begin();
 
-        background.draw(batch);
+//        background.draw(batch);
         greenShip.draw(batch);
         redShip.draw(batch);
 

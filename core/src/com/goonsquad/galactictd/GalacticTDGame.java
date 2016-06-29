@@ -4,10 +4,13 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.goonsquad.galactictd.managers.PixmapUtils;
 import com.goonsquad.galactictd.managers.ScoreManager;
 import com.goonsquad.galactictd.managers.ScreenManager;
 import com.goonsquad.galactictd.screens.LoadingScreen;
@@ -22,6 +25,8 @@ public class GalacticTDGame extends Game implements ApplicationListener {
     private ScoreManager scoreManager;
     private OrthographicCamera uiCamera;
     private FitViewport uiViewport;
+    private SpriteBatch batch;
+    private Texture background;
 
     public GalacticTDGame() {
     }
@@ -30,6 +35,12 @@ public class GalacticTDGame extends Game implements ApplicationListener {
     public void create() {
         Gdx.app.log(tag, "create() called.");
         Gdx.input.setCatchBackKey(true);
+
+        batch = new SpriteBatch();
+        background = PixmapUtils.generateRandomRepeatedTintedTexture(
+                Gdx.files.internal("star.png"),
+                UI_WIDTH, UI_HEIGHT,
+                Color.BLUE, Color.WHITE, Color.WHITE, Color.WHITE, Color.WHITE, Color.WHITE);
 
         assetManager = new AssetManager();
         this.loadGameAssets();
@@ -67,6 +78,7 @@ public class GalacticTDGame extends Game implements ApplicationListener {
 
     private void loadGameAssets() {
         Gdx.app.log(tag, "Loading game assets.");
+        assetManager.load("star.png", Texture.class);
         assetManager.load("music_icon.png", Texture.class);
         assetManager.load("black.png", Texture.class);
         assetManager.load("blankTextBorder.png", Texture.class);
@@ -102,6 +114,10 @@ public class GalacticTDGame extends Game implements ApplicationListener {
     public void render() {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        batch.setProjectionMatrix(uiCamera.combined);
+        batch.begin();
+        batch.draw(background, 0, 0);
+        batch.end();
         super.render();
     }
 
@@ -112,12 +128,19 @@ public class GalacticTDGame extends Game implements ApplicationListener {
     }
 
     @Override
+    public void resume() {
+        assetManager.finishLoading();
+        super.resume();
+    }
+
+    @Override
     public void pause() {
     }
 
     @Override
     public void dispose() {
         Gdx.app.log(tag, "dispose() called.");
+        background.dispose();
         scoreManager.dispose();
         screenManager.dispose();
         assetManager.dispose();
