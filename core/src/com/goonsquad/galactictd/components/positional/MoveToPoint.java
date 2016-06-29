@@ -5,6 +5,7 @@ public class MoveToPoint extends com.artemis.PooledComponent {
     public float destinationY;
     public float speedPerSecond;
     public boolean rotateTowardsPoint;
+    public boolean returnToStartingCords;
 
     @Override
     protected void reset() {

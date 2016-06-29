@@ -12,7 +12,7 @@ import com.goonsquad.galactictd.archetypesdeprecated.ArchetypeSheet;
 import com.goonsquad.galactictd.GalacticTDGame;
 import com.goonsquad.galactictd.systems.graphics.BoxRenderSystem;
 import com.goonsquad.galactictd.systems.input.MoveToTouchSystem;
-import com.goonsquad.galactictd.systems.positional.MovementSystem;
+import com.goonsquad.galactictd.systems.positional.MoveToPointSystem;
 import com.goonsquad.galactictd.systems.initialization.WorldScreenInitSystemOld;
 import com.goonsquad.galactictd.systems.graphics.GameRenderSystem;
 
@@ -47,7 +47,7 @@ public class WorldScreen implements Screen {
         world = new World(
                 new WorldConfiguration()
                         .setSystem(new WorldScreenInitSystemOld(archetypeSheet, gameInstance))
-                        .setSystem(MovementSystem.class)
+                        .setSystem(MoveToPointSystem.class)
                         .setSystem(new GameRenderSystem(gameCamera))
                         .setSystem(new BoxRenderSystem(gameCamera))
                         .setSystem(moveToTouchSystem)

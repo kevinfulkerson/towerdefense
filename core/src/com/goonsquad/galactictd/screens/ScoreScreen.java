@@ -19,6 +19,7 @@ import com.goonsquad.galactictd.systems.archtypes.ScoreScreenArchetypeBuilder;
 import com.goonsquad.galactictd.systems.graphics.BoxRenderSystem;
 import com.goonsquad.galactictd.systems.graphics.UiRenderSystem;
 import com.goonsquad.galactictd.systems.initialization.ScoreScreenInitSystem;
+import com.goonsquad.galactictd.systems.positional.MoveToPointSystem;
 
 import java.util.ArrayList;
 
@@ -27,15 +28,10 @@ public class ScoreScreen implements Screen, InputProcessor {
 
     private GalacticTDGame gameInstance;
     private Vector2 textPosition;
-    private Vector2 greenShipStartPosition;
-    private Vector2 redShipStartPosition;
     private SpriteBatch batch;
-    private Sprite greenShip;
-    private Sprite redShip;
     private ArrayList<HighScore> highScoreArrayList;
     private BitmapFont text;
     private boolean loaded;
-    private float shipSpeedPerSecond;
     private int textHeightFactor;
     private World scoreScreenWorld;
 
@@ -45,7 +41,6 @@ public class ScoreScreen implements Screen, InputProcessor {
         batch = new SpriteBatch();
         generateFont();
         loaded = false;
-        shipSpeedPerSecond = 400f;
     }
 
     private void createWorld() {
@@ -55,28 +50,12 @@ public class ScoreScreen implements Screen, InputProcessor {
             worldConfig.setSystem(new ScoreScreenInitSystem(gameInstance));
             worldConfig.setSystem(new BoxRenderSystem(gameInstance.getUiCamera()));
             worldConfig.setSystem(new UiRenderSystem(gameInstance.getUiCamera()));
+            worldConfig.setSystem(new MoveToPointSystem());
             scoreScreenWorld = new World(worldConfig);
         }
     }
 
     private void loadScreenObjects() {
-
-        Vector2 shipSize = new Vector2(GalacticTDGame.UI_WIDTH / 16, GalacticTDGame.UI_WIDTH / 16f);
-
-        greenShip = new Sprite(gameInstance.getAssetManager().get("tower-green.png", Texture.class));
-        greenShip.setSize(shipSize.x, shipSize.y);
-        greenShip.setOriginCenter();
-        greenShipStartPosition = new Vector2(GalacticTDGame.UI_WIDTH, GalacticTDGame.UI_HEIGHT - shipSize.y);
-        greenShip.setPosition(greenShipStartPosition.x, greenShipStartPosition.y);
-        greenShip.rotate(90);
-
-        redShip = new Sprite(gameInstance.getAssetManager().get("tower-red.png", Texture.class));
-        redShip.setSize(shipSize.x, shipSize.y);
-        redShip.setOriginCenter();
-        redShipStartPosition = new Vector2(0 - shipSize.x, 0);
-        redShip.setPosition(redShipStartPosition.x, redShipStartPosition.y);
-        redShip.rotate(-90);
-
         textPosition = new Vector2(GalacticTDGame.UI_WIDTH / 5, GalacticTDGame.UI_HEIGHT / 20);
         loaded = true;
     }
@@ -96,21 +75,8 @@ public class ScoreScreen implements Screen, InputProcessor {
         createWorld();
         scoreScreenWorld.setDelta(delta);
         scoreScreenWorld.process();
-        greenShip.translateX(shipSpeedPerSecond * delta * -1);
-        redShip.translateX(shipSpeedPerSecond * delta);
-
-        if (greenShip.getX() < (0 - greenShip.getWidth() * 2)) {
-            greenShip.setX(greenShipStartPosition.x);
-        }
-
-        if (redShip.getX() > GalacticTDGame.UI_WIDTH + redShip.getWidth()) {
-            redShip.setX(redShipStartPosition.x);
-        }
         batch.setProjectionMatrix(gameInstance.getUiCamera().combined);
         batch.begin();
-
-        greenShip.draw(batch);
-        redShip.draw(batch);
 
         textHeightFactor = 15;
         text.draw(batch, "High Scores:", textPosition.x, textPosition.y * 15);
