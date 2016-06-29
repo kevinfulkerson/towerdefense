@@ -34,7 +34,7 @@ public class HomeScreen implements Screen, InputProcessor {
         batch.setProjectionMatrix(gameInstance.getUiCamera().combined);
         batch.begin();
 
-        backgroundSprite.draw(batch);
+//        backgroundSprite.draw(batch);
         playButton.draw(batch);
         quitButton.draw(batch);
         scoresButton.draw(batch);
