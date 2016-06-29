@@ -1,6 +1,9 @@
 package com.goonsquad.galactictd.screens;
 
 
+import com.artemis.World;
+import com.artemis.WorldConfiguration;
+import com.artemis.WorldConfigurationBuilder;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
@@ -10,10 +13,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.goonsquad.galactictd.Archetypes.ArchetypeSheet;
 import com.goonsquad.galactictd.GalacticTDGame;
+import com.goonsquad.galactictd.systems.initialization.HomeScreenInitSystem;
 
 public class HomeScreen implements Screen, InputProcessor {
     private static final String TAG = "HomeScreen";
+    private World homeScreenWorld;
+    private ArchetypeSheet sheet;
     private GalacticTDGame gameInstance;
     private SpriteBatch batch;
     private Sprite backgroundSprite;
@@ -28,7 +35,6 @@ public class HomeScreen implements Screen, InputProcessor {
     private Vector2 settingsMenuStart;
     private final float settingsMenuSpeed = 1f;
     private float settingsMenuElapsedTime = 0f;
-    private Sprite vibrateButton;
     private Sprite soundButton;
     private boolean settingsOn;
     private boolean loaded;
@@ -41,8 +47,16 @@ public class HomeScreen implements Screen, InputProcessor {
         this.loaded = false;
     }
 
+    public void createWorld() {
+        if (homeScreenWorld != null) {
+            WorldConfiguration worldConfig = new WorldConfiguration();
+            worldConfig.setSystem(new HomeScreenInitSystem(sheet));
+        }
+    }
+
     @Override
     public void show() {
+        createWorld();
         Gdx.app.log(TAG, "show() called.");
         Gdx.input.setInputProcessor(this);
         if (!loaded) loadScreenObjects();
