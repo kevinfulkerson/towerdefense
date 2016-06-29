@@ -127,8 +127,4 @@ public class HomeScreenInitSystem extends InitializationSystem {
             }
         };
     }
-
-    @Override
-    protected void processSystem() {
-    }
 }

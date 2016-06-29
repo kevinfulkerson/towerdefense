@@ -12,4 +12,9 @@ public abstract class InitializationSystem extends BaseSystem {
     }
 
     protected abstract void populateWorld();
+
+    @Override
+    protected void processSystem() {
+
+    }
 }
