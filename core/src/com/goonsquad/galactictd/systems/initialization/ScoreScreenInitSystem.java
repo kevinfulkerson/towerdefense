@@ -50,8 +50,20 @@ public class ScoreScreenInitSystem extends InitializationSystem {
     }
 
     private int createGreenShip() {
-        int greenShip = archetypeBuilder.buildArchetype("sprite");
+        int greenShip = archetypeBuilder.buildArchetype("ship");
 
+        Renderable greenRenderable = renderableComponentMapper.get(greenShip);
+        greenRenderable.texture = gameInstance.getAssetManager().get("tower-green.png", Texture.class);
+        greenRenderable.rotation = 90;
+
+        StartingCords greenStartingCords = startingCordsComponentMapper.get(greenShip);
+        greenStartingCords.x = GalacticTDGame.UI_WIDTH - shipSize.x;
+        greenStartingCords.y = GalacticTDGame.UI_HEIGHT - shipSize.y;
+
+        Position greenPosition = positionComponentMapper.get(greenShip);
+        greenPosition.setBounds(
+                greenStartingCords.x, greenStartingCords.y,
+                shipSize.x, shipSize.y);
         return greenShip;
     }
 }
