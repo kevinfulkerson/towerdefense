@@ -1,5 +1,7 @@
 package com.goonsquad.galactictd.screens;
 
+import com.artemis.World;
+import com.artemis.WorldConfiguration;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
@@ -13,6 +15,10 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFont
 import com.badlogic.gdx.math.Vector2;
 import com.goonsquad.galactictd.GalacticTDGame;
 import com.goonsquad.galactictd.gamelogic.HighScore;
+import com.goonsquad.galactictd.systems.archtypes.ScoreScreenArchetypeBuilder;
+import com.goonsquad.galactictd.systems.graphics.BoxRenderSystem;
+import com.goonsquad.galactictd.systems.graphics.UiRenderSystem;
+import com.goonsquad.galactictd.systems.initialization.ScoreScreenInitSystem;
 
 import java.util.ArrayList;
 
@@ -31,6 +37,7 @@ public class ScoreScreen implements Screen, InputProcessor {
     private boolean loaded;
     private float shipSpeedPerSecond;
     private int textHeightFactor;
+    private World scoreScreenWorld;
 
     public ScoreScreen(GalacticTDGame game) {
         Gdx.app.log(TAG, "Initialized " + TAG);
@@ -39,6 +46,17 @@ public class ScoreScreen implements Screen, InputProcessor {
         generateFont();
         loaded = false;
         shipSpeedPerSecond = 400f;
+    }
+
+    private void createWorld() {
+        if (scoreScreenWorld == null) {
+            WorldConfiguration worldConfig = new WorldConfiguration();
+            worldConfig.setSystem(new ScoreScreenArchetypeBuilder());
+            worldConfig.setSystem(new ScoreScreenInitSystem(gameInstance));
+            worldConfig.setSystem(new BoxRenderSystem(gameInstance.getUiCamera()));
+            worldConfig.setSystem(new UiRenderSystem(gameInstance.getUiCamera()));
+            scoreScreenWorld = new World(worldConfig);
+        }
     }
 
     private void loadScreenObjects() {
@@ -75,6 +93,9 @@ public class ScoreScreen implements Screen, InputProcessor {
 
     @Override
     public void render(float delta) {
+        createWorld();
+        scoreScreenWorld.setDelta(delta);
+        scoreScreenWorld.process();
         greenShip.translateX(shipSpeedPerSecond * delta * -1);
         redShip.translateX(shipSpeedPerSecond * delta);
 

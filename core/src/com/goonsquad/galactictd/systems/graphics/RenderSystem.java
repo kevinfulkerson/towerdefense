@@ -46,7 +46,7 @@ public abstract class RenderSystem extends IteratingSystem {
                 entityPosition.height,
                 entityRenderable.scaleX,
                 entityRenderable.scaleY,
-                entityPosition.rotation,
+                entityRenderable.rotation,
                 0, 0,
                 entityRenderable.texture.getWidth(),
                 entityRenderable.texture.getHeight(),
