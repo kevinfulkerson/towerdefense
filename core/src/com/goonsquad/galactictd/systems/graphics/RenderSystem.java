@@ -20,7 +20,7 @@ public abstract class RenderSystem extends IteratingSystem {
     private Camera camera;
 
     public RenderSystem(Camera camera, Aspect.Builder aspect) {
-        super(aspect);
+        super(aspect.all(Renderable.class));
         this.camera = camera;
         batch = new SpriteBatch();
     }

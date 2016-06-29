@@ -7,6 +7,7 @@ import com.artemis.Component;
 import com.goonsquad.galactictd.components.graphics.DrawBoxAround;
 import com.goonsquad.galactictd.components.graphics.DrawInUi;
 import com.goonsquad.galactictd.components.graphics.Renderable;
+import com.goonsquad.galactictd.components.input.Touchable;
 import com.goonsquad.galactictd.components.positional.Position;
 
 import java.util.HashMap;
@@ -29,7 +30,7 @@ public abstract class ArchetypeBuilderSystem extends BaseSystem {
 
     private void createDefaultArchetypes() {
         this.addArchetypeToSystem("sprite", Position.class, Renderable.class, DrawBoxAround.class);
-        this.addArchetypeToSystem("ui_button", "sprite", DrawInUi.class);
+        this.addArchetypeToSystem("ui_button", "sprite", DrawInUi.class, Touchable.class);
         this.addArchetypeToSystem("ui_label", "sprite", DrawInUi.class);
     }
 

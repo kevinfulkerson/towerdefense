@@ -24,7 +24,6 @@ public class ScoreScreen implements Screen, InputProcessor {
     private Vector2 greenShipStartPosition;
     private Vector2 redShipStartPosition;
     private SpriteBatch batch;
-    private Sprite background;
     private Sprite greenShip;
     private Sprite redShip;
     private ArrayList<HighScore> highScoreArrayList;
@@ -43,8 +42,6 @@ public class ScoreScreen implements Screen, InputProcessor {
     }
 
     private void loadScreenObjects() {
-        background = new Sprite(gameInstance.getAssetManager().get("space2.jpg", Texture.class));
-        background.setSize(GalacticTDGame.UI_WIDTH, GalacticTDGame.UI_HEIGHT);
 
         Vector2 shipSize = new Vector2(GalacticTDGame.UI_WIDTH / 16, GalacticTDGame.UI_WIDTH / 16f);
 
@@ -91,7 +88,6 @@ public class ScoreScreen implements Screen, InputProcessor {
         batch.setProjectionMatrix(gameInstance.getUiCamera().combined);
         batch.begin();
 
-//        background.draw(batch);
         greenShip.draw(batch);
         redShip.draw(batch);
 

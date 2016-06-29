@@ -1,6 +1,5 @@
 package com.goonsquad.galactictd.screens;
 
-
 import com.artemis.World;
 import com.artemis.WorldConfiguration;
 import com.badlogic.gdx.Gdx;
@@ -17,15 +16,14 @@ import com.goonsquad.galactictd.systems.archtypes.HomeScreenArchetypeBuilder;
 import com.goonsquad.galactictd.systems.graphics.BoxRenderSystem;
 import com.goonsquad.galactictd.systems.graphics.UiRenderSystem;
 import com.goonsquad.galactictd.systems.initialization.HomeScreenInitSystem;
+import com.goonsquad.galactictd.systems.input.UiTouchSystem;
 
 public class HomeScreen implements Screen, InputProcessor {
     private static final String TAG = "HomeScreen";
     private World homeScreenWorld;
     private GalacticTDGame gameInstance;
     private SpriteBatch batch;
-    private Sprite playButton;
     private Sprite quitButton;
-    private Sprite settingsButton;
     private Sprite settingsBackdrop;
     private Sprite settingsMenu;
     private Vector2 settingsMenuEnd;
@@ -35,6 +33,7 @@ public class HomeScreen implements Screen, InputProcessor {
     private Sprite soundButton;
     private boolean settingsOn;
     private boolean loaded;
+    private UiTouchSystem uiTouchSystem;
 
     public HomeScreen(GalacticTDGame game) {
         Gdx.app.log(TAG, "Initialized " + TAG);
@@ -50,6 +49,8 @@ public class HomeScreen implements Screen, InputProcessor {
             WorldConfiguration worldConfig = new WorldConfiguration();
             worldConfig.setSystem(new HomeScreenArchetypeBuilder());
             worldConfig.setSystem(new HomeScreenInitSystem(gameInstance));
+            uiTouchSystem = new UiTouchSystem(gameInstance.getUiViewport());
+            worldConfig.setSystem(uiTouchSystem);
             worldConfig.setSystem(new BoxRenderSystem(gameInstance.getUiCamera()));
             worldConfig.setSystem(new UiRenderSystem(gameInstance.getUiCamera()));
             /*
@@ -67,7 +68,7 @@ public class HomeScreen implements Screen, InputProcessor {
     public void show() {
         Gdx.app.log(TAG, "show() called.");
         createWorld();
-        Gdx.input.setInputProcessor(this);
+        Gdx.input.setInputProcessor(uiTouchSystem);
     }
 
     public void loadScreenObjects() {
@@ -123,9 +124,7 @@ public class HomeScreen implements Screen, InputProcessor {
     }
 
     private void renderHome(SpriteBatch batch) {
-        playButton.draw(batch);
         quitButton.draw(batch);
-        settingsButton.draw(batch);
     }
 
     private void updateSettings(float delta) {
@@ -247,7 +246,6 @@ public class HomeScreen implements Screen, InputProcessor {
         batch.dispose();
         if (loaded) {
             quitButton.getTexture().dispose();
-            settingsButton.getTexture().dispose();
         }
     }
 }

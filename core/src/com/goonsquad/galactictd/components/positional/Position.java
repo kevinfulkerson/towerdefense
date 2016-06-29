@@ -24,6 +24,10 @@ public class Position extends com.artemis.PooledComponent {
         this.height = height;
     }
 
+    public boolean containsPoint(float x, float y) {
+        return this.x <= x && this.x + this.width >= x && this.y <= y && this.y + this.height >= y;
+    }
+
     public float getOriginX() {
         return x + width / 2f;
     }
