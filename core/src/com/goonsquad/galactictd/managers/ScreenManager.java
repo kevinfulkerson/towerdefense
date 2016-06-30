@@ -6,7 +6,6 @@ import com.goonsquad.galactictd.GalacticTDGame;
 import com.goonsquad.galactictd.screens.HomeScreen;
 import com.goonsquad.galactictd.screens.LoadingScreen;
 import com.goonsquad.galactictd.screens.ScoreScreen;
-import com.goonsquad.galactictd.screens.WorldScreen;
 
 import java.util.ArrayList;
 
