@@ -13,11 +13,12 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFont
 import com.badlogic.gdx.math.Vector2;
 import com.goonsquad.galactictd.GalacticTDGame;
 import com.goonsquad.galactictd.gamelogic.HighScore;
-import com.goonsquad.galactictd.systems.archtypes.ScoreScreenArchetypeBuilder;
+import com.goonsquad.galactictd.systems.archetypes.ScoreScreenArchetypeBuilder;
 import com.goonsquad.galactictd.systems.graphics.BoxRenderSystem;
 import com.goonsquad.galactictd.systems.graphics.UiRenderSystem;
 import com.goonsquad.galactictd.systems.initialization.ScoreScreenInitSystem;
 import com.goonsquad.galactictd.systems.positional.MoveToPointSystem;
+import com.goonsquad.galactictd.systems.positional.ResetPositionSystem;
 
 import java.util.ArrayList;
 
@@ -48,6 +49,7 @@ public class ScoreScreen implements Screen, InputProcessor {
             worldConfig.setSystem(new ScoreScreenInitSystem(gameInstance));
             worldConfig.setSystem(new BoxRenderSystem(gameInstance.getUiCamera()));
             worldConfig.setSystem(new UiRenderSystem(gameInstance.getUiCamera()));
+            worldConfig.setSystem(new ResetPositionSystem());
             worldConfig.setSystem(new MoveToPointSystem());
             scoreScreenWorld = new World(worldConfig);
         }

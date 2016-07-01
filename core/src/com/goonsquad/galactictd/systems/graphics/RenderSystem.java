@@ -9,12 +9,15 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.goonsquad.galactictd.components.positional.Position;
 import com.goonsquad.galactictd.components.graphics.Renderable;
 
+import java.util.ArrayList;
+
 public abstract class RenderSystem extends IteratingSystem {
     private ComponentMapper<Position> positionComponentMapper;
     private ComponentMapper<Renderable> renderableComponentMapper;
 
     private Position entityPosition;
     private Renderable entityRenderable;
+    private ArrayList<Integer> sortedEntities;
 
     protected SpriteBatch batch;
     private Camera camera;

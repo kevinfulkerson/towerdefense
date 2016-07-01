@@ -8,15 +8,32 @@ import com.goonsquad.galactictd.GalacticTDGame;
 import com.goonsquad.galactictd.components.graphics.Renderable;
 import com.goonsquad.galactictd.components.input.Event;
 import com.goonsquad.galactictd.components.input.Touchable;
+import com.goonsquad.galactictd.components.layers.Layer;
+import com.goonsquad.galactictd.components.positional.MoveToPoint;
+import com.goonsquad.galactictd.components.positional.MovementDestination;
+import com.goonsquad.galactictd.components.positional.MovementSpeed;
 import com.goonsquad.galactictd.components.positional.Position;
+import com.goonsquad.galactictd.components.positional.ResetPosition;
 import com.goonsquad.galactictd.screens.ScoreScreen;
-import com.goonsquad.galactictd.systems.archtypes.HomeScreenArchetypeBuilder;
+import com.goonsquad.galactictd.systems.archetypes.HomeScreenArchetypeBuilder;
+import com.goonsquad.galactictd.systems.graphics.ShowOverlaySystem;
+import com.goonsquad.galactictd.systems.input.OverlayTouchSystem;
+import com.goonsquad.galactictd.systems.positional.MoveToPointSystem;
+import com.goonsquad.galactictd.systems.positional.ResetPositionSystem;
 
 public class HomeScreenInitSystem extends InitializationSystem {
     private HomeScreenArchetypeBuilder archetypeBuilder;
     private ComponentMapper<Position> positionComponentMapper;
     private ComponentMapper<Renderable> renderableComponentMapper;
     private ComponentMapper<Touchable> touchableComponentMapper;
+    private ComponentMapper<MoveToPoint> moveToPointComponentMapper;
+    private ComponentMapper<MovementDestination> movementDestinationComponentMapper;
+    private ComponentMapper<MovementSpeed> movementSpeedComponentMapper;
+    private ComponentMapper<ResetPosition> resetPositionComponentMapper;
+    private ShowOverlaySystem showOverlaySystem;
+    private OverlayTouchSystem overlayTouchSystem;
+    private MoveToPointSystem moveToPointSystem;
+    private ResetPositionSystem resetPositionSystem;
 
     private GalacticTDGame gameInstance;
     private Vector2 buttonSize;
@@ -33,6 +50,8 @@ public class HomeScreenInitSystem extends InitializationSystem {
         createScoreButton();
         createQuitButton();
         createSettingsButton();
+        createSettingsDock();
+        createSettingsOverlay();
     }
 
     private void createTitle() {
@@ -87,7 +106,6 @@ public class HomeScreenInitSystem extends InitializationSystem {
         };
     }
 
-
     private void createQuitButton() {
         int quitButton = archetypeBuilder.buildArchetype("ui_button");
 
@@ -123,7 +141,64 @@ public class HomeScreenInitSystem extends InitializationSystem {
         touchable.event = new Event() {
             @Override
             public void fireEvent() {
-                Gdx.app.log("SettingsButton", "Touched");
+                showOverlaySystem.showOverlay();
+            }
+        };
+    }
+
+    private void createSettingsOverlay() {
+        int overlay = archetypeBuilder.buildArchetype("overlay_button");
+
+        Renderable overlayRenderable = renderableComponentMapper.get(overlay);
+        overlayRenderable.texture = gameInstance.getAssetManager().get("black.png", Texture.class);
+        overlayRenderable.a = .65f;
+
+        Position overlayPosition = positionComponentMapper.get(overlay);
+        overlayPosition.setBounds(0, 0, GalacticTDGame.UI_WIDTH, GalacticTDGame.UI_HEIGHT);
+
+        Touchable overlayTouch = touchableComponentMapper.get(overlay);
+        overlayTouch.layer = Layer.OVERLAY;
+        overlayTouch.event = new Event() {
+            @Override
+            public void fireEvent() {
+                showOverlaySystem.hideOverlay();
+            }
+        };
+    }
+
+    private void createSettingsDock() {
+        int settingsDock = archetypeBuilder.buildArchetype("dock");
+
+        Renderable settingsRenderable = renderableComponentMapper.get(settingsDock);
+        settingsRenderable.texture = gameInstance.getAssetManager().get("border.png", Texture.class);
+
+        Position dockPosition = positionComponentMapper.get(settingsDock);
+        dockPosition.width = GalacticTDGame.UI_WIDTH / 4f;
+        dockPosition.height = dockPosition.width;
+
+        ResetPosition dockResetCords = resetPositionComponentMapper.get(settingsDock);
+        dockResetCords.resetPositionX = GalacticTDGame.UI_WIDTH;
+        dockResetCords.resetPositionY = 0 - dockPosition.height;
+
+        dockPosition.x = dockResetCords.resetPositionX;
+        dockPosition.y = dockResetCords.resetPositionY;
+
+        MoveToPoint dockMoveToPoint = moveToPointComponentMapper.get(settingsDock);
+        dockMoveToPoint.moving = false;
+
+        MovementDestination movementDestination = movementDestinationComponentMapper.create(settingsDock);
+        movementDestination.destinationX = GalacticTDGame.UI_WIDTH - dockPosition.width;
+        movementDestination.destinationY = 0;
+
+        MovementSpeed movementSpeed = movementSpeedComponentMapper.create(settingsDock);
+        movementSpeed.unitsPerSecond = 3000f;
+
+        Touchable touchable = touchableComponentMapper.get(settingsDock);
+        touchable.layer = Layer.OVERLAY_1;
+        touchable.event = new Event() {
+            @Override
+            public void fireEvent() {
+
             }
         };
     }

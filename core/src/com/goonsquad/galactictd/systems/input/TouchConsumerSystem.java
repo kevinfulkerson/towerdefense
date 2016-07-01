@@ -3,13 +3,14 @@ package com.goonsquad.galactictd.systems.input;
 import com.artemis.Aspect;
 import com.artemis.BaseEntitySystem;
 import com.artemis.ComponentMapper;
-import com.artemis.utils.IntBag;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.goonsquad.galactictd.components.input.Touchable;
 import com.goonsquad.galactictd.components.positional.Position;
+
+import java.util.ArrayList;
+import java.util.Comparator;
 
 public abstract class TouchConsumerSystem extends BaseEntitySystem implements InputProcessor {
     private ComponentMapper<Touchable> touchableComponentMapper;
@@ -17,43 +18,71 @@ public abstract class TouchConsumerSystem extends BaseEntitySystem implements In
     private int currentTouchedEntity;
     private Viewport viewport;
     private Vector2 touchLoc;
+    private boolean justTouched;
+    private ArrayList<Integer> sortedEntities;
+    private Comparator<Integer> layerComparator;
 
     public TouchConsumerSystem(Viewport viewport, Aspect.Builder aspect) {
         super(aspect.all(Touchable.class, Position.class));
         this.viewport = viewport;
         touchLoc = new Vector2();
-        this.setEnabled(false);
-        Gdx.app.log("TouchConsumerSystem", "initialized");
+        this.justTouched = false;
+        sortedEntities = new ArrayList<Integer>();
+    }
+
+    @Override
+    protected void initialize() {
+        layerComparator = new Comparator<Integer>() {
+            @Override
+            public int compare(Integer entityOne, Integer entityTwo) {
+                Touchable touchableOne = touchableComponentMapper.get(entityOne);
+                Touchable touchableTwo = touchableComponentMapper.get(entityTwo);
+                return touchableTwo.layer.compareTo(touchableOne.layer);
+            }
+        };
     }
 
     @Override
     protected final void processSystem() {
-        Touchable touchable = touchableComponentMapper.get(currentTouchedEntity);
-        touchable.event.fireEvent();
+        if (justTouched) {
+            Touchable touchable = touchableComponentMapper.get(currentTouchedEntity);
+            if (touchable.event != null) {
+                touchable.event.fireEvent();
+            }
+        }
+    }
+
+    @Override
+    public void inserted(int entityId) {
+        sortedEntities.add(entityId);
+        sortedEntities.sort(layerComparator);
+    }
+
+    @Override
+    protected void removed(int entityId) {
+        sortedEntities.remove((Integer) entityId);
     }
 
     @Override
     protected final void end() {
-        setEnabled(false);
+        justTouched = false;
     }
 
     private boolean checkIfEntitiesWereTouched(Vector2 touchLoc) {
         Position entityPosition;
 
-        IntBag actives = subscription.getEntities();
-        int[] ids = actives.getData();
-
-        for (int i = 0, s = actives.size(); s > i; i++) {
-            entityPosition = positionComponentMapper.get(ids[i]);
+        for (int id : sortedEntities) {
+            entityPosition = positionComponentMapper.get(id);
             if (entityPosition.containsPoint(touchLoc.x, touchLoc.y)) {
-                currentTouchedEntity = ids[i];
+                currentTouchedEntity = id;
                 setEnabled(true);
+                this.justTouched = true;
                 return true;
             }
         }
-
         return false;
     }
+
 
     @Override
     public boolean keyDown(int keycode) {
@@ -72,10 +101,12 @@ public abstract class TouchConsumerSystem extends BaseEntitySystem implements In
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        Gdx.app.log("TouchSystem", "touch heard.");
-        touchLoc.set(screenX, screenY);
-        touchLoc = viewport.unproject(touchLoc);
-        return checkIfEntitiesWereTouched(touchLoc);
+        if (isEnabled()) {
+            touchLoc.set(screenX, screenY);
+            touchLoc = viewport.unproject(touchLoc);
+            return checkIfEntitiesWereTouched(touchLoc);
+        }
+        return false;
     }
 
     @Override

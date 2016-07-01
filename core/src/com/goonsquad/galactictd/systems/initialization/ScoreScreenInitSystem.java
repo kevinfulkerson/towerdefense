@@ -7,24 +7,30 @@ import com.goonsquad.galactictd.GalacticTDGame;
 import com.goonsquad.galactictd.components.graphics.Renderable;
 import com.goonsquad.galactictd.components.input.Touchable;
 import com.goonsquad.galactictd.components.positional.MoveToPoint;
+import com.goonsquad.galactictd.components.positional.MovementDestination;
+import com.goonsquad.galactictd.components.positional.MovementSpeed;
 import com.goonsquad.galactictd.components.positional.Position;
-import com.goonsquad.galactictd.components.positional.StartingCords;
-import com.goonsquad.galactictd.systems.archtypes.ScoreScreenArchetypeBuilder;
+import com.goonsquad.galactictd.components.positional.ResetPosition;
+import com.goonsquad.galactictd.systems.archetypes.ScoreScreenArchetypeBuilder;
 
 public class ScoreScreenInitSystem extends InitializationSystem {
     private ScoreScreenArchetypeBuilder archetypeBuilder;
     private ComponentMapper<Position> positionComponentMapper;
     private ComponentMapper<Renderable> renderableComponentMapper;
     private ComponentMapper<Touchable> touchableComponentMapper;
-    private ComponentMapper<StartingCords> startingCordsComponentMapper;
     private ComponentMapper<MoveToPoint> moveToPointComponentMapper;
+    private ComponentMapper<MovementDestination> movementDestinationComponentMapper;
+    private ComponentMapper<MovementSpeed> movementSpeedComponentMapper;
+    private ComponentMapper<ResetPosition> resetPositionComponentMapper;
 
     private GalacticTDGame gameInstance;
     private Vector2 shipSize;
+    private float shipSpeedPerSecond;
 
     public ScoreScreenInitSystem(GalacticTDGame game) {
         this.gameInstance = game;
         shipSize = new Vector2(150f, 150f);
+        shipSpeedPerSecond = 750f;
     }
 
     @Override
@@ -39,22 +45,27 @@ public class ScoreScreenInitSystem extends InitializationSystem {
         Renderable redRenderable = renderableComponentMapper.get(redShip);
         redRenderable.texture = gameInstance.getAssetManager().get("tower-red.png", Texture.class);
 
-        StartingCords redStartingCords = startingCordsComponentMapper.get(redShip);
-        redStartingCords.x = 0 - shipSize.x;
-        redStartingCords.y = 0;
+        ResetPosition redStartingCords = resetPositionComponentMapper.get(redShip);
+        redStartingCords.resetPositionX = 0 - shipSize.x;
+        redStartingCords.resetPositionY = 0;
 
         Position redPosition = positionComponentMapper.get(redShip);
         redPosition.rotation = 90;
         redPosition.setBounds(
-                redStartingCords.x, redStartingCords.y,
+                redStartingCords.resetPositionX, redStartingCords.resetPositionY,
                 shipSize.x, shipSize.y);
 
 
         MoveToPoint moveToPoint = moveToPointComponentMapper.get(redShip);
-        moveToPoint.destinationX = GalacticTDGame.UI_WIDTH;
-        moveToPoint.destinationY = redPosition.y;
-        moveToPoint.speedPerSecond = 500f;
-        moveToPoint.returnToStartingCords = true;
+        moveToPoint.resetPositionOnArrival = true;
+        moveToPoint.moving = true;
+
+        MovementDestination movementDestination = movementDestinationComponentMapper.create(redShip);
+        movementDestination.destinationX = GalacticTDGame.UI_WIDTH + redPosition.width;
+        movementDestination.destinationY = redPosition.y;
+
+        MovementSpeed speed = movementSpeedComponentMapper.create(redShip);
+        speed.unitsPerSecond = shipSpeedPerSecond;
         return redShip;
     }
 
@@ -64,21 +75,26 @@ public class ScoreScreenInitSystem extends InitializationSystem {
         Renderable greenRenderable = renderableComponentMapper.get(greenShip);
         greenRenderable.texture = gameInstance.getAssetManager().get("tower-green.png", Texture.class);
 
-        StartingCords greenStartingCords = startingCordsComponentMapper.get(greenShip);
-        greenStartingCords.x = GalacticTDGame.UI_WIDTH;
-        greenStartingCords.y = GalacticTDGame.UI_HEIGHT - shipSize.y;
+        ResetPosition greenStartingCords = resetPositionComponentMapper.get(greenShip);
+        greenStartingCords.resetPositionX = GalacticTDGame.UI_WIDTH;
+        greenStartingCords.resetPositionY = GalacticTDGame.UI_HEIGHT - shipSize.y;
 
         Position greenPosition = positionComponentMapper.get(greenShip);
         greenPosition.rotation = 270;
         greenPosition.setBounds(
-                greenStartingCords.x, greenStartingCords.y,
+                greenStartingCords.resetPositionX, greenStartingCords.resetPositionY,
                 shipSize.x, shipSize.y);
 
         MoveToPoint moveToPoint = moveToPointComponentMapper.get(greenShip);
-        moveToPoint.destinationX = 0 - shipSize.x;
-        moveToPoint.destinationY = greenPosition.y;
-        moveToPoint.speedPerSecond = 500f;
-        moveToPoint.returnToStartingCords = true;
+        moveToPoint.resetPositionOnArrival = true;
+        moveToPoint.moving = true;
+
+        MovementDestination movementDestination = movementDestinationComponentMapper.create(greenShip);
+        movementDestination.destinationX = 0 - shipSize.x * 2;
+        movementDestination.destinationY = greenPosition.y;
+
+        MovementSpeed speed = movementSpeedComponentMapper.create(greenShip);
+        speed.unitsPerSecond = shipSpeedPerSecond;
         return greenShip;
     }
 }

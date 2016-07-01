@@ -1,10 +1,11 @@
-package com.goonsquad.galactictd.systems.archtypes;
+package com.goonsquad.galactictd.systems.archetypes;
 
 import com.artemis.Archetype;
 import com.artemis.ArchetypeBuilder;
 import com.artemis.BaseSystem;
 import com.artemis.Component;
 import com.goonsquad.galactictd.components.graphics.DrawBoxAround;
+import com.goonsquad.galactictd.components.graphics.DrawInOverlay;
 import com.goonsquad.galactictd.components.graphics.DrawInUi;
 import com.goonsquad.galactictd.components.graphics.Renderable;
 import com.goonsquad.galactictd.components.input.Touchable;
@@ -30,8 +31,13 @@ public abstract class ArchetypeBuilderSystem extends BaseSystem {
 
     private void createDefaultArchetypes() {
         this.addArchetypeToSystem("sprite", Position.class, Renderable.class, DrawBoxAround.class);
-        this.addArchetypeToSystem("ui_button", "sprite", DrawInUi.class, Touchable.class);
+
+        this.addArchetypeToSystem("overlay_sprite", "sprite", DrawInOverlay.class);
+        this.addArchetypeToSystem("overlay_button", "overlay_sprite", Touchable.class);
+
         this.addArchetypeToSystem("ui_label", "sprite", DrawInUi.class);
+        this.addArchetypeToSystem("ui_button", "ui_label", Touchable.class);
+
     }
 
     protected abstract void createCustomArchetypes();

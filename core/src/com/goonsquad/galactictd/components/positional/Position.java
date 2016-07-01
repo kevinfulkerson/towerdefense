@@ -35,6 +35,4 @@ public class Position extends com.artemis.PooledComponent {
     public float getOriginY() {
         return y + height / 2f;
     }
-
-
 }
