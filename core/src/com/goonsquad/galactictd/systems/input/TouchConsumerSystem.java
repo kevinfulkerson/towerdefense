@@ -7,39 +7,40 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.goonsquad.galactictd.components.input.Touchable;
+import com.goonsquad.galactictd.components.layers.Layer;
+import com.goonsquad.galactictd.components.layers.SortedEntityComponentArray;
 import com.goonsquad.galactictd.components.positional.Position;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 
 public abstract class TouchConsumerSystem extends BaseEntitySystem implements InputProcessor {
     private ComponentMapper<Touchable> touchableComponentMapper;
     private ComponentMapper<Position> positionComponentMapper;
+    private ComponentMapper<Layer> layerComponentMapper;
+    private SortedEntityComponentArray<Layer> sortedEs;
+    private Comparator<Layer> layerComp;
     private int currentTouchedEntity;
     private Viewport viewport;
     private Vector2 touchLoc;
     private boolean justTouched;
-    private ArrayList<Integer> sortedEntities;
-    private Comparator<Integer> layerComparator;
 
     public TouchConsumerSystem(Viewport viewport, Aspect.Builder aspect) {
-        super(aspect.all(Touchable.class, Position.class));
+        super(aspect.all(Touchable.class, Position.class, Layer.class));
         this.viewport = viewport;
         touchLoc = new Vector2();
         this.justTouched = false;
-        sortedEntities = new ArrayList<Integer>();
     }
+
 
     @Override
     protected void initialize() {
-        layerComparator = new Comparator<Integer>() {
+        layerComp = new Comparator<Layer>() {
             @Override
-            public int compare(Integer entityOne, Integer entityTwo) {
-                Touchable touchableOne = touchableComponentMapper.get(entityOne);
-                Touchable touchableTwo = touchableComponentMapper.get(entityTwo);
-                return touchableTwo.layer.compareTo(touchableOne.layer);
+            public int compare(Layer layerOne, Layer layerTwo) {
+                return layerTwo.layerLevel.compareTo(layerOne.layerLevel);
             }
         };
+        sortedEs = new SortedEntityComponentArray<Layer>(layerComp, layerComponentMapper);
     }
 
     @Override
@@ -54,13 +55,12 @@ public abstract class TouchConsumerSystem extends BaseEntitySystem implements In
 
     @Override
     public void inserted(int entityId) {
-        sortedEntities.add(entityId);
-        sortedEntities.sort(layerComparator);
+        sortedEs.insert(entityId);
     }
 
     @Override
     protected void removed(int entityId) {
-        sortedEntities.remove((Integer) entityId);
+        sortedEs.remove(entityId);
     }
 
     @Override
@@ -71,7 +71,7 @@ public abstract class TouchConsumerSystem extends BaseEntitySystem implements In
     private boolean checkIfEntitiesWereTouched(Vector2 touchLoc) {
         Position entityPosition;
 
-        for (int id : sortedEntities) {
+        for (int id : sortedEs.getSortedEntityIds()) {
             entityPosition = positionComponentMapper.get(id);
             if (entityPosition.containsPoint(touchLoc.x, touchLoc.y)) {
                 currentTouchedEntity = id;

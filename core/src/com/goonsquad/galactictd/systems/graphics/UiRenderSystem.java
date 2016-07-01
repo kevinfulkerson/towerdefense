@@ -10,9 +10,4 @@ public class UiRenderSystem extends RenderSystem {
     public UiRenderSystem(Camera camera) {
         super(camera, Aspect.all(Renderable.class, DrawInUi.class, Position.class));
     }
-
-    @Override
-    protected void process(int entityId) {
-        super.process(entityId);
-    }
 }

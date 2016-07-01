@@ -9,6 +9,7 @@ import com.goonsquad.galactictd.components.graphics.Renderable;
 import com.goonsquad.galactictd.components.input.Event;
 import com.goonsquad.galactictd.components.input.Touchable;
 import com.goonsquad.galactictd.components.layers.Layer;
+import com.goonsquad.galactictd.components.layers.LayerLevel;
 import com.goonsquad.galactictd.components.positional.MoveToPoint;
 import com.goonsquad.galactictd.components.positional.MovementDestination;
 import com.goonsquad.galactictd.components.positional.MovementSpeed;
@@ -30,6 +31,7 @@ public class HomeScreenInitSystem extends InitializationSystem {
     private ComponentMapper<MovementDestination> movementDestinationComponentMapper;
     private ComponentMapper<MovementSpeed> movementSpeedComponentMapper;
     private ComponentMapper<ResetPosition> resetPositionComponentMapper;
+    private ComponentMapper<Layer> layerComponentMapper;
     private ShowOverlaySystem showOverlaySystem;
     private OverlayTouchSystem overlayTouchSystem;
     private MoveToPointSystem moveToPointSystem;
@@ -149,6 +151,9 @@ public class HomeScreenInitSystem extends InitializationSystem {
     private void createSettingsOverlay() {
         int overlay = archetypeBuilder.buildArchetype("overlay_button");
 
+        Layer overlayLayer = layerComponentMapper.get(overlay);
+        overlayLayer.layerLevel = LayerLevel.OVERLAY;
+
         Renderable overlayRenderable = renderableComponentMapper.get(overlay);
         overlayRenderable.texture = gameInstance.getAssetManager().get("black.png", Texture.class);
         overlayRenderable.a = .65f;
@@ -157,7 +162,6 @@ public class HomeScreenInitSystem extends InitializationSystem {
         overlayPosition.setBounds(0, 0, GalacticTDGame.UI_WIDTH, GalacticTDGame.UI_HEIGHT);
 
         Touchable overlayTouch = touchableComponentMapper.get(overlay);
-        overlayTouch.layer = Layer.OVERLAY;
         overlayTouch.event = new Event() {
             @Override
             public void fireEvent() {
@@ -168,6 +172,9 @@ public class HomeScreenInitSystem extends InitializationSystem {
 
     private void createSettingsDock() {
         int settingsDock = archetypeBuilder.buildArchetype("dock");
+
+        Layer dockLayer = layerComponentMapper.get(settingsDock);
+        dockLayer.layerLevel = LayerLevel.OVERLAY_1;
 
         Renderable settingsRenderable = renderableComponentMapper.get(settingsDock);
         settingsRenderable.texture = gameInstance.getAssetManager().get("border.png", Texture.class);
@@ -194,7 +201,6 @@ public class HomeScreenInitSystem extends InitializationSystem {
         movementSpeed.unitsPerSecond = 3000f;
 
         Touchable touchable = touchableComponentMapper.get(settingsDock);
-        touchable.layer = Layer.OVERLAY_1;
         touchable.event = new Event() {
             @Override
             public void fireEvent() {

@@ -1,6 +1,7 @@
 package com.goonsquad.galactictd.components.graphics;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.goonsquad.galactictd.components.layers.Layer;
 
 public class Renderable extends com.artemis.PooledComponent {
     public Texture texture;

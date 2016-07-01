@@ -1,14 +1,12 @@
 package com.goonsquad.galactictd.components.layers;
 
-public enum Layer {
-    DEFAULT,
-    BACKGROUND,
-    GAME,
-    UI,
-    OVERLAY,
-    OVERLAY_1;
+public class Layer extends com.artemis.PooledComponent {
+    public LayerLevel layerLevel = LayerLevel.DEFAULT;
 
-    public int getLayerId(){
-        return ordinal();
+    @Override
+    protected void reset() {
+        this.layerLevel = LayerLevel.DEFAULT;
     }
+
+
 }

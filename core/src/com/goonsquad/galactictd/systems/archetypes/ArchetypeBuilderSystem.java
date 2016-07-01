@@ -9,6 +9,7 @@ import com.goonsquad.galactictd.components.graphics.DrawInOverlay;
 import com.goonsquad.galactictd.components.graphics.DrawInUi;
 import com.goonsquad.galactictd.components.graphics.Renderable;
 import com.goonsquad.galactictd.components.input.Touchable;
+import com.goonsquad.galactictd.components.layers.Layer;
 import com.goonsquad.galactictd.components.positional.Position;
 
 import java.util.HashMap;
@@ -30,7 +31,7 @@ public abstract class ArchetypeBuilderSystem extends BaseSystem {
     }
 
     private void createDefaultArchetypes() {
-        this.addArchetypeToSystem("sprite", Position.class, Renderable.class, DrawBoxAround.class);
+        this.addArchetypeToSystem("sprite", Position.class, Renderable.class, DrawBoxAround.class, Layer.class);
 
         this.addArchetypeToSystem("overlay_sprite", "sprite", DrawInOverlay.class);
         this.addArchetypeToSystem("overlay_button", "overlay_sprite", Touchable.class);
