@@ -73,6 +73,8 @@ public class GalacticTDGame extends Game implements ApplicationListener {
         return scoreManager;
     }
 
+    //TODO
+    //Create custom class for assets.
     private void loadGameAssets() {
         Gdx.app.log(tag, "Loading game assets.");
         assetManager.load("star.png", Texture.class);
