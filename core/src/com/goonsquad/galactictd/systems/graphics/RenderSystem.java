@@ -12,6 +12,8 @@ import com.goonsquad.galactictd.components.positional.Position;
 
 import java.util.Comparator;
 
+//Extend this system to draw entities to a specific camera.
+//Uses a SortedEntityComponentArray to draw entities based on their Layer component.
 public abstract class RenderSystem extends BaseEntitySystem {
     private ComponentMapper<Position> positionComponentMapper;
     private ComponentMapper<Renderable> renderableComponentMapper;

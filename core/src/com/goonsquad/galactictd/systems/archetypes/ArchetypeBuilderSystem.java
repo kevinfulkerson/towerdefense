@@ -24,7 +24,7 @@ public abstract class ArchetypeBuilderSystem extends BaseSystem {
     }
 
     @Override
-    protected void initialize() {
+    protected final void initialize() {
         createDefaultArchetypes();
         createCustomArchetypes();
     }
@@ -37,12 +37,9 @@ public abstract class ArchetypeBuilderSystem extends BaseSystem {
         this.addArchetypeToSystem("ui_button", "ui_label", Touchable.class);
     }
 
-    //Overwrite to make archetypes specific to world.
+    //Overwrite to create archetypes specific to each world.
     protected abstract void createCustomArchetypes();
 
-    @Override
-    protected void processSystem() {
-    }
 
     //Creates an entity of the given archetype.
     //New entity will have all the components of the archetype.
@@ -74,5 +71,9 @@ public abstract class ArchetypeBuilderSystem extends BaseSystem {
         } else {
             throw new RuntimeException("Archetype with name " + newArcheTypeName + "already created.");
         }
+    }
+
+    @Override
+    protected void processSystem() {
     }
 }

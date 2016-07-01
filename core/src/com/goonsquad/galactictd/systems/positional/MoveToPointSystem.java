@@ -27,6 +27,8 @@ public class MoveToPointSystem extends IteratingSystem {
         super(Aspect.all(Position.class, MovementDestination.class, MovementSpeed.class, MoveToPoint.class));
     }
 
+    //TODO
+    //Make this do less operations.
     @Override
     protected void process(int entityId) {
         moveToPoint = moveToPointComponentMapper.get(entityId);

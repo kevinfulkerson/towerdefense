@@ -9,7 +9,6 @@ public class HomeScreenArchetypeBuilder extends ArchetypeBuilderSystem {
 
     @Override
     protected void createCustomArchetypes() {
-
         this.addArchetypeToSystem("overlay_sprite", "sprite", DrawInOverlay.class);
         this.addArchetypeToSystem("overlay_button", "overlay_sprite", Touchable.class);
         this.addArchetypeToSystem("dock", "overlay_button", ResetPosition.class, MoveToPoint.class);

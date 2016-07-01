@@ -1,4 +1,4 @@
-package com.goonsquad.galactictd.systems.graphics;
+package com.goonsquad.galactictd.systems.state;
 
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
@@ -9,6 +9,7 @@ import com.goonsquad.galactictd.components.input.Touchable;
 import com.goonsquad.galactictd.components.positional.MoveToPoint;
 import com.goonsquad.galactictd.components.positional.ResetPosition;
 
+//This system is used to manage what happens to entities when the overlay is hidden/shown.
 public class ShowOverlaySystem extends com.artemis.systems.IteratingSystem {
     private ComponentMapper<DrawInUi> uiComponentMapper;
     private ComponentMapper<ResetPosition> resetPositionComponentMapper;

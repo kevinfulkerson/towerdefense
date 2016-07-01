@@ -7,7 +7,7 @@ import com.goonsquad.galactictd.GalacticTDGame;
 public class DesktopLauncher {
     public static void main(String[] arg) {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-        config.width = 900;
+        config.width = 800;
         config.height = 450;
         new LwjglApplication(new GalacticTDGame(), config);
     }

@@ -13,6 +13,9 @@ import com.goonsquad.galactictd.components.positional.Position;
 
 import java.util.Comparator;
 
+//Input events are passed to systems right before their world starts processing.
+//First this system checks if any of its entities were touched.
+//If so the system enables itself and runs the touched entity's event.
 public abstract class TouchConsumerSystem extends BaseEntitySystem implements InputProcessor {
     private ComponentMapper<Touchable> touchableComponentMapper;
     private ComponentMapper<Position> positionComponentMapper;

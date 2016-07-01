@@ -10,7 +10,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.goonsquad.galactictd.components.graphics.DrawBoxAround;
 import com.goonsquad.galactictd.components.positional.Position;
 
-
+//This system exists only for debugging purposes.
 public class BoxRenderSystem extends IteratingSystem {
     ComponentMapper<Position> positionComponentMapper;
 

@@ -63,10 +63,14 @@ public class SortedEntityComponentArray<E extends Component> {
         size--;
     }
 
+    //TODO
+    //Make the array expand.
     private void expandSorted() {
 
     }
 
+    //TODO
+    //Set up class so that a new array does not have to be created when needed.
     public int[] getSortedEntityIds() {
         return Arrays.copyOf(sortedEntityIds, size);
     }

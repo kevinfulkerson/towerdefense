@@ -8,7 +8,7 @@ import com.badlogic.gdx.Screen;
 import com.goonsquad.galactictd.GalacticTDGame;
 import com.goonsquad.galactictd.systems.archetypes.HomeScreenArchetypeBuilder;
 import com.goonsquad.galactictd.systems.graphics.BoxRenderSystem;
-import com.goonsquad.galactictd.systems.graphics.ShowOverlaySystem;
+import com.goonsquad.galactictd.systems.state.ShowOverlaySystem;
 import com.goonsquad.galactictd.systems.graphics.UiRenderSystem;
 import com.goonsquad.galactictd.systems.initialization.HomeScreenInitSystem;
 import com.goonsquad.galactictd.systems.input.UiTouchSystem;

@@ -17,7 +17,7 @@ import com.goonsquad.galactictd.components.positional.Position;
 import com.goonsquad.galactictd.components.positional.ResetPosition;
 import com.goonsquad.galactictd.screens.ScoreScreen;
 import com.goonsquad.galactictd.systems.archetypes.HomeScreenArchetypeBuilder;
-import com.goonsquad.galactictd.systems.graphics.ShowOverlaySystem;
+import com.goonsquad.galactictd.systems.state.ShowOverlaySystem;
 import com.goonsquad.galactictd.systems.positional.MoveToPointSystem;
 import com.goonsquad.galactictd.systems.positional.ResetPositionSystem;
 
