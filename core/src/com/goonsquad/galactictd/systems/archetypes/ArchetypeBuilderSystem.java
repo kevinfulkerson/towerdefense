@@ -5,7 +5,6 @@ import com.artemis.ArchetypeBuilder;
 import com.artemis.BaseSystem;
 import com.artemis.Component;
 import com.goonsquad.galactictd.components.graphics.DrawBoxAround;
-import com.goonsquad.galactictd.components.graphics.DrawInOverlay;
 import com.goonsquad.galactictd.components.graphics.DrawInUi;
 import com.goonsquad.galactictd.components.graphics.Renderable;
 import com.goonsquad.galactictd.components.input.Touchable;
@@ -30,23 +29,25 @@ public abstract class ArchetypeBuilderSystem extends BaseSystem {
         createCustomArchetypes();
     }
 
+    //Archetypes that are used in all worlds.
     private void createDefaultArchetypes() {
         this.addArchetypeToSystem("sprite", Position.class, Renderable.class, DrawBoxAround.class, Layer.class);
 
-        this.addArchetypeToSystem("overlay_sprite", "sprite", DrawInOverlay.class);
-        this.addArchetypeToSystem("overlay_button", "overlay_sprite", Touchable.class);
-
         this.addArchetypeToSystem("ui_label", "sprite", DrawInUi.class);
         this.addArchetypeToSystem("ui_button", "ui_label", Touchable.class);
-
     }
 
+    //Overwrite to make archetypes specific to world.
     protected abstract void createCustomArchetypes();
 
     @Override
     protected void processSystem() {
     }
 
+    //Creates an entity of the given archetype.
+    //New entity will have all the components of the archetype.
+    //Exception is thrown if the passed in archetype is not found.
+    //
     public int buildArchetype(String archetypeKey) {
         if (createdArchetypes.containsKey(archetypeKey)) {
             return world.create(createdArchetypes.get(archetypeKey));
@@ -55,18 +56,21 @@ public abstract class ArchetypeBuilderSystem extends BaseSystem {
         }
     }
 
-    //Add an archetype to the pool of archetypes that doesn't inherit any components from a parent archetype.
+    //  ** Passed in components must have an empty constructor **
+    //Adds an archetype to the pool of previously made archetypes,
+    //archetype can then be accessed by the key name passed in,
     public void addArchetypeToSystem(String archetypeKey, Class<? extends Component>... components) {
         addArchetypeToSystem(archetypeKey, null, components);
     }
 
-    //Creates an archetype that can be referenced by ar
+    //  ** Passed in components must have an empty constructor **
+    //If parent archetype is found, the new archetype will inherit all the components of the parent.
+    //Attempting to create a new archetype that is already set will result in an exception.
     public void addArchetypeToSystem(String newArcheTypeName, String parentArchetypeName, Class<? extends Component>... components) {
-        Archetype archeType = createdArchetypes.get(newArcheTypeName);
-        if (archeType == null) {
+        if (!createdArchetypes.containsKey(newArcheTypeName)) {
             Archetype parent = createdArchetypes.get(parentArchetypeName);
-            archeType = new ArchetypeBuilder(parent).add(components).build(world);
-            createdArchetypes.put(newArcheTypeName, archeType);
+            Archetype newArcheType = new ArchetypeBuilder(parent).add(components).build(world);
+            createdArchetypes.put(newArcheTypeName, newArcheType);
         } else {
             throw new RuntimeException("Archetype with name " + newArcheTypeName + "already created.");
         }

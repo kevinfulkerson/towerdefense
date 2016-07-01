@@ -11,7 +11,6 @@ public class Renderable extends com.artemis.PooledComponent {
     public float a = 1;
     public float scaleX = 1;
     public float scaleY = 1;
-    public float rotation = 0;
 
     @Override
     protected void reset() {
@@ -22,6 +21,5 @@ public class Renderable extends com.artemis.PooledComponent {
         a = 1;
         scaleX = 1;
         scaleY = 1;
-        rotation = 0;
     }
 }

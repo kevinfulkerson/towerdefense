@@ -121,6 +121,8 @@ public class ScoreScreen implements Screen, InputProcessor {
         Gdx.app.log(TAG, "dispose() called.");
         text.dispose();
         batch.dispose();
+        if (scoreScreenWorld != null)
+            scoreScreenWorld.dispose();
     }
 
     @Override

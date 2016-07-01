@@ -11,7 +11,6 @@ import com.goonsquad.galactictd.systems.graphics.BoxRenderSystem;
 import com.goonsquad.galactictd.systems.graphics.ShowOverlaySystem;
 import com.goonsquad.galactictd.systems.graphics.UiRenderSystem;
 import com.goonsquad.galactictd.systems.initialization.HomeScreenInitSystem;
-import com.goonsquad.galactictd.systems.input.OverlayTouchSystem;
 import com.goonsquad.galactictd.systems.input.UiTouchSystem;
 import com.goonsquad.galactictd.systems.positional.MoveToPointSystem;
 import com.goonsquad.galactictd.systems.positional.ResetPositionSystem;
@@ -25,6 +24,7 @@ public class HomeScreen implements Screen {
     public HomeScreen(GalacticTDGame game) {
         Gdx.app.log(TAG, "Initialized " + TAG);
         this.gameInstance = game;
+        inputMultiplexer = new InputMultiplexer();
     }
 
     //A WorldConfig is used to build a world so that dependency injection can occur.
@@ -33,9 +33,6 @@ public class HomeScreen implements Screen {
             WorldConfiguration worldConfig = new WorldConfiguration();
             worldConfig.setSystem(new HomeScreenArchetypeBuilder());
             worldConfig.setSystem(new HomeScreenInitSystem(gameInstance));
-
-            OverlayTouchSystem overlayTouchSystem = new OverlayTouchSystem(gameInstance.getUiViewport());
-            worldConfig.setSystem(overlayTouchSystem);
 
             UiTouchSystem uiTouchSystem = new UiTouchSystem(gameInstance.getUiViewport());
             worldConfig.setSystem(uiTouchSystem);
@@ -55,8 +52,6 @@ public class HomeScreen implements Screen {
             */
             homeScreenWorld = new World(worldConfig);
 
-            inputMultiplexer = new InputMultiplexer();
-            inputMultiplexer.addProcessor(overlayTouchSystem);
             inputMultiplexer.addProcessor(uiTouchSystem);
         }
     }
@@ -96,6 +91,9 @@ public class HomeScreen implements Screen {
 
     @Override
     public void dispose() {
+        if (homeScreenWorld != null) {
+            homeScreenWorld.dispose();
+        }
         Gdx.app.log(TAG, "dispose() called.");
     }
 }

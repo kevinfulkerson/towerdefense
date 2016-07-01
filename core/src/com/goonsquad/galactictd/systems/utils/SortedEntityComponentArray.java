@@ -1,4 +1,4 @@
-package com.goonsquad.galactictd.components.layers;
+package com.goonsquad.galactictd.systems.utils;
 
 import com.artemis.Component;
 import com.artemis.ComponentMapper;

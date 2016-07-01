@@ -2,17 +2,18 @@ package com.goonsquad.galactictd.systems.graphics;
 
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
+import com.badlogic.gdx.Gdx;
 import com.goonsquad.galactictd.components.graphics.DrawInOverlay;
 import com.goonsquad.galactictd.components.graphics.DrawInUi;
+import com.goonsquad.galactictd.components.input.Touchable;
 import com.goonsquad.galactictd.components.positional.MoveToPoint;
 import com.goonsquad.galactictd.components.positional.ResetPosition;
-import com.goonsquad.galactictd.systems.input.OverlayTouchSystem;
 
 public class ShowOverlaySystem extends com.artemis.systems.IteratingSystem {
-    private OverlayTouchSystem overlayTouchSystem;
     private ComponentMapper<DrawInUi> uiComponentMapper;
     private ComponentMapper<ResetPosition> resetPositionComponentMapper;
     private ComponentMapper<MoveToPoint> moveToPointComponentMapper;
+    private ComponentMapper<Touchable> touchableComponentMapper;
 
     private boolean show;
 
@@ -26,10 +27,8 @@ public class ShowOverlaySystem extends com.artemis.systems.IteratingSystem {
     protected void process(int entityId) {
         if (show) {
             showEntity(entityId);
-            overlayTouchSystem.setEnabled(true);
         } else {
             hideEntity(entityId);
-            overlayTouchSystem.setEnabled(false);
         }
     }
 
@@ -38,6 +37,8 @@ public class ShowOverlaySystem extends com.artemis.systems.IteratingSystem {
         if (moveToPointComponentMapper.has(entityId)) {
             moveToPointComponentMapper.get(entityId).moving = true;
         }
+        if (touchableComponentMapper.has(entityId))
+            touchableComponentMapper.get(entityId).acceptingTouch = true;
     }
 
     private void hideEntity(int entityId) {
@@ -48,6 +49,8 @@ public class ShowOverlaySystem extends com.artemis.systems.IteratingSystem {
         if (moveToPointComponentMapper.has(entityId)) {
             moveToPointComponentMapper.get(entityId).moving = false;
         }
+        if (touchableComponentMapper.has(entityId))
+            touchableComponentMapper.get(entityId).acceptingTouch = false;
     }
 
     @Override
@@ -63,5 +66,6 @@ public class ShowOverlaySystem extends com.artemis.systems.IteratingSystem {
     public void hideOverlay() {
         this.setEnabled(true);
         this.show = false;
+        Gdx.app.log("Overlay", "hidden");
     }
 }

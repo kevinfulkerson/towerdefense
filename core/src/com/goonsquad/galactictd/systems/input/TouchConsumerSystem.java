@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.goonsquad.galactictd.components.input.Touchable;
 import com.goonsquad.galactictd.components.layers.Layer;
-import com.goonsquad.galactictd.components.layers.SortedEntityComponentArray;
+import com.goonsquad.galactictd.systems.utils.SortedEntityComponentArray;
 import com.goonsquad.galactictd.components.positional.Position;
 
 import java.util.Comparator;
@@ -30,7 +30,6 @@ public abstract class TouchConsumerSystem extends BaseEntitySystem implements In
         touchLoc = new Vector2();
         this.justTouched = false;
     }
-
 
     @Override
     protected void initialize() {
@@ -70,19 +69,21 @@ public abstract class TouchConsumerSystem extends BaseEntitySystem implements In
 
     private boolean checkIfEntitiesWereTouched(Vector2 touchLoc) {
         Position entityPosition;
+        Touchable entityTouch;
 
         for (int id : sortedEs.getSortedEntityIds()) {
-            entityPosition = positionComponentMapper.get(id);
-            if (entityPosition.containsPoint(touchLoc.x, touchLoc.y)) {
-                currentTouchedEntity = id;
-                setEnabled(true);
-                this.justTouched = true;
-                return true;
+            entityTouch = touchableComponentMapper.get(id);
+            if (entityTouch.acceptingTouch) {
+                entityPosition = positionComponentMapper.get(id);
+                if (entityPosition.containsPoint(touchLoc.x, touchLoc.y)) {
+                    currentTouchedEntity = id;
+                    this.justTouched = true;
+                    return true;
+                }
             }
         }
         return false;
     }
-
 
     @Override
     public boolean keyDown(int keycode) {

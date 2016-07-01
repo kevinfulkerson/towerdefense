@@ -18,7 +18,6 @@ import com.goonsquad.galactictd.components.positional.ResetPosition;
 import com.goonsquad.galactictd.screens.ScoreScreen;
 import com.goonsquad.galactictd.systems.archetypes.HomeScreenArchetypeBuilder;
 import com.goonsquad.galactictd.systems.graphics.ShowOverlaySystem;
-import com.goonsquad.galactictd.systems.input.OverlayTouchSystem;
 import com.goonsquad.galactictd.systems.positional.MoveToPointSystem;
 import com.goonsquad.galactictd.systems.positional.ResetPositionSystem;
 
@@ -33,7 +32,6 @@ public class HomeScreenInitSystem extends InitializationSystem {
     private ComponentMapper<ResetPosition> resetPositionComponentMapper;
     private ComponentMapper<Layer> layerComponentMapper;
     private ShowOverlaySystem showOverlaySystem;
-    private OverlayTouchSystem overlayTouchSystem;
     private MoveToPointSystem moveToPointSystem;
     private ResetPositionSystem resetPositionSystem;
 
@@ -54,6 +52,7 @@ public class HomeScreenInitSystem extends InitializationSystem {
         createSettingsButton();
         createSettingsDock();
         createSettingsOverlay();
+        showOverlaySystem.hideOverlay();
     }
 
     private void createTitle() {
@@ -199,13 +198,5 @@ public class HomeScreenInitSystem extends InitializationSystem {
 
         MovementSpeed movementSpeed = movementSpeedComponentMapper.create(settingsDock);
         movementSpeed.unitsPerSecond = 3000f;
-
-        Touchable touchable = touchableComponentMapper.get(settingsDock);
-        touchable.event = new Event() {
-            @Override
-            public void fireEvent() {
-
-            }
-        };
     }
 }

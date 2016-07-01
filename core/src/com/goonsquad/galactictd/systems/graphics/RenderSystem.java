@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.goonsquad.galactictd.components.graphics.Renderable;
 import com.goonsquad.galactictd.components.layers.Layer;
-import com.goonsquad.galactictd.components.layers.SortedEntityComponentArray;
+import com.goonsquad.galactictd.systems.utils.SortedEntityComponentArray;
 import com.goonsquad.galactictd.components.positional.Position;
 
 import java.util.Comparator;
