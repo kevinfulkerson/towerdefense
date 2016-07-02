@@ -1,160 +1,100 @@
 package com.goonsquad.galactictd.screens;
 
-
+import com.artemis.World;
+import com.artemis.WorldConfiguration;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector3;
 import com.goonsquad.galactictd.GalacticTDGame;
+import com.goonsquad.galactictd.systems.archetypes.HomeScreenArchetypeBuilder;
+import com.goonsquad.galactictd.systems.graphics.BoxRenderSystem;
+import com.goonsquad.galactictd.systems.state.ShowOverlaySystem;
+import com.goonsquad.galactictd.systems.graphics.UiRenderSystem;
+import com.goonsquad.galactictd.systems.initialization.HomeScreenInitSystem;
+import com.goonsquad.galactictd.systems.input.UiTouchSystem;
+import com.goonsquad.galactictd.systems.positional.MoveToPointSystem;
+import com.goonsquad.galactictd.systems.positional.ResetPositionSystem;
 
-public class HomeScreen implements Screen, InputProcessor {
-    private final String tag = "HomeScreen";
+public class HomeScreen implements Screen {
+    private static final String TAG = "HomeScreen";
+    private World homeScreenWorld;
     private GalacticTDGame gameInstance;
-    private SpriteBatch batch;
-    private Sprite backgroundSprite;
-    private Sprite playButton;
-    private Sprite quitButton;
-    private Sprite scoresButton;
-    private Sprite howToPlayButton;
-    private Sprite title;
-    private boolean loaded;
+    private InputMultiplexer inputMultiplexer;
 
     public HomeScreen(GalacticTDGame game) {
-        Gdx.app.log(tag, "Initialized " + tag);
+        Gdx.app.log(TAG, "Initialized " + TAG);
         this.gameInstance = game;
-        batch = new SpriteBatch();
-        this.loaded = false;
+        inputMultiplexer = new InputMultiplexer();
     }
 
-    @Override
-    public void render(float delta) {
-        batch.setProjectionMatrix(gameInstance.getUiProjection());
-        batch.begin();
+    //A WorldConfig is used to build a world so that dependency injection can occur.
+    public void createWorld() {
+        if (homeScreenWorld == null) {
+            WorldConfiguration worldConfig = new WorldConfiguration();
+            worldConfig.setSystem(new HomeScreenArchetypeBuilder());
+            worldConfig.setSystem(new HomeScreenInitSystem(gameInstance));
 
-        backgroundSprite.draw(batch);
-        playButton.draw(batch);
-        quitButton.draw(batch);
-        scoresButton.draw(batch);
-        howToPlayButton.draw(batch);
-        title.draw(batch);
+            UiTouchSystem uiTouchSystem = new UiTouchSystem(gameInstance.getUiViewport());
+            worldConfig.setSystem(uiTouchSystem);
 
-        batch.end();
+            worldConfig.setSystem(new ResetPositionSystem());
+            worldConfig.setSystem(new MoveToPointSystem());
+
+            worldConfig.setSystem(new BoxRenderSystem(gameInstance.getUiCamera()));
+            worldConfig.setSystem(new UiRenderSystem(gameInstance.getUiCamera()));
+            worldConfig.setSystem(new ShowOverlaySystem());
+            /*
+            When a new world is created, it will tell the passed in instance of worldconfig to go through all
+            the set systems and do the following for each system:
+            Inject dependencies that are tagged with @Wire. Mappers and System objects are automatically injected.
+            Set the current system's world variable to the world that was instantiated.
+            Call the system's initialize() method.
+            */
+            homeScreenWorld = new World(worldConfig);
+
+            inputMultiplexer.addProcessor(uiTouchSystem);
+        }
     }
 
     @Override
     public void show() {
-        Gdx.app.log(tag, "show() called.");
-        Gdx.input.setInputProcessor(this);
-        if (!loaded) loadScreenObjects();
+        Gdx.app.log(TAG, "show() called.");
+        createWorld();
+        Gdx.input.setInputProcessor(inputMultiplexer);
     }
 
-    public void loadScreenObjects() {
-        backgroundSprite = new Sprite(gameInstance.getAssetManager().get("space2.jpg", Texture.class));
-        playButton = new Sprite(gameInstance.getAssetManager().get("buttonPlay.png", Texture.class));
-        quitButton = new Sprite(gameInstance.getAssetManager().get("buttonQuit.png", Texture.class));
-        scoresButton = new Sprite(gameInstance.getAssetManager().get("buttonScore.png", Texture.class));
-        howToPlayButton = new Sprite(gameInstance.getAssetManager().get("buttonIntro.png", Texture.class));
-        title = new Sprite(gameInstance.getAssetManager().get("galacticTD.png", Texture.class));
-        this.setSpriteBounds(GalacticTDGame.UI_WIDTH, GalacticTDGame.UI_HEIGHT);
-        this.loaded = true;
+    @Override
+    public void render(float delta) {
+        homeScreenWorld.setDelta(delta);
+        homeScreenWorld.process();
     }
 
     @Override
     public void resize(int width, int height) {
-        Gdx.app.log(tag, "resize() called.");
+        Gdx.app.log(TAG, "resize() called.");
     }
 
     @Override
     public void hide() {
-        Gdx.app.log(tag, "hide() called");
+        Gdx.app.log(TAG, "hide() called");
     }
 
     @Override
     public void pause() {
-        Gdx.app.log(tag, "pause() called");
+        Gdx.app.log(TAG, "pause() called");
     }
 
     @Override
     public void resume() {
-        Gdx.app.log(tag, "resume() called");
+        Gdx.app.log(TAG, "resume() called");
     }
 
     @Override
     public void dispose() {
-        Gdx.app.log(tag, "dispose() called.");
-        batch.dispose();
-        if (loaded) {
-            backgroundSprite.getTexture().dispose();
-            playButton.getTexture().dispose();
-            quitButton.getTexture().dispose();
-            scoresButton.getTexture().dispose();
-            howToPlayButton.getTexture().dispose();
-            title.getTexture().dispose();
+        if (homeScreenWorld != null) {
+            homeScreenWorld.dispose();
         }
-    }
-
-    private void setSpriteBounds(float width, float height) {
-        backgroundSprite.setSize(width, height);
-        playButton.setBounds((width * 1 / 3), (height * 3 / 8), (width * 1 / 3), (height * 1 / 3));
-        quitButton.setBounds((width * 5 / 12), (height * 1 / 24), (width * 1 / 6), (height * 1 / 6));
-        scoresButton.setBounds((width * 5 / 24), (height * 1 / 6), (width * 1 / 6), (height * 1 / 6));
-        howToPlayButton.setBounds((width * 5 / 8), (height * 1 / 6), (width * 1 / 6), (height * 1 / 6));
-        title.setBounds((width * 1 / 3), (height * 5 / 8), (width * 1 / 3), (height * 1 / 3));
-    }
-
-    @Override
-    public boolean keyDown(int keycode) {
-        return false;
-    }
-
-    @Override
-    public boolean keyUp(int keycode) {
-        return false;
-    }
-
-    @Override
-    public boolean keyTyped(char character) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        Vector3 touchLocation = new Vector3(screenX, screenY, 0);
-        touchLocation = gameInstance.getUiCamera().unproject(touchLocation);
-        if (playButton.getBoundingRectangle().contains(touchLocation.x, touchLocation.y)) {
-//            GalacticTDGame.instance().setScreen(ScreenState.GRID_SCREEN);
-        } else if (quitButton.getBoundingRectangle().contains(touchLocation.x, touchLocation.y)) {
-            Gdx.app.exit();
-        } else if (scoresButton.getBoundingRectangle().contains(touchLocation.x, touchLocation.y)) {
-            gameInstance.getScreenManager().setScreen(ScoreScreen.class);
-        } else if (howToPlayButton.getBoundingRectangle().contains(touchLocation.x, touchLocation.y)) {
-//            GalacticTDGame.instance().setScreen(ScreenState.RULES_SCREEN);
-        }
-        return true;
-    }
-
-
-    @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer) {
-        return false;
-    }
-
-    @Override
-    public boolean mouseMoved(int screenX, int screenY) {
-        return false;
-    }
-
-    @Override
-    public boolean scrolled(int amount) {
-        return false;
+        Gdx.app.log(TAG, "dispose() called.");
     }
 }
 

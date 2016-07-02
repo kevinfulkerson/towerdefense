@@ -28,6 +28,7 @@ public class ScreenManager {
 
         final ScoreScreen scoreScreen = new ScoreScreen(game);
         this.gameScreens.add(scoreScreen);
+
     }
 
     public void setScreen(Class<? extends Screen> newScreen) {
