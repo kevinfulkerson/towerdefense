@@ -1,5 +1,6 @@
 package com.goonsquad.galactictd;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -51,6 +52,12 @@ public class GalacticTDGame extends Game implements ApplicationListener {
         uiViewport.apply(true);
 
         screenManager.setScreen(LoadingScreen.class);
+
+        //LOG_DEBUG for trace+debug+error
+        //LOG_INFO for debug+error
+        //LOG_ERROR for error
+        //LOG_NONE for none
+        Gdx.app.setLogLevel(Application.LOG_INFO);
     }
 
     public OrthographicCamera getUiCamera() {

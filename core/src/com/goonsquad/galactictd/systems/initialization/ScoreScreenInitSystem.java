@@ -50,7 +50,7 @@ public class ScoreScreenInitSystem extends InitializationSystem {
         redStartingCords.resetPositionY = 0;
 
         Position redPosition = positionComponentMapper.get(redShip);
-        redPosition.rotation = 90;
+        redPosition.rotation = 270;
         redPosition.setBounds(
                 redStartingCords.resetPositionX, redStartingCords.resetPositionY,
                 shipSize.x, shipSize.y);
@@ -80,7 +80,7 @@ public class ScoreScreenInitSystem extends InitializationSystem {
         greenStartingCords.resetPositionY = GalacticTDGame.UI_HEIGHT - shipSize.y;
 
         Position greenPosition = positionComponentMapper.get(greenShip);
-        greenPosition.rotation = 270;
+        greenPosition.rotation = 90;
         greenPosition.setBounds(
                 greenStartingCords.resetPositionX, greenStartingCords.resetPositionY,
                 shipSize.x, shipSize.y);

@@ -16,8 +16,8 @@ public class PixmapUtils {
         Pixmap mapToRepeat = new Pixmap(imageToRepeat);
         Pixmap generatedMap = new Pixmap(newTexWidth, newTexHeight, Pixmap.Format.RGBA8888);
 
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 20; j++) {
+        for (int i = 1; i < 10; ++i) {
+            for (int j = 0; j < 20; ++j) {
                 putPixmapRandomlyOnPixmap(mapToRepeat, generatedMap, i, i);
             }
         }
@@ -32,8 +32,8 @@ public class PixmapUtils {
         ArrayList<Pixmap> tintedMaps = getTintedPixmaps(imageToRepeat, tints);
         Pixmap generatedMap = new Pixmap(newTexWidth, newTexHeight, Pixmap.Format.RGBA8888);
 
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 20; j++) {
+        for (int i = 1; i < 10; ++i) {
+            for (int j = 0; j < 20; ++j) {
                 putPixmapRandomlyOnPixmap(getRandomIndex(tintedMaps), generatedMap, i, i);
             }
         }
@@ -74,24 +74,33 @@ public class PixmapUtils {
         return pixmaps;
     }
 
+    /** Tint the given Pixmap with the given Color.
+     *
+     *  @param map The map the tint
+     *  @param color The color to tint the map
+     *  @return the given Pixmap object
+     */
     public static Pixmap tintPixmap(Pixmap map, Color color) {
         if (map.getFormat() != Pixmap.Format.RGBA8888)
             throw new GdxRuntimeException("Wrong format.");
 
         ByteBuffer pixels = map.getPixels();
         int colorInt = color.toIntBits();
+        // Pull out color bytes, MSB->LSB as ABGR color
         byte b = (byte) (colorInt >> 16);
         byte g = (byte) (colorInt >> 8);
         byte r = (byte) (colorInt);
 
+        // Each pixel is represented by 4 bytes in the ByteBuffer
         for (int i = 0; i < pixels.capacity(); ) {
             pixels.put(i, r);
-            i++;
+            ++i;
             pixels.put(i, g);
-            i++;
+            ++i;
             pixels.put(i, b);
-            i++;
-            i++;
+            ++i;
+            // Iterate past the alpha, we don't want it to be changed
+            ++i;
         }
 
         return map;
