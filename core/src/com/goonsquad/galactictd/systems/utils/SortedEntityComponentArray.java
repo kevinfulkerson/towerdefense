@@ -82,8 +82,7 @@ public class SortedEntityComponentArray<E extends Component> implements Iterator
         if (iteratingPosition + 1 >= size) {
             throw new NoSuchElementException();
         }
-        iteratingPosition++;
-        return this.sortedEntityIds[iteratingPosition];
+        return this.sortedEntityIds[++iteratingPosition];
     }
 
     @Override
