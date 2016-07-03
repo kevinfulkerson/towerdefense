@@ -72,12 +72,6 @@ public class SortedEntityComponentArray<E extends Component> implements Iterator
 
     }
 
-    //TODO
-    //Set up class so that a new array does not have to be created when needed.
-    public int[] getSortedEntityIds() {
-        return Arrays.copyOf(sortedEntityIds, size);
-    }
-
     @Override
     public boolean hasNext() {
         return iteratingPosition + 1 < size;
