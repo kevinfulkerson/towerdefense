@@ -63,7 +63,7 @@ public abstract class RenderSystem extends BaseEntitySystem {
 
     @Override
     protected void processSystem() {
-        for (int entityId : sortedEs.getSortedEntityIds()) {
+        for (int entityId : sortedEs) {
             entityPosition = positionComponentMapper.get(entityId);
             entityRenderable = renderableComponentMapper.get(entityId);
             batch.setColor(entityRenderable.r, entityRenderable.g, entityRenderable.b, entityRenderable.a);

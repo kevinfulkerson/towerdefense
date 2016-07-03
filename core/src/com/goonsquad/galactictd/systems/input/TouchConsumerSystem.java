@@ -74,7 +74,7 @@ public abstract class TouchConsumerSystem extends BaseEntitySystem implements In
         Position entityPosition;
         Touchable entityTouch;
 
-        for (int id : sortedEs.getSortedEntityIds()) {
+        for (int id : sortedEs) {
             entityTouch = touchableComponentMapper.get(id);
             if (entityTouch.acceptingTouch) {
                 entityPosition = positionComponentMapper.get(id);

@@ -5,9 +5,12 @@ import com.artemis.ComponentMapper;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
-public class SortedEntityComponentArray<E extends Component> {
+public class SortedEntityComponentArray<E extends Component> implements Iterator<Integer>, Iterable<Integer> {
     private int[] sortedEntityIds;
+    private int iteratingPosition;
     private int size;
     private Comparator comparator;
     private ComponentMapper mapper;
@@ -69,9 +72,22 @@ public class SortedEntityComponentArray<E extends Component> {
 
     }
 
-    //TODO
-    //Set up class so that a new array does not have to be created when needed.
-    public int[] getSortedEntityIds() {
-        return Arrays.copyOf(sortedEntityIds, size);
+    @Override
+    public boolean hasNext() {
+        return iteratingPosition + 1 < size;
+    }
+
+    @Override
+    public Integer next() {
+        if (iteratingPosition + 1 >= size) {
+            throw new NoSuchElementException();
+        }
+        return this.sortedEntityIds[++iteratingPosition];
+    }
+
+    @Override
+    public Iterator<Integer> iterator() {
+        this.iteratingPosition = -1;
+        return this;
     }
 }
