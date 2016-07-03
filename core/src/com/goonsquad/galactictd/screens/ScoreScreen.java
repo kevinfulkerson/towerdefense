@@ -53,6 +53,7 @@ public class ScoreScreen implements Screen, InputProcessor {
             worldConfig.setSystem(new ResetPositionSystem());
             worldConfig.setSystem(new MoveToPointSystem());
             // TODO: create an input consumer system
+            
             scoreScreenWorld = new World(worldConfig);
         }
     }
