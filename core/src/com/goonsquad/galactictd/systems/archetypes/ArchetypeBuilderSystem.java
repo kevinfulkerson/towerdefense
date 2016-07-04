@@ -14,6 +14,8 @@ import com.goonsquad.galactictd.components.positional.Position;
 import java.util.HashMap;
 import java.util.Map;
 
+import javafx.geometry.Pos;
+
 public abstract class ArchetypeBuilderSystem extends BaseSystem {
     private Map<String, Archetype> createdArchetypes;
 
@@ -31,6 +33,8 @@ public abstract class ArchetypeBuilderSystem extends BaseSystem {
 
     //Archetypes that are used in all worlds.
     private void createDefaultArchetypes() {
+        this.addArchetypeToSystem("invisible_button", Position.class, Layer.class, Touchable.class, DrawInUi.class);
+
         this.addArchetypeToSystem("sprite", Position.class, Renderable.class, DrawBoxAround.class, Layer.class);
 
         this.addArchetypeToSystem("ui_label", "sprite", DrawInUi.class);

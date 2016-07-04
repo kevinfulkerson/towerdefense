@@ -9,6 +9,6 @@ import com.goonsquad.galactictd.components.positional.Position;
 public class UiTouchSystem extends TouchConsumerSystem {
 
     public UiTouchSystem(Viewport uiViewport) {
-        super(uiViewport, Aspect.all(Position.class, DrawInUi.class, Touchable.class));
+        super(uiViewport, Aspect.all(DrawInUi.class));
     }
 }
