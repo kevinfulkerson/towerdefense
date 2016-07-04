@@ -1,7 +1,6 @@
 package com.goonsquad.galactictd.systems.initialization;
 
 import com.artemis.ComponentMapper;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.goonsquad.galactictd.GalacticTDGame;

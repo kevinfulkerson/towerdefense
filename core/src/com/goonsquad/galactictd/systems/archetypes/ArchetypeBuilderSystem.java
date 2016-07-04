@@ -14,8 +14,6 @@ import com.goonsquad.galactictd.components.positional.Position;
 import java.util.HashMap;
 import java.util.Map;
 
-import javafx.geometry.Pos;
-
 public abstract class ArchetypeBuilderSystem extends BaseSystem {
     private Map<String, Archetype> createdArchetypes;
 
