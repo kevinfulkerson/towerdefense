@@ -5,12 +5,14 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.goonsquad.galactictd.GalacticTDGame;
 import com.goonsquad.galactictd.components.graphics.Renderable;
+import com.goonsquad.galactictd.components.input.Event;
 import com.goonsquad.galactictd.components.input.Touchable;
 import com.goonsquad.galactictd.components.positional.MoveToPoint;
 import com.goonsquad.galactictd.components.positional.MovementDestination;
 import com.goonsquad.galactictd.components.positional.MovementSpeed;
 import com.goonsquad.galactictd.components.positional.Position;
 import com.goonsquad.galactictd.components.positional.ResetPosition;
+import com.goonsquad.galactictd.screens.HomeScreen;
 import com.goonsquad.galactictd.systems.archetypes.ScoreScreenArchetypeBuilder;
 
 public class ScoreScreenInitSystem extends InitializationSystem {
@@ -35,12 +37,30 @@ public class ScoreScreenInitSystem extends InitializationSystem {
 
     @Override
     protected void populateWorld() {
+        createChangeScreenButton();
         createRedShip();
         createGreenShip();
     }
 
+    private int createChangeScreenButton() {
+        int changeScreenButton = archetypeBuilder.buildArchetype(ScoreScreenArchetypeBuilder.invisibleButton);
+
+        Position buttonPosition = positionComponentMapper.get(changeScreenButton);
+        buttonPosition.setBounds(0, 0, GalacticTDGame.UI_WIDTH, GalacticTDGame.UI_HEIGHT);
+
+        Touchable buttonTouchable = touchableComponentMapper.get(changeScreenButton);
+        buttonTouchable.event = new Event() {
+            @Override
+            public void fireEvent() {
+                gameInstance.getScreenManager().setScreen(HomeScreen.class);
+            }
+        };
+
+        return changeScreenButton;
+    }
+
     private int createRedShip() {
-        int redShip = archetypeBuilder.buildArchetype("ship");
+        int redShip = archetypeBuilder.buildArchetype(ScoreScreenArchetypeBuilder.ship);
 
         Renderable redRenderable = renderableComponentMapper.get(redShip);
         redRenderable.texture = gameInstance.getAssetManager().get("tower-red.png", Texture.class);
@@ -70,7 +90,7 @@ public class ScoreScreenInitSystem extends InitializationSystem {
     }
 
     private int createGreenShip() {
-        int greenShip = archetypeBuilder.buildArchetype("ship");
+        int greenShip = archetypeBuilder.buildArchetype(ScoreScreenArchetypeBuilder.ship);
 
         Renderable greenRenderable = renderableComponentMapper.get(greenShip);
         greenRenderable.texture = gameInstance.getAssetManager().get("tower-green.png", Texture.class);

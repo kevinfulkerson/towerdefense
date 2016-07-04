@@ -16,6 +16,10 @@ import java.util.Map;
 
 public abstract class ArchetypeBuilderSystem extends BaseSystem {
     private Map<String, Archetype> createdArchetypes;
+    public static final String invisibleButton = "invisible_button";
+    public static final String sprite = "sprite";
+    public static final String uiLabel = "ui_label";
+    public static final String uiButton = "ui_button";
 
     public ArchetypeBuilderSystem() {
         createdArchetypes = new HashMap<String, Archetype>();
@@ -31,10 +35,12 @@ public abstract class ArchetypeBuilderSystem extends BaseSystem {
 
     //Archetypes that are used in all worlds.
     private void createDefaultArchetypes() {
-        this.addArchetypeToSystem("sprite", Position.class, Renderable.class, DrawBoxAround.class, Layer.class);
+        this.addArchetypeToSystem(invisibleButton, Position.class, Layer.class, Touchable.class, DrawInUi.class);
 
-        this.addArchetypeToSystem("ui_label", "sprite", DrawInUi.class);
-        this.addArchetypeToSystem("ui_button", "ui_label", Touchable.class);
+        this.addArchetypeToSystem(sprite, Position.class, Renderable.class, DrawBoxAround.class, Layer.class);
+
+        this.addArchetypeToSystem(uiLabel, sprite, DrawInUi.class);
+        this.addArchetypeToSystem(uiButton, uiLabel, Touchable.class);
     }
 
     //Overwrite to create archetypes specific to each world.

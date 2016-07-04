@@ -6,11 +6,14 @@ import com.goonsquad.galactictd.components.positional.MoveToPoint;
 import com.goonsquad.galactictd.components.positional.ResetPosition;
 
 public class HomeScreenArchetypeBuilder extends ArchetypeBuilderSystem {
+    public static final String overlaySprite = "overlay_sprite";
+    public static final String overlayButton = "overlay_button";
+    public static final String dock = "dock";
 
     @Override
     protected void createCustomArchetypes() {
-        this.addArchetypeToSystem("overlay_sprite", "sprite", DrawInOverlay.class);
-        this.addArchetypeToSystem("overlay_button", "overlay_sprite", Touchable.class);
-        this.addArchetypeToSystem("dock", "overlay_button", ResetPosition.class, MoveToPoint.class);
+        this.addArchetypeToSystem(overlaySprite, ArchetypeBuilderSystem.sprite, DrawInOverlay.class);
+        this.addArchetypeToSystem(overlayButton, overlaySprite, Touchable.class);
+        this.addArchetypeToSystem(dock, overlayButton, ResetPosition.class, MoveToPoint.class);
     }
 }

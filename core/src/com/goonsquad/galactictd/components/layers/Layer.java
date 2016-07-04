@@ -7,6 +7,4 @@ public class Layer extends com.artemis.PooledComponent {
     protected void reset() {
         this.layerLevel = LayerLevel.DEFAULT;
     }
-
-
 }

@@ -43,6 +43,7 @@ public class SortedEntityComponentArray<E extends Component> implements Iterator
 
     private void insert(int index, int entityId) {
         if (sortedEntityIds.length == size) expandSorted();
+        //Shift everything in the array to the right if it is after the new index to insert.
         for (int i = size; i > index; i--) {
             sortedEntityIds[i] = sortedEntityIds[i - 1];
         }

@@ -17,12 +17,13 @@ import com.goonsquad.galactictd.systems.archetypes.ScoreScreenArchetypeBuilder;
 import com.goonsquad.galactictd.systems.graphics.BoxRenderSystem;
 import com.goonsquad.galactictd.systems.graphics.UiRenderSystem;
 import com.goonsquad.galactictd.systems.initialization.ScoreScreenInitSystem;
+import com.goonsquad.galactictd.systems.input.UiTouchSystem;
 import com.goonsquad.galactictd.systems.positional.MoveToPointSystem;
 import com.goonsquad.galactictd.systems.positional.ResetPositionSystem;
 
 import java.util.ArrayList;
 
-public class ScoreScreen implements Screen, InputProcessor {
+public class ScoreScreen implements Screen {
     private static final String TAG = "ScoreScreen";
 
     private GalacticTDGame gameInstance;
@@ -33,6 +34,7 @@ public class ScoreScreen implements Screen, InputProcessor {
     private boolean loaded;
     private int textHeightFactor;
     private World scoreScreenWorld;
+    private UiTouchSystem touchSystem;
 
     public ScoreScreen(GalacticTDGame game) {
         Gdx.app.log(TAG, "Initialized " + TAG);
@@ -46,13 +48,17 @@ public class ScoreScreen implements Screen, InputProcessor {
         Gdx.app.debug(TAG, "createWorld() called");
         if (scoreScreenWorld == null) {
             WorldConfiguration worldConfig = new WorldConfiguration();
+
             worldConfig.setSystem(new ScoreScreenArchetypeBuilder());
             worldConfig.setSystem(new ScoreScreenInitSystem(gameInstance));
+
+            touchSystem = new UiTouchSystem(gameInstance.getUiViewport());
+            worldConfig.setSystem(touchSystem);
+
             worldConfig.setSystem(new BoxRenderSystem(gameInstance.getUiCamera()));
             worldConfig.setSystem(new UiRenderSystem(gameInstance.getUiCamera()));
             worldConfig.setSystem(new ResetPositionSystem());
             worldConfig.setSystem(new MoveToPointSystem());
-            // TODO: create an input consumer system
             scoreScreenWorld = new World(worldConfig);
         }
     }
@@ -76,7 +82,6 @@ public class ScoreScreen implements Screen, InputProcessor {
 
     @Override
     public void render(float delta) {
-        Gdx.app.debug(TAG, "render() called");
         scoreScreenWorld.setDelta(delta);
         scoreScreenWorld.process();
         batch.setProjectionMatrix(gameInstance.getUiCamera().combined);
@@ -94,10 +99,10 @@ public class ScoreScreen implements Screen, InputProcessor {
     @Override
     public void show() {
         Gdx.app.debug(TAG, "show() called");
-        Gdx.input.setInputProcessor(this);
         if (!loaded) loadScreenObjects();
         highScoreArrayList = gameInstance.getScoreManager().getScores();
         createWorld();
+        Gdx.input.setInputProcessor(touchSystem);
     }
 
 
@@ -128,55 +133,6 @@ public class ScoreScreen implements Screen, InputProcessor {
         batch.dispose();
         if (scoreScreenWorld != null)
             scoreScreenWorld.dispose();
-    }
-
-    @Override
-    public boolean keyDown(int keycode) {
-        Gdx.app.debug(TAG, "keyDown() called");
-        return false;
-    }
-
-    @Override
-    public boolean keyUp(int keycode) {
-        Gdx.app.debug(TAG, "keyUp() called");
-        return false;
-    }
-
-    @Override
-    public boolean keyTyped(char character) {
-        Gdx.app.debug(TAG, "keyTyped() called");
-        return false;
-    }
-
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        Gdx.app.debug(TAG, "touchDown() called");
-        gameInstance.getScreenManager().setScreen(HomeScreen.class);
-        return true;
-    }
-
-    @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        Gdx.app.debug(TAG, "touchUp() called");
-        return false;
-    }
-
-    @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer) {
-        Gdx.app.debug(TAG, "touchDragged() called");
-        return false;
-    }
-
-    @Override
-    public boolean mouseMoved(int screenX, int screenY) {
-        Gdx.app.debug(TAG, "mouseMoved() called");
-        return false;
-    }
-
-    @Override
-    public boolean scrolled(int amount) {
-        Gdx.app.debug(TAG, "scrolled() called");
-        return false;
     }
 }
 
