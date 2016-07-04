@@ -13,6 +13,7 @@ import com.goonsquad.galactictd.components.positional.MovementSpeed;
 import com.goonsquad.galactictd.components.positional.Position;
 import com.goonsquad.galactictd.components.positional.ResetPosition;
 import com.goonsquad.galactictd.screens.HomeScreen;
+import com.goonsquad.galactictd.systems.archetypes.ArchetypeBuilderSystem;
 import com.goonsquad.galactictd.systems.archetypes.ScoreScreenArchetypeBuilder;
 
 public class ScoreScreenInitSystem extends InitializationSystem {
@@ -43,7 +44,7 @@ public class ScoreScreenInitSystem extends InitializationSystem {
     }
 
     private int createChangeScreenButton() {
-        int changeScreenButton = archetypeBuilder.buildArchetype("invisible_button");
+        int changeScreenButton = archetypeBuilder.buildArchetype(ScoreScreenArchetypeBuilder.invisibleButton);
 
         Position buttonPosition = positionComponentMapper.get(changeScreenButton);
         buttonPosition.setBounds(0, 0, GalacticTDGame.UI_WIDTH, GalacticTDGame.UI_HEIGHT);
@@ -60,7 +61,7 @@ public class ScoreScreenInitSystem extends InitializationSystem {
     }
 
     private int createRedShip() {
-        int redShip = archetypeBuilder.buildArchetype("ship");
+        int redShip = archetypeBuilder.buildArchetype(ScoreScreenArchetypeBuilder.ship);
 
         Renderable redRenderable = renderableComponentMapper.get(redShip);
         redRenderable.texture = gameInstance.getAssetManager().get("tower-red.png", Texture.class);
@@ -90,7 +91,7 @@ public class ScoreScreenInitSystem extends InitializationSystem {
     }
 
     private int createGreenShip() {
-        int greenShip = archetypeBuilder.buildArchetype("ship");
+        int greenShip = archetypeBuilder.buildArchetype(ScoreScreenArchetypeBuilder.ship);
 
         Renderable greenRenderable = renderableComponentMapper.get(greenShip);
         greenRenderable.texture = gameInstance.getAssetManager().get("tower-green.png", Texture.class);

@@ -16,6 +16,7 @@ import com.goonsquad.galactictd.components.positional.MovementSpeed;
 import com.goonsquad.galactictd.components.positional.Position;
 import com.goonsquad.galactictd.components.positional.ResetPosition;
 import com.goonsquad.galactictd.screens.ScoreScreen;
+import com.goonsquad.galactictd.systems.archetypes.ArchetypeBuilderSystem;
 import com.goonsquad.galactictd.systems.archetypes.HomeScreenArchetypeBuilder;
 import com.goonsquad.galactictd.systems.state.ShowOverlaySystem;
 import com.goonsquad.galactictd.systems.positional.MoveToPointSystem;
@@ -56,7 +57,7 @@ public class HomeScreenInitSystem extends InitializationSystem {
     }
 
     private void createTitle() {
-        int title = archetypeBuilder.buildArchetype("ui_label");
+        int title = archetypeBuilder.buildArchetype(HomeScreenArchetypeBuilder.uiLabel);
 
         Renderable titleRenderable = renderableComponentMapper.get(title);
         titleRenderable.texture = gameInstance.getAssetManager().get("galacticTD.png", Texture.class);
@@ -68,7 +69,7 @@ public class HomeScreenInitSystem extends InitializationSystem {
     }
 
     private void createPlayButton() {
-        int playButton = archetypeBuilder.buildArchetype("ui_button");
+        int playButton = archetypeBuilder.buildArchetype(HomeScreenArchetypeBuilder.uiButton);
 
         Renderable playRenderable = renderableComponentMapper.get(playButton);
         playRenderable.texture = gameInstance.getAssetManager().get("buttonPlay.png", Texture.class);
@@ -88,7 +89,7 @@ public class HomeScreenInitSystem extends InitializationSystem {
     }
 
     private void createScoreButton() {
-        int scoreButton = archetypeBuilder.buildArchetype("ui_button");
+        int scoreButton = archetypeBuilder.buildArchetype(HomeScreenArchetypeBuilder.uiButton);
 
         Renderable scoreRenderable = renderableComponentMapper.get(scoreButton);
         scoreRenderable.texture = gameInstance.getAssetManager().get("buttonScore.png", Texture.class);
@@ -108,7 +109,7 @@ public class HomeScreenInitSystem extends InitializationSystem {
     }
 
     private void createQuitButton() {
-        int quitButton = archetypeBuilder.buildArchetype("ui_button");
+        int quitButton = archetypeBuilder.buildArchetype(HomeScreenArchetypeBuilder.uiButton);
 
         Renderable quitRenderable = renderableComponentMapper.get(quitButton);
         quitRenderable.texture = gameInstance.getAssetManager().get("buttonQuit.png", Texture.class);
@@ -128,7 +129,7 @@ public class HomeScreenInitSystem extends InitializationSystem {
     }
 
     private void createSettingsButton() {
-        int settingsButton = archetypeBuilder.buildArchetype("ui_button");
+        int settingsButton = archetypeBuilder.buildArchetype(HomeScreenArchetypeBuilder.uiButton);
 
         Renderable quitRenderable = renderableComponentMapper.get(settingsButton);
         quitRenderable.texture = gameInstance.getAssetManager().get("settings.png", Texture.class);
@@ -148,7 +149,7 @@ public class HomeScreenInitSystem extends InitializationSystem {
     }
 
     private void createSettingsOverlay() {
-        int overlay = archetypeBuilder.buildArchetype("overlay_button");
+        int overlay = archetypeBuilder.buildArchetype(HomeScreenArchetypeBuilder.overlayButton);
 
         Layer overlayLayer = layerComponentMapper.get(overlay);
         overlayLayer.layerLevel = LayerLevel.OVERLAY;
@@ -170,7 +171,7 @@ public class HomeScreenInitSystem extends InitializationSystem {
     }
 
     private void createSettingsDock() {
-        int settingsDock = archetypeBuilder.buildArchetype("dock");
+        int settingsDock = archetypeBuilder.buildArchetype(HomeScreenArchetypeBuilder.dock);
 
         Layer dockLayer = layerComponentMapper.get(settingsDock);
         dockLayer.layerLevel = LayerLevel.OVERLAY_1;
