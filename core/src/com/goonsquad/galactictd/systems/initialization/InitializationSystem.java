@@ -1,7 +1,6 @@
 package com.goonsquad.galactictd.systems.initialization;
 
 import com.artemis.BaseSystem;
-import com.badlogic.gdx.Gdx;
 
 public abstract class InitializationSystem extends BaseSystem {
 

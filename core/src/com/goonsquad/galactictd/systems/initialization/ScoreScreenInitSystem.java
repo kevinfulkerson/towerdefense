@@ -13,7 +13,6 @@ import com.goonsquad.galactictd.components.positional.MovementSpeed;
 import com.goonsquad.galactictd.components.positional.Position;
 import com.goonsquad.galactictd.components.positional.ResetPosition;
 import com.goonsquad.galactictd.screens.HomeScreen;
-import com.goonsquad.galactictd.systems.archetypes.ArchetypeBuilderSystem;
 import com.goonsquad.galactictd.systems.archetypes.ScoreScreenArchetypeBuilder;
 
 public class ScoreScreenInitSystem extends InitializationSystem {
