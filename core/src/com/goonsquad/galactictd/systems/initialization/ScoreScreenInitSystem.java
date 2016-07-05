@@ -32,6 +32,7 @@ public class ScoreScreenInitSystem extends InitializationSystem {
     private Vector2 shipSize;
     private BitmapFont font;
     private float shipSpeedPerSecond;
+    private Vector2 textPosition = new Vector2(GalacticTDGame.UI_WIDTH / 5, GalacticTDGame.UI_HEIGHT / 20);
 
     public ScoreScreenInitSystem(GalacticTDGame game, BitmapFont font) {
         this.gameInstance = game;
@@ -128,10 +129,24 @@ public class ScoreScreenInitSystem extends InitializationSystem {
         int label = archetypeBuilder.buildArchetype(ScoreScreenArchetypeBuilder.textLabel);
 
         Text labelText = textComponentMapper.get(label);
-        labelText.text = "Hello, World";
+        labelText.text = "High Scores:";
         labelText.font = font;
 
         Position labelPosition = positionComponentMapper.get(label);
-        labelPosition.setBounds(50, 50, 50, 50);
+        labelPosition.x = textPosition.x;
+        labelPosition.y = textPosition.y * 15;
+
+        int textHeightFactor = 15;
+        for (int i = 0; i < 5; i++) {
+            label = archetypeBuilder.buildArchetype(ScoreScreenArchetypeBuilder.textLabel);
+            labelText = textComponentMapper.get(label);
+            labelText.text = "0";
+            labelText.font = font;
+
+            labelPosition = positionComponentMapper.get(label);
+            labelPosition.x = textPosition.x * 3;
+            labelPosition.y = textPosition.y * textHeightFactor;
+            textHeightFactor -= 2;
+        }
     }
 }
