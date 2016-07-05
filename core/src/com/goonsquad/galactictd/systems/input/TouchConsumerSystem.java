@@ -8,8 +8,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.goonsquad.galactictd.components.input.Touchable;
 import com.goonsquad.galactictd.components.layers.Layer;
-import com.goonsquad.galactictd.systems.utils.SortedEntityComponentArray;
 import com.goonsquad.galactictd.components.positional.Position;
+import com.goonsquad.galactictd.systems.utils.SortedEntityComponentArray;
 
 import java.util.Comparator;
 
