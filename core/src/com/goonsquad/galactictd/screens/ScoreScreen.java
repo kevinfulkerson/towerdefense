@@ -4,10 +4,6 @@ import com.artemis.World;
 import com.artemis.WorldConfiguration;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.goonsquad.galactictd.GalacticTDGame;
 import com.goonsquad.galactictd.systems.archetypes.ScoreScreenArchetypeBuilder;
 import com.goonsquad.galactictd.systems.graphics.BoxRenderSystem;
@@ -21,14 +17,12 @@ public class ScoreScreen implements Screen {
     private static final String TAG = "ScoreScreen";
 
     private GalacticTDGame gameInstance;
-    private BitmapFont text;
     private World scoreScreenWorld;
     private UiTouchSystem touchSystem;
 
     public ScoreScreen(GalacticTDGame game) {
         Gdx.app.log(TAG, "Initialized " + TAG);
         this.gameInstance = game;
-        generateFont();
     }
 
     private void createWorld() {
@@ -37,7 +31,7 @@ public class ScoreScreen implements Screen {
             WorldConfiguration worldConfig = new WorldConfiguration();
 
             worldConfig.setSystem(new ScoreScreenArchetypeBuilder());
-            worldConfig.setSystem(new ScoreScreenInitSystem(gameInstance, text));
+            worldConfig.setSystem(new ScoreScreenInitSystem(gameInstance));
 
             touchSystem = new UiTouchSystem(gameInstance.getUiViewport());
             worldConfig.setSystem(touchSystem);
@@ -48,17 +42,6 @@ public class ScoreScreen implements Screen {
             worldConfig.setSystem(new MoveToPointSystem());
             scoreScreenWorld = new World(worldConfig);
         }
-    }
-
-    private void generateFont() {
-        Gdx.app.debug(TAG, "generateFont() called");
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("NixieOne.ttf"));
-        FreeTypeFontParameter parameter = new FreeTypeFontParameter();
-        parameter.size = 48;
-        parameter.borderColor = Color.WHITE;
-        parameter.borderWidth = 1.3f;
-        text = generator.generateFont(parameter);
-        generator.dispose();
     }
 
     @Override
@@ -97,7 +80,6 @@ public class ScoreScreen implements Screen {
     @Override
     public void dispose() {
         Gdx.app.debug(TAG, "dispose() called");
-        text.dispose();
         if (scoreScreenWorld != null)
             scoreScreenWorld.dispose();
     }

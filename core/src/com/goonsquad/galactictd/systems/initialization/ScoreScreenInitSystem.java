@@ -30,15 +30,13 @@ public class ScoreScreenInitSystem extends InitializationSystem {
 
     private GalacticTDGame gameInstance;
     private Vector2 shipSize;
-    private BitmapFont font;
     private float shipSpeedPerSecond;
     private Vector2 textPosition = new Vector2(GalacticTDGame.UI_WIDTH / 5, GalacticTDGame.UI_HEIGHT / 20);
 
-    public ScoreScreenInitSystem(GalacticTDGame game, BitmapFont font) {
+    public ScoreScreenInitSystem(GalacticTDGame game) {
         this.gameInstance = game;
         shipSize = new Vector2(150f, 150f);
         shipSpeedPerSecond = 750f;
-        this.font = font;
     }
 
     @Override
@@ -47,6 +45,8 @@ public class ScoreScreenInitSystem extends InitializationSystem {
         createRedShip();
         createGreenShip();
         createText();
+        //TODO
+        //Create system that gives saved data to entity labels.
     }
 
     private int createChangeScreenButton() {
@@ -130,7 +130,7 @@ public class ScoreScreenInitSystem extends InitializationSystem {
 
         Text labelText = textComponentMapper.get(label);
         labelText.text = "High Scores:";
-        labelText.font = font;
+        labelText.font = gameInstance.assets.manager.get("nixie48.ttf", BitmapFont.class);
 
         Position labelPosition = positionComponentMapper.get(label);
         labelPosition.x = textPosition.x;
@@ -141,7 +141,7 @@ public class ScoreScreenInitSystem extends InitializationSystem {
             label = archetypeBuilder.buildArchetype(ScoreScreenArchetypeBuilder.textLabel);
             labelText = textComponentMapper.get(label);
             labelText.text = "0";
-            labelText.font = font;
+            labelText.font = gameInstance.assets.manager.get("nixie48.ttf", BitmapFont.class);
 
             labelPosition = positionComponentMapper.get(label);
             labelPosition.x = textPosition.x * 3;

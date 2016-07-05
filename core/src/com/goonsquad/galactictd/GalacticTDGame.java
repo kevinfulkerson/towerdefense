@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.goonsquad.galactictd.managers.Assets;
 import com.goonsquad.galactictd.managers.PixmapUtils;
 import com.goonsquad.galactictd.managers.ScoreManager;
 import com.goonsquad.galactictd.managers.ScreenManager;
@@ -28,6 +29,7 @@ public class GalacticTDGame extends Game implements ApplicationListener {
     private FitViewport uiViewport;
     private SpriteBatch batch;
     private Texture background;
+    public Assets assets;
 
     @Override
     public void create() {
@@ -39,6 +41,9 @@ public class GalacticTDGame extends Game implements ApplicationListener {
                 Gdx.files.internal("star.png"),
                 UI_WIDTH, UI_HEIGHT,
                 Color.WHITE, new Color(0xffb3b3ff), new Color(0x99c2ffff), new Color(0xffffccff));
+
+        assets = new Assets();
+        assets.loadAssets();
 
         assetManager = new AssetManager();
         this.loadGameAssets();
@@ -149,6 +154,7 @@ public class GalacticTDGame extends Game implements ApplicationListener {
         scoreManager.dispose();
         screenManager.dispose();
         assetManager.dispose();
+        assets.dispose();
         super.dispose();
     }
 }
