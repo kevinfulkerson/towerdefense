@@ -3,7 +3,6 @@ package com.goonsquad.galactictd.screens;
 import com.artemis.World;
 import com.artemis.WorldConfiguration;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -50,7 +49,7 @@ public class ScoreScreen implements Screen {
             WorldConfiguration worldConfig = new WorldConfiguration();
 
             worldConfig.setSystem(new ScoreScreenArchetypeBuilder());
-            worldConfig.setSystem(new ScoreScreenInitSystem(gameInstance));
+            worldConfig.setSystem(new ScoreScreenInitSystem(gameInstance, text));
 
             touchSystem = new UiTouchSystem(gameInstance.getUiViewport());
             worldConfig.setSystem(touchSystem);

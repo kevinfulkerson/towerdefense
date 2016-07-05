@@ -2,9 +2,11 @@ package com.goonsquad.galactictd.systems.initialization;
 
 import com.artemis.ComponentMapper;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Vector2;
 import com.goonsquad.galactictd.GalacticTDGame;
 import com.goonsquad.galactictd.components.graphics.Renderable;
+import com.goonsquad.galactictd.components.graphics.Text;
 import com.goonsquad.galactictd.components.input.Event;
 import com.goonsquad.galactictd.components.input.Touchable;
 import com.goonsquad.galactictd.components.positional.MoveToPoint;
@@ -24,15 +26,18 @@ public class ScoreScreenInitSystem extends InitializationSystem {
     private ComponentMapper<MovementDestination> movementDestinationComponentMapper;
     private ComponentMapper<MovementSpeed> movementSpeedComponentMapper;
     private ComponentMapper<ResetPosition> resetPositionComponentMapper;
+    private ComponentMapper<Text> textComponentMapper;
 
     private GalacticTDGame gameInstance;
     private Vector2 shipSize;
+    private BitmapFont font;
     private float shipSpeedPerSecond;
 
-    public ScoreScreenInitSystem(GalacticTDGame game) {
+    public ScoreScreenInitSystem(GalacticTDGame game, BitmapFont font) {
         this.gameInstance = game;
         shipSize = new Vector2(150f, 150f);
         shipSpeedPerSecond = 750f;
+        this.font = font;
     }
 
     @Override
@@ -40,6 +45,7 @@ public class ScoreScreenInitSystem extends InitializationSystem {
         createChangeScreenButton();
         createRedShip();
         createGreenShip();
+        createText();
     }
 
     private int createChangeScreenButton() {
@@ -116,5 +122,16 @@ public class ScoreScreenInitSystem extends InitializationSystem {
         MovementSpeed speed = movementSpeedComponentMapper.create(greenShip);
         speed.unitsPerSecond = shipSpeedPerSecond;
         return greenShip;
+    }
+
+    private void createText() {
+        int label = archetypeBuilder.buildArchetype(ScoreScreenArchetypeBuilder.textLabel);
+
+        Text labelText = textComponentMapper.get(label);
+        labelText.text = "Hello, World";
+        labelText.font = font;
+
+        Position labelPosition = positionComponentMapper.get(label);
+        labelPosition.setBounds(50, 50, 50, 50);
     }
 }

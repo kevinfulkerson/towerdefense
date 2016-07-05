@@ -7,6 +7,7 @@ import com.artemis.Component;
 import com.goonsquad.galactictd.components.graphics.DrawBoxAround;
 import com.goonsquad.galactictd.components.graphics.DrawInUi;
 import com.goonsquad.galactictd.components.graphics.Renderable;
+import com.goonsquad.galactictd.components.graphics.Text;
 import com.goonsquad.galactictd.components.input.Touchable;
 import com.goonsquad.galactictd.components.layers.Layer;
 import com.goonsquad.galactictd.components.positional.Position;
@@ -20,6 +21,7 @@ public abstract class ArchetypeBuilderSystem extends BaseSystem {
     public static final String sprite = "sprite";
     public static final String uiLabel = "ui_label";
     public static final String uiButton = "ui_button";
+    public static final String textLabel = "text_label";
 
     public ArchetypeBuilderSystem() {
         createdArchetypes = new HashMap<String, Archetype>();
@@ -41,6 +43,8 @@ public abstract class ArchetypeBuilderSystem extends BaseSystem {
 
         this.addArchetypeToSystem(uiLabel, sprite, DrawInUi.class);
         this.addArchetypeToSystem(uiButton, uiLabel, Touchable.class);
+
+        this.addArchetypeToSystem(textLabel, Position.class, Text.class, Layer.class, DrawInUi.class);
     }
 
     //Overwrite to create archetypes specific to each world.
