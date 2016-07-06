@@ -8,7 +8,10 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.goonsquad.galactictd.GalacticTDGame;
+import com.goonsquad.galactictd.systems.archetypes.GameScreenArchetypeBuilder;
+import com.goonsquad.galactictd.systems.graphics.GameRenderSystem;
 import com.goonsquad.galactictd.systems.graphics.camera.CameraManipulationSystem;
+import com.goonsquad.galactictd.systems.initialization.GameScreenInitSystem;
 
 public class GameScreen implements Screen {
     private GalacticTDGame gameInstance;
@@ -16,6 +19,8 @@ public class GameScreen implements Screen {
     private OrthographicCamera gameCamera;
     private FitViewport gameViewport;
     private GestureDetector gestureDetector;
+    public static final float worldWidth = 1920;
+    public static final float worldHeight = 1080;
 
     public GameScreen(GalacticTDGame game) {
         gameInstance = game;
@@ -32,9 +37,15 @@ public class GameScreen implements Screen {
         if (gameWorld == null) {
             WorldConfiguration gameWorldConfig = new WorldConfiguration();
 
+
+            gameWorldConfig.setSystem(new GameScreenArchetypeBuilder());
+            gameWorldConfig.setSystem(new GameScreenInitSystem(gameInstance));
+
             CameraManipulationSystem gameCameraManipulator = new CameraManipulationSystem(gameCamera, gameViewport);
             gameWorldConfig.setSystem(gameCameraManipulator);
             gestureDetector = new GestureDetector(gameCameraManipulator);
+
+            gameWorldConfig.setSystem(new GameRenderSystem(gameCamera));
 
             gameWorld = new World(gameWorldConfig);
         }
