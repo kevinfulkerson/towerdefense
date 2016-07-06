@@ -3,6 +3,7 @@ package com.goonsquad.galactictd.managers;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.goonsquad.galactictd.GalacticTDGame;
+import com.goonsquad.galactictd.screens.GameScreen;
 import com.goonsquad.galactictd.screens.HomeScreen;
 import com.goonsquad.galactictd.screens.LoadingScreen;
 import com.goonsquad.galactictd.screens.ScoreScreen;
@@ -29,6 +30,8 @@ public class ScreenManager {
         final ScoreScreen scoreScreen = new ScoreScreen(game);
         this.gameScreens.add(scoreScreen);
 
+        final GameScreen gameScreen = new GameScreen(game);
+        this.gameScreens.add(gameScreen);
     }
 
     public void setScreen(Class<? extends Screen> newScreen) {
