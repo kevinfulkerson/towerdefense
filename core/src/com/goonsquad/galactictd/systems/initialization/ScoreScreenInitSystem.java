@@ -140,6 +140,14 @@ public class ScoreScreenInitSystem extends InitializationSystem {
         createLabel("0", scoresFont, highScoreListStartPos.x, highScoreListStartPos.y * 0.40f);
     }
 
+    /**
+     * Creates a label with the given params.
+     *
+     * @param labelText The text that the label will render.
+     * @param labelFont The font used by the label.
+     * @param xPos      The position of the left side of the label.
+     * @param yPos      The position of the top side of the label.
+     */
     private void createLabel(String labelText, BitmapFont labelFont, float xPos, float yPos) {
         int label = archetypeBuilder.buildArchetype(ScoreScreenArchetypeBuilder.textLabel);
 
