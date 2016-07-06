@@ -31,7 +31,6 @@ public class ScoreScreenInitSystem extends InitializationSystem {
     private GalacticTDGame gameInstance;
     private Vector2 shipSize;
     private float shipSpeedPerSecond;
-    private Vector2 textPosition = new Vector2(GalacticTDGame.UI_WIDTH / 5, GalacticTDGame.UI_HEIGHT / 20);
 
     public ScoreScreenInitSystem(GalacticTDGame game) {
         this.gameInstance = game;
@@ -44,9 +43,7 @@ public class ScoreScreenInitSystem extends InitializationSystem {
         createChangeScreenButton();
         createRedShip();
         createGreenShip();
-        createText();
-        //TODO
-        //Create system that gives saved data to entity labels.
+        createHighScoreLabels();
     }
 
     private int createChangeScreenButton() {
@@ -125,28 +122,33 @@ public class ScoreScreenInitSystem extends InitializationSystem {
         return greenShip;
     }
 
-    private void createText() {
+    /**
+     * Creates the high score labels.
+     */
+    //TODO Link score text to scores in ScoreManager.
+    private void createHighScoreLabels() {
+        BitmapFont scoresFont = gameInstance.assets.manager.get("nixie48.ttf", BitmapFont.class);
+
+        Vector2 highScoreLabelPos = new Vector2(GalacticTDGame.UI_WIDTH * 0.20f, GalacticTDGame.UI_HEIGHT * 0.75f);
+        createLabel("High Scores:", scoresFont, highScoreLabelPos.x, highScoreLabelPos.y);
+
+        Vector2 highScoreListStartPos = new Vector2(GalacticTDGame.UI_WIDTH * .60f, GalacticTDGame.UI_HEIGHT * 0.75f);
+        createLabel("0", scoresFont, highScoreListStartPos.x, highScoreListStartPos.y);
+        createLabel("0", scoresFont, highScoreListStartPos.x, highScoreListStartPos.y * 0.85f);
+        createLabel("0", scoresFont, highScoreListStartPos.x, highScoreListStartPos.y * 0.70f);
+        createLabel("0", scoresFont, highScoreListStartPos.x, highScoreListStartPos.y * 0.55f);
+        createLabel("0", scoresFont, highScoreListStartPos.x, highScoreListStartPos.y * 0.40f);
+    }
+
+    private void createLabel(String labelText, BitmapFont labelFont, float xPos, float yPos) {
         int label = archetypeBuilder.buildArchetype(ScoreScreenArchetypeBuilder.textLabel);
 
-        Text labelText = textComponentMapper.get(label);
-        labelText.text = "High Scores:";
-        labelText.font = gameInstance.assets.manager.get("nixie48.ttf", BitmapFont.class);
+        Text labelTextComp = textComponentMapper.get(label);
+        labelTextComp.text = labelText;
+        labelTextComp.font = labelFont;
 
         Position labelPosition = positionComponentMapper.get(label);
-        labelPosition.x = textPosition.x;
-        labelPosition.y = textPosition.y * 15;
-
-        int textHeightFactor = 15;
-        for (int i = 0; i < 5; i++) {
-            label = archetypeBuilder.buildArchetype(ScoreScreenArchetypeBuilder.textLabel);
-            labelText = textComponentMapper.get(label);
-            labelText.text = "0";
-            labelText.font = gameInstance.assets.manager.get("nixie48.ttf", BitmapFont.class);
-
-            labelPosition = positionComponentMapper.get(label);
-            labelPosition.x = textPosition.x * 3;
-            labelPosition.y = textPosition.y * textHeightFactor;
-            textHeightFactor -= 2;
-        }
+        labelPosition.x = xPos;
+        labelPosition.y = yPos;
     }
 }
