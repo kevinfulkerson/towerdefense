@@ -67,6 +67,9 @@ public class Assets implements Disposable {
         manager.load(fontReferenceName, BitmapFont.class, loaderParams);
     }
 
+    /**
+     * Load images used throughout game.
+     */
     private void loadImages() {
         Gdx.app.log(TAG, "Loading game assets.");
         manager.load("star.png", Texture.class);
