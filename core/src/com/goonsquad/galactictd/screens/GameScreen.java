@@ -2,16 +2,20 @@ package com.goonsquad.galactictd.screens;
 
 import com.artemis.World;
 import com.artemis.WorldConfiguration;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.goonsquad.galactictd.GalacticTDGame;
+import com.goonsquad.galactictd.systems.graphics.camera.CameraManipulationSystem;
 
 public class GameScreen implements Screen {
     private GalacticTDGame gameInstance;
     private World gameWorld;
     private OrthographicCamera gameCamera;
     private FitViewport gameViewport;
+    private GestureDetector gestureDetector;
 
     public GameScreen(GalacticTDGame game) {
         gameInstance = game;
@@ -27,6 +31,11 @@ public class GameScreen implements Screen {
     private void initiateWorld() {
         if (gameWorld == null) {
             WorldConfiguration gameWorldConfig = new WorldConfiguration();
+
+            CameraManipulationSystem gameCameraManipulator = new CameraManipulationSystem(gameCamera, gameViewport);
+            gameWorldConfig.setSystem(gameCameraManipulator);
+            gestureDetector = new GestureDetector(gameCameraManipulator);
+
             gameWorld = new World(gameWorldConfig);
         }
     }
@@ -34,6 +43,7 @@ public class GameScreen implements Screen {
     @Override
     public void show() {
         initiateWorld();
+        Gdx.input.setInputProcessor(gestureDetector);
     }
 
     @Override
