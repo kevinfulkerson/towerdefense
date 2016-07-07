@@ -132,12 +132,13 @@ public class ScoreScreenInitSystem extends InitializationSystem {
         Vector2 highScoreLabelPos = new Vector2(GalacticTDGame.UI_WIDTH * 0.20f, GalacticTDGame.UI_HEIGHT * 0.75f);
         createLabel("High Scores:", scoresFont, highScoreLabelPos.x, highScoreLabelPos.y);
 
-        Vector2 highScoreListStartPos = new Vector2(GalacticTDGame.UI_WIDTH * .60f, GalacticTDGame.UI_HEIGHT * 0.75f);
+        Vector2 highScoreListStartPos = new Vector2(GalacticTDGame.UI_WIDTH * 0.60f, GalacticTDGame.UI_HEIGHT * 0.75f);
+        final float scoreLabelHeightDistance = 100f;
         createLabel("0", scoresFont, highScoreListStartPos.x, highScoreListStartPos.y);
-        createLabel("0", scoresFont, highScoreListStartPos.x, highScoreListStartPos.y * 0.85f);
-        createLabel("0", scoresFont, highScoreListStartPos.x, highScoreListStartPos.y * 0.70f);
-        createLabel("0", scoresFont, highScoreListStartPos.x, highScoreListStartPos.y * 0.55f);
-        createLabel("0", scoresFont, highScoreListStartPos.x, highScoreListStartPos.y * 0.40f);
+        createLabel("0", scoresFont, highScoreListStartPos.x, highScoreListStartPos.y - (scoreLabelHeightDistance));
+        createLabel("0", scoresFont, highScoreListStartPos.x, highScoreListStartPos.y - (scoreLabelHeightDistance * 2));
+        createLabel("0", scoresFont, highScoreListStartPos.x, highScoreListStartPos.y - (scoreLabelHeightDistance * 3));
+        createLabel("0", scoresFont, highScoreListStartPos.x, highScoreListStartPos.y - (scoreLabelHeightDistance * 4));
     }
 
     /**
