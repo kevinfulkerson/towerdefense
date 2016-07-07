@@ -27,38 +27,38 @@ public class GameScreenInitSystem extends InitializationSystem {
         createBottomRightSprite();
     }
 
-    private void createTopLeftSprite() {
-        int topLeft = archetypeBuilder.createGameSprite(
+    private int createTopLeftSprite() {
+        return archetypeBuilder.createGameSprite(
                 0, GameScreen.worldHeight - spriteBounds.y,
                 spriteBounds.x, spriteBounds.y,
                 frank);
     }
 
 
-    private void createTopRightSprite() {
-        int topRight = archetypeBuilder.createGameSprite(
+    private int createTopRightSprite() {
+        return archetypeBuilder.createGameSprite(
                 GameScreen.worldWidth - spriteBounds.x, GameScreen.worldHeight - spriteBounds.y,
                 spriteBounds.x, spriteBounds.y,
                 frank);
     }
 
-    private void createCenterSprite() {
-        int center = archetypeBuilder.createGameSprite(
+    private int createCenterSprite() {
+        return archetypeBuilder.createGameSprite(
                 GameScreen.worldWidth / 2f - spriteBounds.x / 2f,
                 GameScreen.worldHeight / 2f - spriteBounds.y / 2f,
                 spriteBounds.x, spriteBounds.y,
                 frank);
     }
 
-    private void createBottomLeftSprite() {
-        int bottomLeft = archetypeBuilder.createGameSprite(
+    private int createBottomLeftSprite() {
+        return archetypeBuilder.createGameSprite(
                 0, 0,
                 spriteBounds.x, spriteBounds.y,
                 frank);
     }
 
-    private void createBottomRightSprite() {
-        int bottomRight = archetypeBuilder.createGameSprite(
+    private int createBottomRightSprite() {
+        return archetypeBuilder.createGameSprite(
                 GameScreen.worldWidth - spriteBounds.x, 0,
                 spriteBounds.x, spriteBounds.y,
                 frank);
