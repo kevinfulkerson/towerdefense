@@ -2,9 +2,11 @@ package com.goonsquad.galactictd.systems.initialization;
 
 import com.artemis.ComponentMapper;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Vector2;
 import com.goonsquad.galactictd.GalacticTDGame;
 import com.goonsquad.galactictd.components.graphics.Renderable;
+import com.goonsquad.galactictd.components.graphics.Text;
 import com.goonsquad.galactictd.components.input.Event;
 import com.goonsquad.galactictd.components.input.Touchable;
 import com.goonsquad.galactictd.components.positional.MoveToPoint;
@@ -24,6 +26,7 @@ public class ScoreScreenInitSystem extends InitializationSystem {
     private ComponentMapper<MovementDestination> movementDestinationComponentMapper;
     private ComponentMapper<MovementSpeed> movementSpeedComponentMapper;
     private ComponentMapper<ResetPosition> resetPositionComponentMapper;
+    private ComponentMapper<Text> textComponentMapper;
 
     private GalacticTDGame gameInstance;
     private Vector2 shipSize;
@@ -40,6 +43,7 @@ public class ScoreScreenInitSystem extends InitializationSystem {
         createChangeScreenButton();
         createRedShip();
         createGreenShip();
+        createHighScoreLabels();
     }
 
     private int createChangeScreenButton() {
@@ -116,5 +120,44 @@ public class ScoreScreenInitSystem extends InitializationSystem {
         MovementSpeed speed = movementSpeedComponentMapper.create(greenShip);
         speed.unitsPerSecond = shipSpeedPerSecond;
         return greenShip;
+    }
+
+    /**
+     * Creates the high score labels.
+     */
+    //TODO Link score text to scores in ScoreManager.
+    private void createHighScoreLabels() {
+        BitmapFont scoresFont = gameInstance.assets.manager.get("nixie48.ttf", BitmapFont.class);
+
+        Vector2 highScoreLabelPos = new Vector2(GalacticTDGame.UI_WIDTH * 0.20f, GalacticTDGame.UI_HEIGHT * 0.75f);
+        createLabel("High Scores:", scoresFont, highScoreLabelPos.x, highScoreLabelPos.y);
+
+        Vector2 highScoreListStartPos = new Vector2(GalacticTDGame.UI_WIDTH * 0.60f, GalacticTDGame.UI_HEIGHT * 0.75f);
+        final float scoreLabelHeightDistance = 100f;
+        createLabel("0", scoresFont, highScoreListStartPos.x, highScoreListStartPos.y);
+        createLabel("0", scoresFont, highScoreListStartPos.x, highScoreListStartPos.y - (scoreLabelHeightDistance));
+        createLabel("0", scoresFont, highScoreListStartPos.x, highScoreListStartPos.y - (scoreLabelHeightDistance * 2));
+        createLabel("0", scoresFont, highScoreListStartPos.x, highScoreListStartPos.y - (scoreLabelHeightDistance * 3));
+        createLabel("0", scoresFont, highScoreListStartPos.x, highScoreListStartPos.y - (scoreLabelHeightDistance * 4));
+    }
+
+    /**
+     * Creates a label with the given params.
+     *
+     * @param labelText The text that the label will render.
+     * @param labelFont The font used by the label.
+     * @param xPos      The position of the left side of the label.
+     * @param yPos      The position of the top side of the label.
+     */
+    private void createLabel(String labelText, BitmapFont labelFont, float xPos, float yPos) {
+        int label = archetypeBuilder.buildArchetype(ScoreScreenArchetypeBuilder.textLabel);
+
+        Text labelTextComp = textComponentMapper.get(label);
+        labelTextComp.text = labelText;
+        labelTextComp.font = labelFont;
+
+        Position labelPosition = positionComponentMapper.get(label);
+        labelPosition.x = xPos;
+        labelPosition.y = yPos;
     }
 }

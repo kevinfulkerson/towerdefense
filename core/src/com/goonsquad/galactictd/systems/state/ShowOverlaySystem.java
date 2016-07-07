@@ -2,7 +2,6 @@ package com.goonsquad.galactictd.systems.state;
 
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
-import com.badlogic.gdx.Gdx;
 import com.goonsquad.galactictd.components.graphics.DrawInOverlay;
 import com.goonsquad.galactictd.components.graphics.DrawInUi;
 import com.goonsquad.galactictd.components.input.Touchable;
@@ -67,6 +66,5 @@ public class ShowOverlaySystem extends com.artemis.systems.IteratingSystem {
     public void hideOverlay() {
         this.setEnabled(true);
         this.show = false;
-        Gdx.app.log("Overlay", "hidden");
     }
 }

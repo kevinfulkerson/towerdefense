@@ -6,9 +6,10 @@ import com.artemis.ComponentMapper;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.goonsquad.galactictd.components.graphics.Renderable;
+import com.goonsquad.galactictd.components.graphics.Text;
 import com.goonsquad.galactictd.components.layers.Layer;
-import com.goonsquad.galactictd.systems.utils.SortedEntityComponentArray;
 import com.goonsquad.galactictd.components.positional.Position;
+import com.goonsquad.galactictd.systems.utils.SortedEntityComponentArray;
 
 import java.util.Comparator;
 
@@ -18,6 +19,7 @@ public abstract class RenderSystem extends BaseEntitySystem {
     private ComponentMapper<Position> positionComponentMapper;
     private ComponentMapper<Renderable> renderableComponentMapper;
     private ComponentMapper<Layer> layerComponentMapper;
+    private ComponentMapper<Text> textComponentMapper;
 
     private Position entityPosition;
     private Renderable entityRenderable;
@@ -29,7 +31,7 @@ public abstract class RenderSystem extends BaseEntitySystem {
     private Camera camera;
 
     public RenderSystem(Camera camera, Aspect.Builder aspect) {
-        super(aspect.all(Renderable.class, Layer.class));
+        super(aspect.all(Layer.class).one(Text.class, Renderable.class));
         this.camera = camera;
     }
 
@@ -65,23 +67,29 @@ public abstract class RenderSystem extends BaseEntitySystem {
     protected void processSystem() {
         for (int entityId : sortedEs) {
             entityPosition = positionComponentMapper.get(entityId);
-            entityRenderable = renderableComponentMapper.get(entityId);
-            batch.setColor(entityRenderable.r, entityRenderable.g, entityRenderable.b, entityRenderable.a);
-            batch.draw(
-                    entityRenderable.texture,
-                    entityPosition.x,
-                    entityPosition.y,
-                    entityPosition.width / 2f,
-                    entityPosition.height / 2f,
-                    entityPosition.width,
-                    entityPosition.height,
-                    entityRenderable.scaleX,
-                    entityRenderable.scaleY,
-                    entityPosition.rotation,
-                    0, 0,
-                    entityRenderable.texture.getWidth(),
-                    entityRenderable.texture.getHeight(),
-                    false, false);
+            if (renderableComponentMapper.has(entityId)) {
+                entityRenderable = renderableComponentMapper.get(entityId);
+                batch.setColor(entityRenderable.r, entityRenderable.g, entityRenderable.b, entityRenderable.a);
+                batch.draw(
+                        entityRenderable.texture,
+                        entityPosition.x,
+                        entityPosition.y,
+                        entityPosition.width / 2f,
+                        entityPosition.height / 2f,
+                        entityPosition.width,
+                        entityPosition.height,
+                        entityRenderable.scaleX,
+                        entityRenderable.scaleY,
+                        entityPosition.rotation,
+                        0, 0,
+                        entityRenderable.texture.getWidth(),
+                        entityRenderable.texture.getHeight(),
+                        false, false);
+            }
+            if (textComponentMapper.has(entityId)) {
+                Text text = textComponentMapper.get(entityId);
+                text.font.draw(batch, text.text, entityPosition.x, entityPosition.y);
+            }
         }
     }
 
