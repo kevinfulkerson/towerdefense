@@ -3,7 +3,6 @@ package com.goonsquad.galactictd.systems.initialization;
 import com.artemis.ComponentMapper;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Vector2;
 import com.goonsquad.galactictd.GalacticTDGame;
 import com.goonsquad.galactictd.components.graphics.Renderable;
 import com.goonsquad.galactictd.components.input.Event;
@@ -18,8 +17,6 @@ import com.goonsquad.galactictd.components.positional.ResetPosition;
 import com.goonsquad.galactictd.screens.GameScreen;
 import com.goonsquad.galactictd.screens.ScoreScreen;
 import com.goonsquad.galactictd.systems.archetypes.HomeScreenArchetypeBuilder;
-import com.goonsquad.galactictd.systems.positional.MoveToPointSystem;
-import com.goonsquad.galactictd.systems.positional.ResetPositionSystem;
 import com.goonsquad.galactictd.systems.state.ShowOverlaySystem;
 
 public class HomeScreenInitSystem extends InitializationSystem {
@@ -33,15 +30,15 @@ public class HomeScreenInitSystem extends InitializationSystem {
     private ComponentMapper<ResetPosition> resetPositionComponentMapper;
     private ComponentMapper<Layer> layerComponentMapper;
     private ShowOverlaySystem showOverlaySystem;
-    private MoveToPointSystem moveToPointSystem;
-    private ResetPositionSystem resetPositionSystem;
 
     private GalacticTDGame gameInstance;
-    private Vector2 buttonSize;
+    private float buttonWidth;
+    private float buttonHeight;
 
     public HomeScreenInitSystem(GalacticTDGame game) {
         this.gameInstance = game;
-        buttonSize = new Vector2(300f, 150f);
+        buttonWidth = 300f;
+        buttonHeight = 150f;
     }
 
     @Override
@@ -57,95 +54,80 @@ public class HomeScreenInitSystem extends InitializationSystem {
     }
 
     private void createTitle() {
-        int title = archetypeBuilder.buildArchetype(HomeScreenArchetypeBuilder.uiLabel);
+        Texture titleTexture = gameInstance.assets.manager.get("galacticTD.png", Texture.class);
 
-        Renderable titleRenderable = renderableComponentMapper.get(title);
-        titleRenderable.texture = gameInstance.assets.manager.get("galacticTD.png", Texture.class);
+        float titleX = GalacticTDGame.UI_WIDTH / 3f;
+        float titleY = GalacticTDGame.UI_HEIGHT * 0.625f;
+        float titleWidth = GalacticTDGame.UI_WIDTH / 3f;
+        float titleHeight = GalacticTDGame.UI_HEIGHT / 3f;
 
-        Position titlePosition = positionComponentMapper.get(title);
-        titlePosition.setBounds(
-                (GalacticTDGame.UI_WIDTH / 3f), (GalacticTDGame.UI_HEIGHT * 5 / 8),
-                (GalacticTDGame.UI_WIDTH / 3f), (GalacticTDGame.UI_HEIGHT / 3f));
+        archetypeBuilder.createUiSprite(titleX, titleY, titleWidth, titleHeight, titleTexture);
     }
 
     private void createPlayButton() {
-        int playButton = archetypeBuilder.buildArchetype(HomeScreenArchetypeBuilder.uiButton);
+        Texture playButtonTexture = gameInstance.assets.manager.get("buttonPlay.png", Texture.class);
 
-        Renderable playRenderable = renderableComponentMapper.get(playButton);
-        playRenderable.texture = gameInstance.assets.manager.get("buttonPlay.png", Texture.class);
+        float playButtonX = GalacticTDGame.UI_WIDTH / 3f;
+        float playButtonY = GalacticTDGame.UI_HEIGHT * 0.375f;
+        float playButtonWidth = GalacticTDGame.UI_WIDTH / 3f;
+        float playButtonHeight = GalacticTDGame.UI_HEIGHT / 3f;
 
-        Position playPosition = positionComponentMapper.get(playButton);
-        playPosition.setBounds(
-                (GalacticTDGame.UI_WIDTH * 1f / 3f), (GalacticTDGame.UI_HEIGHT * 3f / 8f),
-                (GalacticTDGame.UI_WIDTH * 1f / 3f), (GalacticTDGame.UI_HEIGHT * 1f / 3f));
-
-        Touchable touchable = touchableComponentMapper.get(playButton);
-        touchable.event = new Event() {
+        Event playButtonEvent = new Event() {
             @Override
             public void fireEvent() {
                 gameInstance.getScreenManager().setScreen(GameScreen.class);
             }
         };
+
+        archetypeBuilder.createUiButton(playButtonX, playButtonY, playButtonWidth, playButtonHeight, playButtonTexture, playButtonEvent);
     }
 
     private void createScoreButton() {
-        int scoreButton = archetypeBuilder.buildArchetype(HomeScreenArchetypeBuilder.uiButton);
+        Texture scoreButtonTexture = gameInstance.assets.manager.get("buttonScore.png", Texture.class);
 
-        Renderable scoreRenderable = renderableComponentMapper.get(scoreButton);
-        scoreRenderable.texture = gameInstance.assets.manager.get("buttonScore.png", Texture.class);
+        float scoreButtonX = GalacticTDGame.UI_WIDTH * (1f / 24f);
+        float scoreButtonY = (GalacticTDGame.UI_HEIGHT * (1f / 8f));
 
-        Position scorePosition = positionComponentMapper.get(scoreButton);
-        scorePosition.setBounds(
-                (GalacticTDGame.UI_WIDTH * (1f / 24f)), (GalacticTDGame.UI_HEIGHT * (1f / 8f)),
-                (buttonSize.x), (buttonSize.y));
-
-        Touchable touchable = touchableComponentMapper.get(scoreButton);
-        touchable.event = new Event() {
+        Event scoreButtonEvent = new Event() {
             @Override
             public void fireEvent() {
                 gameInstance.getScreenManager().setScreen(ScoreScreen.class);
             }
         };
+
+        archetypeBuilder.createUiButton(scoreButtonX, scoreButtonY, buttonWidth, buttonHeight, scoreButtonTexture, scoreButtonEvent);
     }
 
     private void createQuitButton() {
-        int quitButton = archetypeBuilder.buildArchetype(HomeScreenArchetypeBuilder.uiButton);
+        Texture quitButtonTexture = gameInstance.assets.manager.get("buttonQuit.png", Texture.class);
 
-        Renderable quitRenderable = renderableComponentMapper.get(quitButton);
-        quitRenderable.texture = gameInstance.assets.manager.get("buttonQuit.png", Texture.class);
+        float quitButtonX = (GalacticTDGame.UI_WIDTH * (5f / 12f));
+        float quitButtonY = (GalacticTDGame.UI_HEIGHT / 24f);
 
-        Position quitPosition = positionComponentMapper.get(quitButton);
-        quitPosition.setBounds(
-                (GalacticTDGame.UI_WIDTH * (5f / 12f)), (GalacticTDGame.UI_HEIGHT / 24f),
-                (buttonSize.x), (buttonSize.y));
-
-        Touchable touchable = touchableComponentMapper.get(quitButton);
-        touchable.event = new Event() {
+        Event quitButtonEvent = new Event() {
             @Override
             public void fireEvent() {
                 Gdx.app.exit();
             }
         };
+
+        archetypeBuilder.createUiButton(quitButtonX, quitButtonY, buttonWidth, buttonHeight, quitButtonTexture, quitButtonEvent);
     }
 
     private void createSettingsButton() {
-        int settingsButton = archetypeBuilder.buildArchetype(HomeScreenArchetypeBuilder.uiButton);
+        Texture settingsButtonTexture = gameInstance.assets.manager.get("settings.png", Texture.class);
 
-        Renderable quitRenderable = renderableComponentMapper.get(settingsButton);
-        quitRenderable.texture = gameInstance.assets.manager.get("settings.png", Texture.class);
+        float settingsButtonX = (GalacticTDGame.UI_WIDTH - (GalacticTDGame.UI_WIDTH / 24f) - buttonWidth);
+        float settingsButtonY = (GalacticTDGame.UI_HEIGHT / 8f);
 
-        Position quitPosition = positionComponentMapper.get(settingsButton);
-        quitPosition.setBounds(
-                (GalacticTDGame.UI_WIDTH - (GalacticTDGame.UI_WIDTH / 24f) - buttonSize.x), (GalacticTDGame.UI_HEIGHT / 8f),
-                (buttonSize.x), (buttonSize.y));
-
-        Touchable touchable = touchableComponentMapper.get(settingsButton);
-        touchable.event = new Event() {
+        Event settingsButtonEvent = new Event() {
             @Override
             public void fireEvent() {
                 showOverlaySystem.showOverlay();
             }
         };
+
+        archetypeBuilder.createUiButton(settingsButtonX, settingsButtonY, buttonWidth, buttonHeight, settingsButtonTexture, settingsButtonEvent);
     }
 
     private void createSettingsOverlay() {
