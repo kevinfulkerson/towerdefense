@@ -37,7 +37,6 @@ public class GameScreen implements Screen {
         if (gameWorld == null) {
             WorldConfiguration gameWorldConfig = new WorldConfiguration();
 
-
             gameWorldConfig.setSystem(new GameScreenArchetypeBuilder());
             gameWorldConfig.setSystem(new GameScreenInitSystem(gameInstance));
 
@@ -65,7 +64,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-
+        gameViewport.update(width, height, true);
     }
 
     @Override
@@ -85,6 +84,8 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        if (gameWorld != null) {
+            gameWorld.dispose();
+        }
     }
 }
