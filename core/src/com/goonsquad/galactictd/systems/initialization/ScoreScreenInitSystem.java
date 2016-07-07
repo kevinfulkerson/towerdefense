@@ -130,34 +130,14 @@ public class ScoreScreenInitSystem extends InitializationSystem {
         BitmapFont scoresFont = gameInstance.assets.manager.get("nixie48.ttf", BitmapFont.class);
 
         Vector2 highScoreLabelPos = new Vector2(GalacticTDGame.UI_WIDTH * 0.20f, GalacticTDGame.UI_HEIGHT * 0.75f);
-        createLabel("High Scores:", scoresFont, highScoreLabelPos.x, highScoreLabelPos.y);
+        archetypeBuilder.createUiLabel("High Scores:", scoresFont, highScoreLabelPos.x, highScoreLabelPos.y);
 
         Vector2 highScoreListStartPos = new Vector2(GalacticTDGame.UI_WIDTH * 0.60f, GalacticTDGame.UI_HEIGHT * 0.75f);
         final float scoreLabelHeightDistance = 100f;
-        createLabel("0", scoresFont, highScoreListStartPos.x, highScoreListStartPos.y);
-        createLabel("0", scoresFont, highScoreListStartPos.x, highScoreListStartPos.y - (scoreLabelHeightDistance));
-        createLabel("0", scoresFont, highScoreListStartPos.x, highScoreListStartPos.y - (scoreLabelHeightDistance * 2));
-        createLabel("0", scoresFont, highScoreListStartPos.x, highScoreListStartPos.y - (scoreLabelHeightDistance * 3));
-        createLabel("0", scoresFont, highScoreListStartPos.x, highScoreListStartPos.y - (scoreLabelHeightDistance * 4));
-    }
-
-    /**
-     * Creates a label with the given params.
-     *
-     * @param labelText The text that the label will render.
-     * @param labelFont The font used by the label.
-     * @param xPos      The position of the left side of the label.
-     * @param yPos      The position of the top side of the label.
-     */
-    private void createLabel(String labelText, BitmapFont labelFont, float xPos, float yPos) {
-        int label = archetypeBuilder.buildArchetype(ScoreScreenArchetypeBuilder.textLabel);
-
-        Text labelTextComp = textComponentMapper.get(label);
-        labelTextComp.text = labelText;
-        labelTextComp.font = labelFont;
-
-        Position labelPosition = positionComponentMapper.get(label);
-        labelPosition.x = xPos;
-        labelPosition.y = yPos;
+        archetypeBuilder.createUiLabel("0", scoresFont, highScoreListStartPos.x, highScoreListStartPos.y);
+        archetypeBuilder.createUiLabel("0", scoresFont, highScoreListStartPos.x, highScoreListStartPos.y - (scoreLabelHeightDistance));
+        archetypeBuilder.createUiLabel("0", scoresFont, highScoreListStartPos.x, highScoreListStartPos.y - (scoreLabelHeightDistance * 2));
+        archetypeBuilder.createUiLabel("0", scoresFont, highScoreListStartPos.x, highScoreListStartPos.y - (scoreLabelHeightDistance * 3));
+        archetypeBuilder.createUiLabel("0", scoresFont, highScoreListStartPos.x, highScoreListStartPos.y - (scoreLabelHeightDistance * 4));
     }
 }
