@@ -8,6 +8,6 @@ public class ScoreScreenArchetypeBuilder extends ArchetypeBuilderSystem {
 
     @Override
     protected void createCustomArchetypes() {
-        super.addArchetypeToSystem(ship, ArchetypeBuilderSystem.uiLabel, ResetPosition.class, MoveToPoint.class);
+        super.addArchetypeToSystem(ship, ArchetypeBuilderSystem.uiSprite, ResetPosition.class, MoveToPoint.class);
     }
 }
