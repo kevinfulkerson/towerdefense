@@ -3,7 +3,6 @@ package com.goonsquad.galactictd.systems.utils;
 import com.artemis.Component;
 import com.artemis.ComponentMapper;
 
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;

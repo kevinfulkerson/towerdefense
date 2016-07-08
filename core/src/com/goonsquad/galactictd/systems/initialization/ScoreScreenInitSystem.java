@@ -67,7 +67,7 @@ public class ScoreScreenInitSystem extends InitializationSystem {
         int redShip = archetypeBuilder.buildArchetype(ScoreScreenArchetypeBuilder.ship);
 
         Renderable redRenderable = renderableComponentMapper.get(redShip);
-        redRenderable.texture = gameInstance.getAssetManager().get("tower-red.png", Texture.class);
+        redRenderable.texture = gameInstance.assets.manager.get("tower-red.png", Texture.class);
 
         ResetPosition redStartingCords = resetPositionComponentMapper.get(redShip);
         redStartingCords.resetPositionX = 0 - shipSize.x;
@@ -97,7 +97,7 @@ public class ScoreScreenInitSystem extends InitializationSystem {
         int greenShip = archetypeBuilder.buildArchetype(ScoreScreenArchetypeBuilder.ship);
 
         Renderable greenRenderable = renderableComponentMapper.get(greenShip);
-        greenRenderable.texture = gameInstance.getAssetManager().get("tower-green.png", Texture.class);
+        greenRenderable.texture = gameInstance.assets.manager.get("tower-green.png", Texture.class);
 
         ResetPosition greenStartingCords = resetPositionComponentMapper.get(greenShip);
         greenStartingCords.resetPositionX = GalacticTDGame.UI_WIDTH;

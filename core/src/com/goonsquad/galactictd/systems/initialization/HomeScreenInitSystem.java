@@ -53,7 +53,7 @@ public class HomeScreenInitSystem extends InitializationSystem {
     }
 
     private void createTitle() {
-        Texture titleTexture = gameInstance.getAssetManager().get("galacticTD.png", Texture.class);
+        Texture titleTexture = gameInstance.assets.manager.get("galacticTD.png", Texture.class);
 
         float titleX = GalacticTDGame.UI_WIDTH / 3f;
         float titleY = GalacticTDGame.UI_HEIGHT * 0.625f;
@@ -64,7 +64,7 @@ public class HomeScreenInitSystem extends InitializationSystem {
     }
 
     private void createPlayButton() {
-        Texture playButtonTexture = gameInstance.getAssetManager().get("buttonPlay.png", Texture.class);
+        Texture playButtonTexture = gameInstance.assets.manager.get("buttonPlay.png", Texture.class);
 
         float playButtonX = GalacticTDGame.UI_WIDTH / 3f;
         float playButtonY = GalacticTDGame.UI_HEIGHT * 0.375f;
@@ -82,7 +82,7 @@ public class HomeScreenInitSystem extends InitializationSystem {
     }
 
     private void createScoreButton() {
-        Texture scoreButtonTexture = gameInstance.getAssetManager().get("buttonScore.png", Texture.class);
+        Texture scoreButtonTexture = gameInstance.assets.manager.get("buttonScore.png", Texture.class);
 
         float scoreButtonX = GalacticTDGame.UI_WIDTH * (1f / 24f);
         float scoreButtonY = (GalacticTDGame.UI_HEIGHT * (1f / 8f));
@@ -98,7 +98,7 @@ public class HomeScreenInitSystem extends InitializationSystem {
     }
 
     private void createQuitButton() {
-        Texture quitButtonTexture = gameInstance.getAssetManager().get("buttonQuit.png", Texture.class);
+        Texture quitButtonTexture = gameInstance.assets.manager.get("buttonQuit.png", Texture.class);
 
         float quitButtonX = (GalacticTDGame.UI_WIDTH * (5f / 12f));
         float quitButtonY = (GalacticTDGame.UI_HEIGHT / 24f);
@@ -114,7 +114,7 @@ public class HomeScreenInitSystem extends InitializationSystem {
     }
 
     private void createSettingsButton() {
-        Texture settingsButtonTexture = gameInstance.getAssetManager().get("settings.png", Texture.class);
+        Texture settingsButtonTexture = gameInstance.assets.manager.get("settings.png", Texture.class);
 
         float settingsButtonX = (GalacticTDGame.UI_WIDTH - (GalacticTDGame.UI_WIDTH / 24f) - buttonWidth);
         float settingsButtonY = (GalacticTDGame.UI_HEIGHT / 8f);
@@ -136,7 +136,7 @@ public class HomeScreenInitSystem extends InitializationSystem {
         overlayLayer.layerLevel = LayerLevel.OVERLAY;
 
         Renderable overlayRenderable = renderableComponentMapper.get(overlay);
-        overlayRenderable.texture = gameInstance.getAssetManager().get("black.png", Texture.class);
+        overlayRenderable.texture = gameInstance.assets.manager.get("black.png", Texture.class);
         overlayRenderable.a = .65f;
 
         Position overlayPosition = positionComponentMapper.get(overlay);
@@ -158,7 +158,7 @@ public class HomeScreenInitSystem extends InitializationSystem {
         dockLayer.layerLevel = LayerLevel.OVERLAY_1;
 
         Renderable settingsRenderable = renderableComponentMapper.get(settingsDock);
-        settingsRenderable.texture = gameInstance.getAssetManager().get("border.png", Texture.class);
+        settingsRenderable.texture = gameInstance.assets.manager.get("border.png", Texture.class);
 
         Position dockPosition = positionComponentMapper.get(settingsDock);
         dockPosition.width = GalacticTDGame.UI_WIDTH / 4f;
