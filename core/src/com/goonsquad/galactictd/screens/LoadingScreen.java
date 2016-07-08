@@ -18,8 +18,7 @@ public class LoadingScreen implements Screen {
         Gdx.app.log(TAG, "Initialized " + TAG);
         this.gameInstance = game;
         batch = new SpriteBatch();
-        loadingScreenSprite = new Sprite(
-                new Texture(Gdx.files.internal("loading.jpg")));
+        loadingScreenSprite = new Sprite(gameInstance.assets.manager.get("loading.jpg", Texture.class));
         loadingScreenSprite.setSize(GalacticTDGame.UI_WIDTH, GalacticTDGame.UI_HEIGHT);
     }
 
@@ -30,7 +29,7 @@ public class LoadingScreen implements Screen {
         loadingScreenSprite.draw(batch);
         batch.end();
 
-        if (gameInstance.getAssetManager().update() && gameInstance.assets.manager.update()) {
+        if (gameInstance.assets.manager.update()) {
             gameInstance.getScreenManager().setScreen(HomeScreen.class);
         }
     }

@@ -22,7 +22,6 @@ public class GalacticTDGame extends Game implements ApplicationListener {
     public static final int UI_WIDTH = 1920;
     public static final int UI_HEIGHT = 1080;
 
-    private AssetManager assetManager;
     private ScreenManager screenManager;
     private ScoreManager scoreManager;
     private OrthographicCamera uiCamera;
@@ -44,9 +43,6 @@ public class GalacticTDGame extends Game implements ApplicationListener {
 
         assets = new Assets();
         assets.loadAssets();
-
-        assetManager = new AssetManager();
-        this.loadGameAssets();
 
         scoreManager = new ScoreManager(5);
 
@@ -73,51 +69,12 @@ public class GalacticTDGame extends Game implements ApplicationListener {
         return uiViewport;
     }
 
-    public AssetManager getAssetManager() {
-        return assetManager;
-    }
-
     public ScreenManager getScreenManager() {
         return screenManager;
     }
 
     public ScoreManager getScoreManager() {
         return scoreManager;
-    }
-
-    //TODO
-    //Create custom class for assets.
-    private void loadGameAssets() {
-        Gdx.app.log(tag, "Loading game assets.");
-        assetManager.load("star.png", Texture.class);
-        assetManager.load("music_icon.png", Texture.class);
-        assetManager.load("black.png", Texture.class);
-        assetManager.load("blankTextBorder.png", Texture.class);
-        assetManager.load("border.png", Texture.class);
-        assetManager.load("borderSelected.png", Texture.class);
-        assetManager.load("buttonBuy.png", Texture.class);
-        assetManager.load("buttonCancel.png", Texture.class);
-        assetManager.load("buttonIntro.png", Texture.class);
-        assetManager.load("buttonPlay.png", Texture.class);
-        assetManager.load("buttonQuit.png", Texture.class);
-        assetManager.load("buttonScore.png", Texture.class);
-        assetManager.load("enemy1.png", Texture.class);
-        assetManager.load("enemy2.png", Texture.class);
-        assetManager.load("fireBall.png", Texture.class);
-        assetManager.load("galacticTD.png", Texture.class);
-        assetManager.load("loading.jpg", Texture.class);
-        assetManager.load("mapDefault.png", Texture.class);
-        assetManager.load("mapSelected.png", Texture.class);
-        assetManager.load("pathLeft.png", Texture.class);
-        assetManager.load("pathRight.png", Texture.class);
-        assetManager.load("pathStraight.png", Texture.class);
-        assetManager.load("ScreenIntro.png", Texture.class);
-        assetManager.load("topBar.png", Texture.class);
-        assetManager.load("tower-green.png", Texture.class);
-        assetManager.load("tower-red.png", Texture.class);
-        assetManager.load("Owens_Frank.jpg", Texture.class);
-        assetManager.load("settings.png", Texture.class);
-        Gdx.app.log(tag, "Game assets loaded.");
     }
 
     @Override
@@ -139,7 +96,7 @@ public class GalacticTDGame extends Game implements ApplicationListener {
 
     @Override
     public void resume() {
-        assetManager.finishLoading();
+        assets.manager.finishLoading();
         super.resume();
     }
 
@@ -153,7 +110,6 @@ public class GalacticTDGame extends Game implements ApplicationListener {
         background.dispose();
         scoreManager.dispose();
         screenManager.dispose();
-        assetManager.dispose();
         assets.dispose();
         super.dispose();
     }
