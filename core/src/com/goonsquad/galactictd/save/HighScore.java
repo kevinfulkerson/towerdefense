@@ -1,4 +1,4 @@
-package com.goonsquad.galactictd.gamelogic;
+package com.goonsquad.galactictd.save;
 
 public class HighScore {
     private int score;
