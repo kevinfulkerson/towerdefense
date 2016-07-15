@@ -1,5 +1,0 @@
- 
-As a Developer I want tower artwork designs done and loaded into the game
-As a Developer I want to have the artwork done for the projectiles
-As a Developer I want to have the artwork done for the enemies
-

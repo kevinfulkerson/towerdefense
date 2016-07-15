@@ -6,7 +6,7 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.SerializationException;
-import com.goonsquad.galactictd.gamelogic.HighScore;
+import com.goonsquad.galactictd.save.HighScore;
 
 import java.util.ArrayList;
 import java.util.Arrays;

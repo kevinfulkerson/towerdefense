@@ -1,2 +1,0 @@
-
-As a Developer I want to have a side menu where the user can pick towers and place them in the grid with ease
