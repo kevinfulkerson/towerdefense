@@ -5,9 +5,10 @@ import com.artemis.WorldConfiguration;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Texture;
 import com.goonsquad.galactictd.GalacticTDGame;
 import com.goonsquad.galactictd.systems.archetypes.HomeScreenArchetypeBuilder;
-import com.goonsquad.galactictd.systems.graphics.BoxRenderSystem;
+import com.goonsquad.galactictd.systems.graphics.OutlineSystem;
 import com.goonsquad.galactictd.systems.graphics.UiRenderSystem;
 import com.goonsquad.galactictd.systems.initialization.HomeScreenInitSystem;
 import com.goonsquad.galactictd.systems.input.UiTouchSystem;
@@ -40,8 +41,9 @@ public class HomeScreen implements Screen {
             worldConfig.setSystem(new ResetPositionSystem());
             worldConfig.setSystem(new MoveToPointSystem());
 
-            worldConfig.setSystem(new BoxRenderSystem(gameInstance.getUiCamera()));
-            worldConfig.setSystem(new UiRenderSystem(gameInstance.getUiCamera()));
+            worldConfig.setSystem(new UiRenderSystem(gameInstance.getUiCamera(), gameInstance.assets.manager.get("Owens_Frank.jpg", Texture.class)));
+            worldConfig.setSystem(new OutlineSystem(gameInstance.getUiCamera()));
+
             worldConfig.setSystem(new ShowOverlaySystem());
             /*
             When a new world is created, it will tell the passed in instance of worldconfig to go through all
