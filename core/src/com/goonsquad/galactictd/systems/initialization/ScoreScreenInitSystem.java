@@ -12,14 +12,14 @@ import com.goonsquad.galactictd.components.input.Touchable;
 import com.goonsquad.galactictd.components.positional.MoveToPoint;
 import com.goonsquad.galactictd.components.positional.MovementDestination;
 import com.goonsquad.galactictd.components.positional.MovementSpeed;
-import com.goonsquad.galactictd.components.positional.Spacial;
+import com.goonsquad.galactictd.components.positional.Spatial;
 import com.goonsquad.galactictd.components.positional.ResetPosition;
 import com.goonsquad.galactictd.screens.HomeScreen;
 import com.goonsquad.galactictd.systems.archetypes.ScoreScreenArchetypeBuilder;
 
 public class ScoreScreenInitSystem extends InitializationSystem {
     private ScoreScreenArchetypeBuilder archetypeBuilder;
-    private ComponentMapper<Spacial> positionComponentMapper;
+    private ComponentMapper<Spatial> spatialComponentMapper;
     private ComponentMapper<Renderable> renderableComponentMapper;
     private ComponentMapper<Touchable> touchableComponentMapper;
     private ComponentMapper<MoveToPoint> moveToPointComponentMapper;
@@ -49,8 +49,8 @@ public class ScoreScreenInitSystem extends InitializationSystem {
     private int createChangeScreenButton() {
         int changeScreenButton = archetypeBuilder.buildArchetype(ScoreScreenArchetypeBuilder.invisibleButton);
 
-        Spacial buttonSpacial = positionComponentMapper.get(changeScreenButton);
-        buttonSpacial.setBounds(0, 0, GalacticTDGame.UI_WIDTH, GalacticTDGame.UI_HEIGHT);
+        Spatial buttonSpatial = spatialComponentMapper.get(changeScreenButton);
+        buttonSpatial.setBounds(0, 0, GalacticTDGame.UI_WIDTH, GalacticTDGame.UI_HEIGHT);
 
         Touchable buttonTouchable = touchableComponentMapper.get(changeScreenButton);
         buttonTouchable.event = new Event() {
@@ -73,9 +73,9 @@ public class ScoreScreenInitSystem extends InitializationSystem {
         redStartingCords.resetPositionX = 0 - shipSize.x;
         redStartingCords.resetPositionY = 0;
 
-        Spacial redSpacial = positionComponentMapper.get(redShip);
-        redSpacial.rotation = 270;
-        redSpacial.setBounds(
+        Spatial redSpatial = spatialComponentMapper.get(redShip);
+        redSpatial.rotation = 270;
+        redSpatial.setBounds(
                 redStartingCords.resetPositionX, redStartingCords.resetPositionY,
                 shipSize.x, shipSize.y);
 
@@ -85,8 +85,8 @@ public class ScoreScreenInitSystem extends InitializationSystem {
         moveToPoint.moving = true;
 
         MovementDestination movementDestination = movementDestinationComponentMapper.create(redShip);
-        movementDestination.destinationX = GalacticTDGame.UI_WIDTH + redSpacial.width;
-        movementDestination.destinationY = redSpacial.y;
+        movementDestination.destinationX = GalacticTDGame.UI_WIDTH + redSpatial.width;
+        movementDestination.destinationY = redSpatial.y;
 
         MovementSpeed speed = movementSpeedComponentMapper.create(redShip);
         speed.unitsPerSecond = shipSpeedPerSecond;
@@ -103,9 +103,9 @@ public class ScoreScreenInitSystem extends InitializationSystem {
         greenStartingCords.resetPositionX = GalacticTDGame.UI_WIDTH;
         greenStartingCords.resetPositionY = GalacticTDGame.UI_HEIGHT - shipSize.y;
 
-        Spacial greenSpacial = positionComponentMapper.get(greenShip);
-        greenSpacial.rotation = 90;
-        greenSpacial.setBounds(
+        Spatial greenSpatial = spatialComponentMapper.get(greenShip);
+        greenSpatial.rotation = 90;
+        greenSpatial.setBounds(
                 greenStartingCords.resetPositionX, greenStartingCords.resetPositionY,
                 shipSize.x, shipSize.y);
 
@@ -115,7 +115,7 @@ public class ScoreScreenInitSystem extends InitializationSystem {
 
         MovementDestination movementDestination = movementDestinationComponentMapper.create(greenShip);
         movementDestination.destinationX = 0 - shipSize.x * 2;
-        movementDestination.destinationY = greenSpacial.y;
+        movementDestination.destinationY = greenSpatial.y;
 
         MovementSpeed speed = movementSpeedComponentMapper.create(greenShip);
         speed.unitsPerSecond = shipSpeedPerSecond;
@@ -156,8 +156,8 @@ public class ScoreScreenInitSystem extends InitializationSystem {
         labelTextComp.text = labelText;
         labelTextComp.font = labelFont;
 
-        Spacial labelSpacial = positionComponentMapper.get(label);
-        labelSpacial.x = xPos;
-        labelSpacial.y = yPos;
+        Spatial labelSpatial = spatialComponentMapper.get(label);
+        labelSpatial.x = xPos;
+        labelSpatial.y = yPos;
     }
 }

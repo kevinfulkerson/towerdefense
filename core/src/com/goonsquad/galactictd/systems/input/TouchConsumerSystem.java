@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.goonsquad.galactictd.components.input.Touchable;
 import com.goonsquad.galactictd.components.layers.Layer;
-import com.goonsquad.galactictd.components.positional.Spacial;
+import com.goonsquad.galactictd.components.positional.Spatial;
 import com.goonsquad.galactictd.systems.utils.SortedEntityComponentArray;
 
 import java.util.Comparator;
@@ -18,7 +18,7 @@ import java.util.Comparator;
 //If so the system enables itself and runs the touched entity's event.
 public abstract class TouchConsumerSystem extends BaseEntitySystem implements InputProcessor {
     private ComponentMapper<Touchable> touchableComponentMapper;
-    private ComponentMapper<Spacial> positionComponentMapper;
+    private ComponentMapper<Spatial> spatialComponentMapper;
     private ComponentMapper<Layer> layerComponentMapper;
     private SortedEntityComponentArray<Layer> sortedEs;
     private Comparator<Layer> layerComp;
@@ -28,7 +28,7 @@ public abstract class TouchConsumerSystem extends BaseEntitySystem implements In
     private boolean justTouched;
 
     public TouchConsumerSystem(Viewport viewport, Aspect.Builder aspect) {
-        super(aspect.all(Touchable.class, Spacial.class, Layer.class));
+        super(aspect.all(Touchable.class, Spatial.class, Layer.class));
         this.viewport = viewport;
         touchLoc = new Vector2();
         this.justTouched = false;
@@ -71,14 +71,14 @@ public abstract class TouchConsumerSystem extends BaseEntitySystem implements In
     }
 
     private boolean checkIfEntitiesWereTouched(Vector2 touchLoc) {
-        Spacial entitySpacial;
+        Spatial entitySpatial;
         Touchable entityTouch;
 
         for (int id : sortedEs) {
             entityTouch = touchableComponentMapper.get(id);
             if (entityTouch.acceptingTouch) {
-                entitySpacial = positionComponentMapper.get(id);
-                if (entitySpacial.containsPoint(touchLoc.x, touchLoc.y)) {
+                entitySpatial = spatialComponentMapper.get(id);
+                if (entitySpatial.containsPoint(touchLoc.x, touchLoc.y)) {
                     currentTouchedEntity = id;
                     this.justTouched = true;
                     return true;

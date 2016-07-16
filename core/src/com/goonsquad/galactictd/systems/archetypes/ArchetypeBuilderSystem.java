@@ -10,7 +10,7 @@ import com.goonsquad.galactictd.components.graphics.Renderable;
 import com.goonsquad.galactictd.components.graphics.Text;
 import com.goonsquad.galactictd.components.input.Touchable;
 import com.goonsquad.galactictd.components.layers.Layer;
-import com.goonsquad.galactictd.components.positional.Spacial;
+import com.goonsquad.galactictd.components.positional.Spatial;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -37,14 +37,14 @@ public abstract class ArchetypeBuilderSystem extends BaseSystem {
 
     //Archetypes that are used in all worlds.
     private void createDefaultArchetypes() {
-        this.addArchetypeToSystem(invisibleButton, Spacial.class, Layer.class, Touchable.class, DrawInUi.class);
+        this.addArchetypeToSystem(invisibleButton, Spatial.class, Layer.class, Touchable.class, DrawInUi.class);
 
-        this.addArchetypeToSystem(sprite, Spacial.class, Renderable.class, DrawBoxAround.class, Layer.class);
+        this.addArchetypeToSystem(sprite, Spatial.class, Renderable.class, DrawBoxAround.class, Layer.class);
 
         this.addArchetypeToSystem(uiLabel, sprite, DrawInUi.class);
         this.addArchetypeToSystem(uiButton, uiLabel, Touchable.class);
 
-        this.addArchetypeToSystem(textLabel, Spacial.class, Text.class, Layer.class, DrawInUi.class);
+        this.addArchetypeToSystem(textLabel, Spatial.class, Text.class, Layer.class, DrawInUi.class);
     }
 
     //Overwrite to create archetypes specific to each world.

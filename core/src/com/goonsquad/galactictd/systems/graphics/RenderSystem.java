@@ -10,7 +10,7 @@ import com.goonsquad.galactictd.components.graphics.Renderable;
 import com.goonsquad.galactictd.components.graphics.Text;
 import com.goonsquad.galactictd.components.layers.Layer;
 import com.goonsquad.galactictd.components.positional.BoundsType;
-import com.goonsquad.galactictd.components.positional.Spacial;
+import com.goonsquad.galactictd.components.positional.Spatial;
 import com.goonsquad.galactictd.systems.utils.SortedEntityComponentArray;
 
 import java.util.Comparator;
@@ -18,12 +18,12 @@ import java.util.Comparator;
 //Extend this system to draw entities to a specific camera.
 //Uses a SortedEntityComponentArray to draw entities based on their Layer component.
 public abstract class RenderSystem extends BaseEntitySystem {
-    private ComponentMapper<Spacial> positionComponentMapper;
+    private ComponentMapper<Spatial> spatialComponentMapper;
     private ComponentMapper<Renderable> renderableComponentMapper;
     private ComponentMapper<Layer> layerComponentMapper;
     private ComponentMapper<Text> textComponentMapper;
 
-    private Spacial entitySpacial;
+    private Spatial entitySpatial;
     private Renderable entityRenderable;
 
     private SortedEntityComponentArray<Layer> sortedEs;
@@ -70,44 +70,44 @@ public abstract class RenderSystem extends BaseEntitySystem {
     @Override
     protected void processSystem() {
         for (int entityId : sortedEs) {
-            entitySpacial = positionComponentMapper.get(entityId);
+            entitySpatial = spatialComponentMapper.get(entityId);
             if (textComponentMapper.has(entityId)) {
                 Text text = textComponentMapper.get(entityId);
-                text.font.draw(batch, text.text, entitySpacial.x, entitySpacial.y);
+                text.font.draw(batch, text.text, entitySpatial.x, entitySpatial.y);
             }
             if (renderableComponentMapper.has(entityId)) {
                 entityRenderable = renderableComponentMapper.get(entityId);
                 if (entityRenderable.texture == null)
                     entityRenderable.texture = missingTextureImage;
                 batch.setColor(entityRenderable.r, entityRenderable.g, entityRenderable.b, entityRenderable.a);
-                if (entitySpacial.spacialType == BoundsType.Rectangle) {
+                if (entitySpatial.spatialType == BoundsType.Rectangle) {
                     batch.draw(
                             entityRenderable.texture,
-                            entitySpacial.x,
-                            entitySpacial.y,
-                            entitySpacial.width / 2f,
-                            entitySpacial.height / 2f,
-                            entitySpacial.width,
-                            entitySpacial.height,
+                            entitySpatial.x,
+                            entitySpatial.y,
+                            entitySpatial.width / 2f,
+                            entitySpatial.height / 2f,
+                            entitySpatial.width,
+                            entitySpatial.height,
                             entityRenderable.scaleX,
                             entityRenderable.scaleY,
-                            entitySpacial.rotation,
+                            entitySpatial.rotation,
                             0, 0,
                             entityRenderable.texture.getWidth(),
                             entityRenderable.texture.getHeight(),
                             false, false);
-                } else if (entitySpacial.spacialType == BoundsType.Circle) {
+                } else if (entitySpatial.spatialType == BoundsType.Circle) {
                     batch.draw(
                             entityRenderable.texture,
-                            entitySpacial.centerX - entitySpacial.radius,
-                            entitySpacial.centerY - entitySpacial.radius,
-                            entitySpacial.radius,
-                            entitySpacial.radius,
-                            entitySpacial.radius * 2,
-                            entitySpacial.radius * 2,
+                            entitySpatial.centerX - entitySpatial.radius,
+                            entitySpatial.centerY - entitySpatial.radius,
+                            entitySpatial.radius,
+                            entitySpatial.radius,
+                            entitySpatial.radius * 2,
+                            entitySpatial.radius * 2,
                             entityRenderable.scaleX,
                             entityRenderable.scaleY,
-                            entitySpacial.rotation,
+                            entitySpatial.rotation,
                             0, 0,
                             entityRenderable.texture.getWidth(),
                             entityRenderable.texture.getHeight(),

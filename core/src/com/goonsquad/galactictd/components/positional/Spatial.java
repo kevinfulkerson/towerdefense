@@ -2,7 +2,7 @@ package com.goonsquad.galactictd.components.positional;
 
 import com.badlogic.gdx.math.Vector2;
 
-public class Spacial extends com.artemis.PooledComponent {
+public class Spatial extends com.artemis.PooledComponent {
 
     public float x = 0;
     public float y = 0;
@@ -12,7 +12,7 @@ public class Spacial extends com.artemis.PooledComponent {
     public float width = 0;
     public float height = 0;
     public float rotation = 0;
-    public BoundsType spacialType = BoundsType.Rectangle;
+    public BoundsType spatialType = BoundsType.Rectangle;
 
     @Override
     protected void reset() {
@@ -24,7 +24,7 @@ public class Spacial extends com.artemis.PooledComponent {
         width = 0;
         height = 0;
         rotation = 0;
-        spacialType = null;
+        spatialType = null;
     }
 
     public void setBounds(float x, float y, float width, float height) {
@@ -35,9 +35,9 @@ public class Spacial extends com.artemis.PooledComponent {
     }
 
     public boolean containsPoint(float x, float y) {
-        if (this.spacialType == BoundsType.Rectangle)
+        if (this.spatialType == BoundsType.Rectangle)
             return this.x <= x && this.x + this.width >= x && this.y <= y && this.y + this.height >= y;
-        else if (this.spacialType == BoundsType.Circle) {
+        else if (this.spatialType == BoundsType.Circle) {
             return Vector2.dst(centerX, centerY, x, y) <= this.radius;
         }
         return false;
