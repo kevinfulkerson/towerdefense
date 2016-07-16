@@ -4,9 +4,10 @@ import com.artemis.World;
 import com.artemis.WorldConfiguration;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Texture;
 import com.goonsquad.galactictd.GalacticTDGame;
 import com.goonsquad.galactictd.systems.archetypes.ScoreScreenArchetypeBuilder;
-import com.goonsquad.galactictd.systems.graphics.BoxRenderSystem;
+import com.goonsquad.galactictd.systems.graphics.OutlineSystem;
 import com.goonsquad.galactictd.systems.graphics.UiRenderSystem;
 import com.goonsquad.galactictd.systems.initialization.ScoreScreenInitSystem;
 import com.goonsquad.galactictd.systems.input.UiTouchSystem;
@@ -36,8 +37,8 @@ public class ScoreScreen implements Screen {
             touchSystem = new UiTouchSystem(gameInstance.getUiViewport());
             worldConfig.setSystem(touchSystem);
 
-            worldConfig.setSystem(new BoxRenderSystem(gameInstance.getUiCamera()));
-            worldConfig.setSystem(new UiRenderSystem(gameInstance.getUiCamera()));
+            worldConfig.setSystem(new OutlineSystem(gameInstance.getUiCamera()));
+            worldConfig.setSystem(new UiRenderSystem(gameInstance.getUiCamera(), gameInstance.assets.manager.get("Owens_Frank.jpg", Texture.class)));
             worldConfig.setSystem(new ResetPositionSystem());
             worldConfig.setSystem(new MoveToPointSystem());
             scoreScreenWorld = new World(worldConfig);
