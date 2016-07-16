@@ -5,8 +5,10 @@ import com.artemis.WorldConfiguration;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Texture;
 import com.goonsquad.galactictd.GalacticTDGame;
 import com.goonsquad.galactictd.systems.archetypes.PlayScreenArchetypeBuilder;
+import com.goonsquad.galactictd.systems.graphics.OutlineSystem;
 import com.goonsquad.galactictd.systems.graphics.UiRenderSystem;
 import com.goonsquad.galactictd.systems.initialization.PlayScreenInitSystem;
 import com.goonsquad.galactictd.systems.input.UiTouchSystem;
@@ -74,7 +76,9 @@ public class PlayScreen implements Screen {
             UiTouchSystem uiTouchSystem = new UiTouchSystem(gameInstance.getUiViewport());
             worldConfig.setSystem(uiTouchSystem);
 
-            worldConfig.setSystem(new UiRenderSystem(gameInstance.getUiCamera()));
+            worldConfig.setSystem(new UiRenderSystem(gameInstance.getUiCamera(),
+                    gameInstance.assets.manager.get("Owens_Frank.jpg", Texture.class)));
+            worldConfig.setSystem(new OutlineSystem(gameInstance.getUiCamera()));
 
             worldConfig.setSystem(new MoveToPointSystem());
 

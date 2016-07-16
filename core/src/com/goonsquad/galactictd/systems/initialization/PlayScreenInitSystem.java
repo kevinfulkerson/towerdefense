@@ -11,15 +11,15 @@ import com.goonsquad.galactictd.components.layers.Layer;
 import com.goonsquad.galactictd.components.positional.MoveToPoint;
 import com.goonsquad.galactictd.components.positional.MovementDestination;
 import com.goonsquad.galactictd.components.positional.MovementSpeed;
-import com.goonsquad.galactictd.components.positional.Position;
 import com.goonsquad.galactictd.components.positional.ResetPosition;
+import com.goonsquad.galactictd.components.positional.Spatial;
 import com.goonsquad.galactictd.systems.archetypes.PlayScreenArchetypeBuilder;
 import com.goonsquad.galactictd.systems.positional.MoveToPointSystem;
 
 public class PlayScreenInitSystem extends InitializationSystem {
 
     private PlayScreenArchetypeBuilder archetypeBuilder;
-    private ComponentMapper<Position> positionComponentMapper;
+    private ComponentMapper<Spatial> spatialComponentMapper;
     private ComponentMapper<Renderable> renderableComponentMapper;
     private ComponentMapper<Touchable> touchableComponentMapper;
     private ComponentMapper<MoveToPoint> moveToPointComponentMapper;
@@ -53,7 +53,7 @@ public class PlayScreenInitSystem extends InitializationSystem {
         Renderable homeBaseRenderable = renderableComponentMapper.get(homeBaseId);
         homeBaseRenderable.texture = gameInstance.assets.manager.get("Owens_Frank.jpg", Texture.class);
 
-        Position homeBasePosition = positionComponentMapper.get(homeBaseId);
+        Spatial homeBasePosition = spatialComponentMapper.get(homeBaseId);
         homeBasePosition.setBounds(200, 200, 200, 200); // TODO: figure out where this goes
 
         Touchable shipTouchable = touchableComponentMapper.get(homeBaseId);
@@ -72,7 +72,7 @@ public class PlayScreenInitSystem extends InitializationSystem {
             Renderable shipRenderable = renderableComponentMapper.get(shipId);
             shipRenderable.texture = gameInstance.assets.manager.get("Owens_Frank.jpg", Texture.class);
 
-            Position shipPosition = positionComponentMapper.get(shipId);
+            Spatial shipPosition = spatialComponentMapper.get(shipId);
             shipPosition.setBounds(200*(i+2), 200*(i+2), 200, 200);
 
             final int test = i + 1;
