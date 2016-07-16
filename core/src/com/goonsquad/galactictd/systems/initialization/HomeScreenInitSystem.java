@@ -13,8 +13,8 @@ import com.goonsquad.galactictd.components.layers.LayerLevel;
 import com.goonsquad.galactictd.components.positional.MoveToPoint;
 import com.goonsquad.galactictd.components.positional.MovementDestination;
 import com.goonsquad.galactictd.components.positional.MovementSpeed;
-import com.goonsquad.galactictd.components.positional.Position;
 import com.goonsquad.galactictd.components.positional.ResetPosition;
+import com.goonsquad.galactictd.components.positional.Spatial;
 import com.goonsquad.galactictd.screens.ScoreScreen;
 import com.goonsquad.galactictd.systems.archetypes.HomeScreenArchetypeBuilder;
 import com.goonsquad.galactictd.systems.positional.MoveToPointSystem;
@@ -23,7 +23,7 @@ import com.goonsquad.galactictd.systems.state.ShowOverlaySystem;
 
 public class HomeScreenInitSystem extends InitializationSystem {
     private HomeScreenArchetypeBuilder archetypeBuilder;
-    private ComponentMapper<Position> positionComponentMapper;
+    private ComponentMapper<Spatial> spatialComponentMapper;
     private ComponentMapper<Renderable> renderableComponentMapper;
     private ComponentMapper<Touchable> touchableComponentMapper;
     private ComponentMapper<MoveToPoint> moveToPointComponentMapper;
@@ -61,8 +61,8 @@ public class HomeScreenInitSystem extends InitializationSystem {
         Renderable titleRenderable = renderableComponentMapper.get(title);
         titleRenderable.texture = gameInstance.assets.manager.get("galacticTD.png", Texture.class);
 
-        Position titlePosition = positionComponentMapper.get(title);
-        titlePosition.setBounds(
+        Spatial titleSpatial = spatialComponentMapper.get(title);
+        titleSpatial.setBounds(
                 (GalacticTDGame.UI_WIDTH / 3f), (GalacticTDGame.UI_HEIGHT * 5 / 8),
                 (GalacticTDGame.UI_WIDTH / 3f), (GalacticTDGame.UI_HEIGHT / 3f));
     }
@@ -73,8 +73,8 @@ public class HomeScreenInitSystem extends InitializationSystem {
         Renderable playRenderable = renderableComponentMapper.get(playButton);
         playRenderable.texture = gameInstance.assets.manager.get("buttonPlay.png", Texture.class);
 
-        Position playPosition = positionComponentMapper.get(playButton);
-        playPosition.setBounds(
+        Spatial playSpatial = spatialComponentMapper.get(playButton);
+        playSpatial.setBounds(
                 (GalacticTDGame.UI_WIDTH * 1f / 3f), (GalacticTDGame.UI_HEIGHT * 3f / 8f),
                 (GalacticTDGame.UI_WIDTH * 1f / 3f), (GalacticTDGame.UI_HEIGHT * 1f / 3f));
 
@@ -93,8 +93,8 @@ public class HomeScreenInitSystem extends InitializationSystem {
         Renderable scoreRenderable = renderableComponentMapper.get(scoreButton);
         scoreRenderable.texture = gameInstance.assets.manager.get("buttonScore.png", Texture.class);
 
-        Position scorePosition = positionComponentMapper.get(scoreButton);
-        scorePosition.setBounds(
+        Spatial scoreSpatial = spatialComponentMapper.get(scoreButton);
+        scoreSpatial.setBounds(
                 (GalacticTDGame.UI_WIDTH * (1f / 24f)), (GalacticTDGame.UI_HEIGHT * (1f / 8f)),
                 (buttonSize.x), (buttonSize.y));
 
@@ -113,8 +113,8 @@ public class HomeScreenInitSystem extends InitializationSystem {
         Renderable quitRenderable = renderableComponentMapper.get(quitButton);
         quitRenderable.texture = gameInstance.assets.manager.get("buttonQuit.png", Texture.class);
 
-        Position quitPosition = positionComponentMapper.get(quitButton);
-        quitPosition.setBounds(
+        Spatial quitSpatial = spatialComponentMapper.get(quitButton);
+        quitSpatial.setBounds(
                 (GalacticTDGame.UI_WIDTH * (5f / 12f)), (GalacticTDGame.UI_HEIGHT / 24f),
                 (buttonSize.x), (buttonSize.y));
 
@@ -130,11 +130,11 @@ public class HomeScreenInitSystem extends InitializationSystem {
     private void createSettingsButton() {
         int settingsButton = archetypeBuilder.buildArchetype(HomeScreenArchetypeBuilder.uiButton);
 
-        Renderable quitRenderable = renderableComponentMapper.get(settingsButton);
-        quitRenderable.texture = gameInstance.assets.manager.get("settings.png", Texture.class);
+        Renderable settingsRenderable = renderableComponentMapper.get(settingsButton);
+        settingsRenderable.texture = gameInstance.assets.manager.get("settings.png", Texture.class);
 
-        Position quitPosition = positionComponentMapper.get(settingsButton);
-        quitPosition.setBounds(
+        Spatial settingsSpatial = spatialComponentMapper.get(settingsButton);
+        settingsSpatial.setBounds(
                 (GalacticTDGame.UI_WIDTH - (GalacticTDGame.UI_WIDTH / 24f) - buttonSize.x), (GalacticTDGame.UI_HEIGHT / 8f),
                 (buttonSize.x), (buttonSize.y));
 
@@ -157,8 +157,8 @@ public class HomeScreenInitSystem extends InitializationSystem {
         overlayRenderable.texture = gameInstance.assets.manager.get("black.png", Texture.class);
         overlayRenderable.a = .65f;
 
-        Position overlayPosition = positionComponentMapper.get(overlay);
-        overlayPosition.setBounds(0, 0, GalacticTDGame.UI_WIDTH, GalacticTDGame.UI_HEIGHT);
+        Spatial overlaySpatial = spatialComponentMapper.get(overlay);
+        overlaySpatial.setBounds(0, 0, GalacticTDGame.UI_WIDTH, GalacticTDGame.UI_HEIGHT);
 
         Touchable overlayTouch = touchableComponentMapper.get(overlay);
         overlayTouch.event = new Event() {
@@ -178,22 +178,22 @@ public class HomeScreenInitSystem extends InitializationSystem {
         Renderable settingsRenderable = renderableComponentMapper.get(settingsDock);
         settingsRenderable.texture = gameInstance.assets.manager.get("border.png", Texture.class);
 
-        Position dockPosition = positionComponentMapper.get(settingsDock);
-        dockPosition.width = GalacticTDGame.UI_WIDTH / 4f;
-        dockPosition.height = dockPosition.width;
+        Spatial dockSpatial = spatialComponentMapper.get(settingsDock);
+        dockSpatial.width = GalacticTDGame.UI_WIDTH / 4f;
+        dockSpatial.height = dockSpatial.width;
 
         ResetPosition dockResetCords = resetPositionComponentMapper.get(settingsDock);
         dockResetCords.resetPositionX = GalacticTDGame.UI_WIDTH;
-        dockResetCords.resetPositionY = 0 - dockPosition.height;
+        dockResetCords.resetPositionY = 0 - dockSpatial.height;
 
-        dockPosition.x = dockResetCords.resetPositionX;
-        dockPosition.y = dockResetCords.resetPositionY;
+        dockSpatial.x = dockResetCords.resetPositionX;
+        dockSpatial.y = dockResetCords.resetPositionY;
 
         MoveToPoint dockMoveToPoint = moveToPointComponentMapper.get(settingsDock);
         dockMoveToPoint.moving = false;
 
         MovementDestination movementDestination = movementDestinationComponentMapper.create(settingsDock);
-        movementDestination.destinationX = GalacticTDGame.UI_WIDTH - dockPosition.width;
+        movementDestination.destinationX = GalacticTDGame.UI_WIDTH - dockSpatial.width;
         movementDestination.destinationY = 0;
 
         MovementSpeed movementSpeed = movementSpeedComponentMapper.create(settingsDock);

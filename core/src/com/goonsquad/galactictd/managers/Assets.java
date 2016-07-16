@@ -99,6 +99,7 @@ public class Assets implements Disposable {
         manager.load("tower-green.png", Texture.class);
         manager.load("tower-red.png", Texture.class);
         manager.load("Owens_Frank.jpg", Texture.class);
+        manager.load("white_circle.png", Texture.class);
         manager.load("settings.png", Texture.class);
         Gdx.app.log(TAG, "Game assets loaded.");
     }

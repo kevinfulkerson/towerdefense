@@ -7,17 +7,18 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.goonsquad.galactictd.components.graphics.DrawBoxAround;
-import com.goonsquad.galactictd.components.positional.Position;
+import com.goonsquad.galactictd.components.positional.BoundsType;
+import com.goonsquad.galactictd.components.positional.Spatial;
 
 //This system exists only for debugging purposes.
-public class BoxRenderSystem extends IteratingSystem {
-    ComponentMapper<Position> positionComponentMapper;
+public class OutlineSystem extends IteratingSystem {
+    ComponentMapper<Spatial> spatialComponentMapper;
 
     private ShapeRenderer shapeRenderer;
     private Camera camera;
 
-    public BoxRenderSystem(Camera camera) {
-        super(Aspect.all(Position.class, DrawBoxAround.class));
+    public OutlineSystem(Camera camera) {
+        super(Aspect.all(Spatial.class, DrawBoxAround.class));
         this.camera = camera;
     }
 
@@ -38,8 +39,12 @@ public class BoxRenderSystem extends IteratingSystem {
 
     @Override
     protected void process(int entityId) {
-        Position p = positionComponentMapper.get(entityId);
-        shapeRenderer.rect(p.x, p.y, p.width, p.height);
+        Spatial entitySpatial = spatialComponentMapper.get(entityId);
+        if (entitySpatial.spatialType == BoundsType.Rectangle) {
+            shapeRenderer.rect(entitySpatial.x, entitySpatial.y, entitySpatial.width, entitySpatial.height);
+        } else if (entitySpatial.spatialType == BoundsType.Circle) {
+            shapeRenderer.circle(entitySpatial.centerX, entitySpatial.centerY, entitySpatial.radius);
+        }
     }
 
     @Override
