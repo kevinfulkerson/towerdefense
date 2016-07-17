@@ -60,6 +60,7 @@ public class PlayScreenInitSystem extends InitializationSystem {
         shipTouchable.event = new Event() {
             @Override
             public void fireEvent() {
+                // For now, consider this as just cancelling the movement
                 Gdx.app.log("Home Base", "Touched");
             }
         };
@@ -80,6 +81,7 @@ public class PlayScreenInitSystem extends InitializationSystem {
             shipTouchable.event = new Event() {
                 @Override
                 public void fireEvent() {
+                    // Add this entity to the user-initiated movement system
                     Gdx.app.log(String.format("Ship #%d", test), "Touched");
                 }
             };
