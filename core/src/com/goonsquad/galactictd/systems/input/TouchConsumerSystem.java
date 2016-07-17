@@ -17,15 +17,15 @@ import java.util.Comparator;
 //First this system checks if any of its entities were touched.
 //If so the system enables itself and runs the touched entity's event.
 public abstract class TouchConsumerSystem extends BaseEntitySystem implements InputProcessor {
-    private ComponentMapper<Touchable> touchableComponentMapper;
-    private ComponentMapper<Spatial> spatialComponentMapper;
-    private ComponentMapper<Layer> layerComponentMapper;
-    private SortedEntityComponentArray<Layer> sortedEs;
-    private Comparator<Layer> layerComp;
-    private int currentTouchedEntity;
-    private Viewport viewport;
-    private Vector2 touchLoc;
-    private boolean justTouched;
+    protected ComponentMapper<Touchable> touchableComponentMapper;
+    protected ComponentMapper<Spatial> spatialComponentMapper;
+    protected ComponentMapper<Layer> layerComponentMapper;
+    protected SortedEntityComponentArray<Layer> sortedEs;
+    protected Comparator<Layer> layerComp;
+    protected int currentTouchedEntity;
+    protected Viewport viewport;
+    protected Vector2 touchLoc;
+    protected boolean justTouched;
 
     public TouchConsumerSystem(Viewport viewport, Aspect.Builder aspect) {
         super(aspect.all(Touchable.class, Spatial.class, Layer.class));
@@ -70,7 +70,7 @@ public abstract class TouchConsumerSystem extends BaseEntitySystem implements In
         justTouched = false;
     }
 
-    private boolean checkIfEntitiesWereTouched(Vector2 touchLoc) {
+    protected boolean checkIfEntitiesWereTouched(Vector2 touchLoc) {
         Spatial entitySpatial;
         Touchable entityTouch;
 

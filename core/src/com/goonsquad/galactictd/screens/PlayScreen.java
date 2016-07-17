@@ -11,10 +11,12 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.goonsquad.galactictd.GalacticTDGame;
 import com.goonsquad.galactictd.systems.archetypes.PlayScreenArchetypeBuilder;
+import com.goonsquad.galactictd.systems.graphics.ContextRenderSystem;
 import com.goonsquad.galactictd.systems.graphics.GameRenderSystem;
 import com.goonsquad.galactictd.systems.graphics.OutlineSystem;
 import com.goonsquad.galactictd.systems.graphics.UiRenderSystem;
 import com.goonsquad.galactictd.systems.initialization.PlayScreenInitSystem;
+import com.goonsquad.galactictd.systems.input.ContextTouchSystem;
 import com.goonsquad.galactictd.systems.input.GameTouchSystem;
 import com.goonsquad.galactictd.systems.input.UiTouchSystem;
 import com.goonsquad.galactictd.systems.positional.MoveToPointSystem;
@@ -88,17 +90,21 @@ public class PlayScreen implements Screen {
             //Input Systems
             UiTouchSystem uiTouchSystem = new UiTouchSystem(gameInstance.getUiViewport());
             worldConfig.setSystem(uiTouchSystem);
+            ContextTouchSystem contextTouchSystem = new ContextTouchSystem(gameInstance.getUiViewport());
+            worldConfig.setSystem(contextTouchSystem);
             GameTouchSystem gameTouchSystem = new GameTouchSystem(gameViewport);
             worldConfig.setSystem(gameTouchSystem);
             //Update Systems
             worldConfig.setSystem(new MoveToPointSystem());
             //Render Systems
             worldConfig.setSystem(new GameRenderSystem(gameCamera, defaultTexture));
+            worldConfig.setSystem(new ContextRenderSystem(gameCamera, defaultTexture));
             worldConfig.setSystem(new UiRenderSystem(gameInstance.getUiCamera(), defaultTexture));
             worldConfig.setSystem(new OutlineSystem(gameInstance.getUiCamera()));
 
             playScreenWorld = new World(worldConfig);
             inputMultiplexer.addProcessor(uiTouchSystem);
+            inputMultiplexer.addProcessor(contextTouchSystem);
             inputMultiplexer.addProcessor(gameTouchSystem);
         }
     }
