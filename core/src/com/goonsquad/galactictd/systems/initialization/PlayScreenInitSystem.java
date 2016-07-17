@@ -13,6 +13,7 @@ import com.goonsquad.galactictd.components.positional.MovementDestination;
 import com.goonsquad.galactictd.components.positional.MovementSpeed;
 import com.goonsquad.galactictd.components.positional.ResetPosition;
 import com.goonsquad.galactictd.components.positional.Spatial;
+import com.goonsquad.galactictd.screens.PlayScreen;
 import com.goonsquad.galactictd.systems.archetypes.ArchetypeBuilderSystem;
 import com.goonsquad.galactictd.systems.archetypes.PlayScreenArchetypeBuilder;
 import com.goonsquad.galactictd.systems.positional.MoveToPointSystem;
@@ -51,7 +52,7 @@ public class PlayScreenInitSystem extends InitializationSystem {
         Spatial uiBarSpatial = spatialComponentMapper.get(uiBar);
 
         uiBarSpatial.width = GalacticTDGame.UI_WIDTH;
-        uiBarSpatial.height = 100f;
+        uiBarSpatial.height = PlayScreen.HUD_HEIGHT;
         uiBarSpatial.x = 0;
         uiBarSpatial.y = GalacticTDGame.UI_HEIGHT - uiBarSpatial.height;
         return uiBar;

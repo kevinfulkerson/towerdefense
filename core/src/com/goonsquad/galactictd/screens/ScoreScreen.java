@@ -31,7 +31,7 @@ public class ScoreScreen implements Screen {
         if (scoreScreenWorld == null) {
             WorldConfiguration worldConfig = new WorldConfiguration();
 
-            worldConfig.setSystem(new ScoreScreenArchetypeBuilder());
+            worldConfig.setSystem(new ScoreScreenArchetypeBuilder(gameInstance));
             worldConfig.setSystem(new ScoreScreenInitSystem(gameInstance));
 
             touchSystem = new UiTouchSystem(gameInstance.getUiViewport());

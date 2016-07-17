@@ -32,7 +32,7 @@ public class HomeScreen implements Screen {
     public void createWorld() {
         if (homeScreenWorld == null) {
             WorldConfiguration worldConfig = new WorldConfiguration();
-            worldConfig.setSystem(new HomeScreenArchetypeBuilder());
+            worldConfig.setSystem(new HomeScreenArchetypeBuilder(gameInstance));
             worldConfig.setSystem(new HomeScreenInitSystem(gameInstance));
 
             UiTouchSystem uiTouchSystem = new UiTouchSystem(gameInstance.getUiViewport());

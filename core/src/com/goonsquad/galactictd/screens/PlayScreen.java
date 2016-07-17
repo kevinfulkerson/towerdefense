@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.goonsquad.galactictd.GalacticTDGame;
 import com.goonsquad.galactictd.systems.archetypes.PlayScreenArchetypeBuilder;
+import com.goonsquad.galactictd.systems.game.WarpGeneratingSystem;
 import com.goonsquad.galactictd.systems.graphics.GameRenderSystem;
 import com.goonsquad.galactictd.systems.graphics.OutlineSystem;
 import com.goonsquad.galactictd.systems.graphics.UiRenderSystem;
@@ -22,6 +23,7 @@ import com.goonsquad.galactictd.systems.positional.MoveToPointSystem;
 public class PlayScreen implements Screen {
     public static final float GAME_WIDTH = 1920;
     public static final float GAME_HEIGHT = 1080;
+    public static final float HUD_HEIGHT = 100f;
     private static final String TAG = "PlayScreen";
     private GalacticTDGame gameInstance;
     private World playScreenWorld;
@@ -83,7 +85,7 @@ public class PlayScreen implements Screen {
             defaultTexture = gameInstance.assets.manager.get("Owens_Frank.jpg", Texture.class);
             WorldConfiguration worldConfig = new WorldConfiguration();
             //Init Systems
-            worldConfig.setSystem(new PlayScreenArchetypeBuilder());
+            worldConfig.setSystem(new PlayScreenArchetypeBuilder(gameInstance));
             worldConfig.setSystem(new PlayScreenInitSystem(this.gameInstance));
             //Input Systems
             UiTouchSystem uiTouchSystem = new UiTouchSystem(gameInstance.getUiViewport());
@@ -91,6 +93,7 @@ public class PlayScreen implements Screen {
             GameTouchSystem gameTouchSystem = new GameTouchSystem(gameViewport);
             worldConfig.setSystem(gameTouchSystem);
             //Update Systems
+            worldConfig.setSystem(new WarpGeneratingSystem());
             worldConfig.setSystem(new MoveToPointSystem());
             //Render Systems
             worldConfig.setSystem(new GameRenderSystem(gameCamera, defaultTexture));
