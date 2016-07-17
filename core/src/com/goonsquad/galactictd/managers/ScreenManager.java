@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.goonsquad.galactictd.GalacticTDGame;
 import com.goonsquad.galactictd.screens.HomeScreen;
 import com.goonsquad.galactictd.screens.LoadingScreen;
+import com.goonsquad.galactictd.screens.PlayScreen;
 import com.goonsquad.galactictd.screens.ScoreScreen;
 
 import java.util.ArrayList;
@@ -28,6 +29,9 @@ public class ScreenManager {
 
         final ScoreScreen scoreScreen = new ScoreScreen(game);
         this.gameScreens.add(scoreScreen);
+
+        final PlayScreen playScreen = new PlayScreen(game);
+        this.gameScreens.add(playScreen);
 
     }
 

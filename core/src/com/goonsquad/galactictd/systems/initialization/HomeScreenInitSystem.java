@@ -15,6 +15,7 @@ import com.goonsquad.galactictd.components.positional.MovementDestination;
 import com.goonsquad.galactictd.components.positional.MovementSpeed;
 import com.goonsquad.galactictd.components.positional.ResetPosition;
 import com.goonsquad.galactictd.components.positional.Spatial;
+import com.goonsquad.galactictd.screens.PlayScreen;
 import com.goonsquad.galactictd.screens.ScoreScreen;
 import com.goonsquad.galactictd.systems.archetypes.HomeScreenArchetypeBuilder;
 import com.goonsquad.galactictd.systems.positional.MoveToPointSystem;
@@ -82,7 +83,7 @@ public class HomeScreenInitSystem extends InitializationSystem {
         touchable.event = new Event() {
             @Override
             public void fireEvent() {
-                Gdx.app.log("PlayButton", "Touched");
+                gameInstance.getScreenManager().setScreen(PlayScreen.class);
             }
         };
     }
