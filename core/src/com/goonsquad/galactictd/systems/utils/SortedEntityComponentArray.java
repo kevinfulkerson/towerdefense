@@ -15,13 +15,17 @@ public class SortedEntityComponentArray<E extends Component> implements Iterator
     private ComponentMapper mapper;
 
     public SortedEntityComponentArray(Comparator<E> comparator, ComponentMapper<E> mapper) {
+        this(comparator, mapper, 1);
+    }
+
+    public SortedEntityComponentArray(Comparator<E> comparator, ComponentMapper<E> mapper, int initialCapacity) {
         this.comparator = comparator;
         this.mapper = mapper;
-        this.sortedEntityIds = new int[500];
+        this.sortedEntityIds = new int[initialCapacity];
         this.size = 0;
     }
 
-    public void insert(int entityId) {
+    public void insertValue(int entityId) {
         boolean added = false;
         Component addedComponent = mapper.get(entityId);
 
@@ -42,17 +46,15 @@ public class SortedEntityComponentArray<E extends Component> implements Iterator
 
     private void insert(int index, int entityId) {
         if (sortedEntityIds.length == size) expandSorted();
-        //Shift everything in the array to the right if it is after the new index to insert.
-        for (int i = size; i > index; i--) {
-            sortedEntityIds[i] = sortedEntityIds[i - 1];
-        }
+        //Shift everything in the array to the right if it is after the new index to insertValue.
+        System.arraycopy(sortedEntityIds, index, sortedEntityIds, index + 1, size - index);
         sortedEntityIds[index] = entityId;
         size++;
     }
 
-    public void remove(int entityId) {
+    public void removeValue(int entityIdToRemove) {
         for (int i = 0; i < size; i++) {
-            if (sortedEntityIds[i] == entityId) {
+            if (sortedEntityIds[i] == entityIdToRemove) {
                 removeIndex(i);
                 break;
             }
@@ -60,16 +62,15 @@ public class SortedEntityComponentArray<E extends Component> implements Iterator
     }
 
     private void removeIndex(int index) {
-        for (int i = index; i < size; i++) {
-            sortedEntityIds[i] = sortedEntityIds[i + 1];
-        }
+        if (sortedEntityIds.length == size) expandSorted();
+        System.arraycopy(sortedEntityIds, index + 1, sortedEntityIds, index, size - index);
         size--;
     }
 
-    //TODO
-    //Make the array expand.
     private void expandSorted() {
-
+        int[] expandedEntityIds = new int[sortedEntityIds.length * 2];
+        System.arraycopy(sortedEntityIds, 0, expandedEntityIds, 0, sortedEntityIds.length);
+        sortedEntityIds = expandedEntityIds;
     }
 
     @Override
