@@ -17,11 +17,11 @@ public class PlayScreenArchetypeBuilder extends ArchetypeBuilderSystem {
     @Override
     protected void createCustomArchetypes() {
         // TODO: fill in this section appropriately
-        this.addArchetypeToSystem(SHIP_SPRITE, ArchetypeBuilderSystem.sprite, DrawInUi.class, Touchable.class);
-        this.addArchetypeToSystem(HOME_BASE_SPRITE, ArchetypeBuilderSystem.sprite, DrawInUi.class, Touchable.class);
-        this.addArchetypeToSystem(SPIRAL_SPRITE, ArchetypeBuilderSystem.sprite, DrawInUi.class, Touchable.class);
-        this.addArchetypeToSystem(SPAWNLING_SPRITE, ArchetypeBuilderSystem.sprite, DrawInUi.class, Touchable.class);
+        this.addArchetypeToSystem(SHIP_SPRITE, ArchetypeBuilderSystem.sprite, DrawInGame.class, Touchable.class);
+        this.addArchetypeToSystem(HOME_BASE_SPRITE, ArchetypeBuilderSystem.sprite, DrawInGame.class, Touchable.class);
+        this.addArchetypeToSystem(SPIRAL_SPRITE, ArchetypeBuilderSystem.sprite, DrawInGame.class, Touchable.class);
+        this.addArchetypeToSystem(SPAWNLING_SPRITE, ArchetypeBuilderSystem.sprite, DrawInGame.class, Touchable.class);
         this.addArchetypeToSystem(CONTEXT_TOUCH_FIELD, ArchetypeBuilderSystem.sprite, Touchable.class, MovementContext.class);
-        this.addArchetypeToSystem(CONTEXT_MENU_ITEM, ArchetypeBuilderSystem.sprite, DrawInUi.class, Touchable.class, MovementContext.class);
+        this.addArchetypeToSystem(CONTEXT_MENU_ITEM, ArchetypeBuilderSystem.sprite, DrawInGame.class, Touchable.class, MovementContext.class);
     }
 }

@@ -4,6 +4,7 @@ import com.artemis.ComponentMapper;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.goonsquad.galactictd.GalacticTDGame;
+import com.goonsquad.galactictd.components.graphics.DrawInContext;
 import com.goonsquad.galactictd.components.graphics.Renderable;
 import com.goonsquad.galactictd.components.input.Event;
 import com.goonsquad.galactictd.components.input.Touchable;
@@ -15,6 +16,7 @@ import com.goonsquad.galactictd.components.positional.ResetPosition;
 import com.goonsquad.galactictd.components.positional.Spatial;
 import com.goonsquad.galactictd.systems.archetypes.ArchetypeBuilderSystem;
 import com.goonsquad.galactictd.systems.archetypes.PlayScreenArchetypeBuilder;
+import com.goonsquad.galactictd.systems.input.ContextTouchSystem;
 import com.goonsquad.galactictd.systems.positional.MoveToPointSystem;
 
 public class PlayScreenInitSystem extends InitializationSystem {
@@ -29,6 +31,7 @@ public class PlayScreenInitSystem extends InitializationSystem {
     private ComponentMapper<ResetPosition> resetPositionComponentMapper;
     private ComponentMapper<Layer> layerComponentMapper;
     private MoveToPointSystem moveToPointSystem;
+    private ContextTouchSystem contextTouchSystem;
 
     private GalacticTDGame gameInstance;
 
@@ -82,7 +85,7 @@ public class PlayScreenInitSystem extends InitializationSystem {
 
     private void createShips() {
         for (int i = 0; i < 3; ++i) {
-            int shipId = archetypeBuilder.buildArchetype(PlayScreenArchetypeBuilder.SHIP_SPRITE);
+            final int shipId = archetypeBuilder.buildArchetype(PlayScreenArchetypeBuilder.SHIP_SPRITE);
 
             Renderable shipRenderable = renderableComponentMapper.get(shipId);
             shipRenderable.texture = gameInstance.assets.manager.get("Owens_Frank.jpg", Texture.class);
@@ -97,6 +100,7 @@ public class PlayScreenInitSystem extends InitializationSystem {
                 public void fireEvent() {
                     // Add this entity to the user-initiated movement system
                     Gdx.app.log(String.format("Ship #%d", test), "Touched");
+                    contextTouchSystem.openContextForShipMovement(shipId);
                 }
             };
         }
