@@ -13,6 +13,7 @@ import com.goonsquad.galactictd.components.positional.MovementDestination;
 import com.goonsquad.galactictd.components.positional.MovementSpeed;
 import com.goonsquad.galactictd.components.positional.ResetPosition;
 import com.goonsquad.galactictd.components.positional.Spatial;
+import com.goonsquad.galactictd.systems.archetypes.ArchetypeBuilderSystem;
 import com.goonsquad.galactictd.systems.archetypes.PlayScreenArchetypeBuilder;
 import com.goonsquad.galactictd.systems.positional.MoveToPointSystem;
 
@@ -37,10 +38,23 @@ public class PlayScreenInitSystem extends InitializationSystem {
 
     @Override
     protected void populateWorld() {
+        createTopUiBar();
         createPlayer();
         createHomeBase();
         createShips(); // TODO: consider making this tied to some "game rules" object
         createOverlays();
+    }
+
+    private int createTopUiBar() {
+        //Ui example
+        int uiBar = archetypeBuilder.buildArchetype(ArchetypeBuilderSystem.uiButton);
+        Spatial uiBarSpatial = spatialComponentMapper.get(uiBar);
+
+        uiBarSpatial.width = GalacticTDGame.UI_WIDTH;
+        uiBarSpatial.height = 100f;
+        uiBarSpatial.x = 0;
+        uiBarSpatial.y = GalacticTDGame.UI_HEIGHT - uiBarSpatial.height;
+        return uiBar;
     }
 
     private void createPlayer() {
@@ -66,15 +80,15 @@ public class PlayScreenInitSystem extends InitializationSystem {
         };
     }
 
-    private void createShips(){
-        for (int i = 0; i < 3; ++i){
+    private void createShips() {
+        for (int i = 0; i < 3; ++i) {
             int shipId = archetypeBuilder.buildArchetype(PlayScreenArchetypeBuilder.SHIP_SPRITE);
 
             Renderable shipRenderable = renderableComponentMapper.get(shipId);
             shipRenderable.texture = gameInstance.assets.manager.get("Owens_Frank.jpg", Texture.class);
 
             Spatial shipPosition = spatialComponentMapper.get(shipId);
-            shipPosition.setBounds(200*(i+2), 200*(i+2), 200, 200);
+            shipPosition.setBounds(200 * (i + 2), 200 * (i + 2), 200, 200);
 
             final int test = i + 1;
             Touchable shipTouchable = touchableComponentMapper.get(shipId);
