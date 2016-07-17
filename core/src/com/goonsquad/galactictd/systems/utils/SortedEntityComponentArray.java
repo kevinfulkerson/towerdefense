@@ -15,7 +15,7 @@ public class SortedEntityComponentArray<E extends Component> implements Iterator
     private ComponentMapper mapper;
 
     public SortedEntityComponentArray(Comparator<E> comparator, ComponentMapper<E> mapper) {
-        this(comparator, mapper, 1);
+        this(comparator, mapper, 20);
     }
 
     public SortedEntityComponentArray(Comparator<E> comparator, ComponentMapper<E> mapper, int initialCapacity) {
@@ -46,7 +46,7 @@ public class SortedEntityComponentArray<E extends Component> implements Iterator
 
     private void insert(int index, int entityId) {
         if (sortedEntityIds.length == size) expandSorted();
-        //Shift everything in the array to the right if it is after the new index to insertValue.
+        //Shift everything in the array to the right if it is after the new index to insert.
         System.arraycopy(sortedEntityIds, index, sortedEntityIds, index + 1, size - index);
         sortedEntityIds[index] = entityId;
         size++;
@@ -63,6 +63,7 @@ public class SortedEntityComponentArray<E extends Component> implements Iterator
 
     private void removeIndex(int index) {
         if (sortedEntityIds.length == size) expandSorted();
+        //Shifts everything in the array left that is past the index to remove.
         System.arraycopy(sortedEntityIds, index + 1, sortedEntityIds, index, size - index);
         size--;
     }
