@@ -6,6 +6,7 @@ import com.artemis.ComponentMapper;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.goonsquad.galactictd.components.graphics.Renderable;
 import com.goonsquad.galactictd.components.graphics.Text;
 import com.goonsquad.galactictd.components.layers.Layer;
@@ -25,6 +26,7 @@ public abstract class RenderSystem extends BaseEntitySystem {
 
     private Spatial entitySpatial;
     private Renderable entityRenderable;
+    private Text entityText;
 
     private SortedEntityComponentArray<Layer> sortedEs;
     private Comparator<Layer> layerComparator;
@@ -124,6 +126,43 @@ public abstract class RenderSystem extends BaseEntitySystem {
                 }
             }
         }
+    }
+
+    private void drawEntityText(int entityId) {
+        if (textComponentMapper.has(entityId)) {
+            entityText = textComponentMapper.get(entityId);
+            entityText.font.draw(batch, entityText.text, entitySpatial.x, entitySpatial.y);
+        }
+    }
+
+    private void setEntityGraphics() {
+        batch.setColor(entityRenderable.r, entityRenderable.g, entityRenderable.b, entityRenderable.a);
+        if (entityRenderable.texture == null)
+            entityRenderable.texture = missingTextureImage;
+    }
+
+    private void setSpatialData() {
+        if (entitySpatial.spatialType == BoundsType.Rectangle) {
+            drawX = entitySpatial.x;
+            drawY = entitySpatial.y;
+            drawOriginX = entitySpatial.width / 2f;
+            drawOriginY = entitySpatial.height / 2f;
+            drawWidth = entitySpatial.width;
+            drawHeight = entitySpatial.height;
+        } else if (entitySpatial.spatialType == BoundsType.Circle) {
+            drawX = entitySpatial.centerX - entitySpatial.radius;
+            drawY = entitySpatial.centerY - entitySpatial.radius;
+            drawOriginX = entitySpatial.radius;
+            drawOriginY = entitySpatial.radius;
+            drawWidth = entitySpatial.radius * 2;
+            drawHeight = entitySpatial.radius * 2;
+        } else {
+            drawCurrentEntity = false;
+        }
+    }
+
+    private void setRotationData() {
+        drawRotation = entitySpatial.rotation;
     }
 
     @Override
