@@ -57,12 +57,12 @@ public abstract class RenderSystem extends BaseEntitySystem {
 
     @Override
     protected void inserted(int entityId) {
-        sortedEs.insert(entityId);
+        sortedEs.insertValue(entityId);
     }
 
     @Override
     protected void removed(int entityId) {
-        sortedEs.remove(entityId);
+        sortedEs.removeValue(entityId);
     }
 
     @Override

@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 import com.goonsquad.galactictd.GalacticTDGame;
+import com.goonsquad.galactictd.components.graphics.DrawInContext;
 import com.goonsquad.galactictd.components.graphics.Renderable;
 import com.goonsquad.galactictd.components.input.Event;
 import com.goonsquad.galactictd.components.input.Touchable;
@@ -16,8 +17,10 @@ import com.goonsquad.galactictd.components.positional.ResetPosition;
 import com.goonsquad.galactictd.components.positional.Rotatable;
 import com.goonsquad.galactictd.components.positional.RotationSpeed;
 import com.goonsquad.galactictd.components.positional.Spatial;
+import com.goonsquad.galactictd.screens.PlayScreen;
 import com.goonsquad.galactictd.systems.archetypes.ArchetypeBuilderSystem;
 import com.goonsquad.galactictd.systems.archetypes.PlayScreenArchetypeBuilder;
+import com.goonsquad.galactictd.systems.input.ContextTouchSystem;
 import com.goonsquad.galactictd.systems.positional.MoveToPointSystem;
 
 public class PlayScreenInitSystem extends InitializationSystem {
@@ -34,6 +37,7 @@ public class PlayScreenInitSystem extends InitializationSystem {
     private ComponentMapper<RotationSpeed> rotationSpeedComponentMapper;
     private ComponentMapper<Layer> layerComponentMapper;
     private MoveToPointSystem moveToPointSystem;
+    private ContextTouchSystem contextTouchSystem;
 
     private GalacticTDGame gameInstance;
 
@@ -56,7 +60,7 @@ public class PlayScreenInitSystem extends InitializationSystem {
         Spatial uiBarSpatial = spatialComponentMapper.get(uiBar);
 
         uiBarSpatial.width = GalacticTDGame.UI_WIDTH;
-        uiBarSpatial.height = 100f;
+        uiBarSpatial.height = PlayScreen.HUD_HEIGHT;
         uiBarSpatial.x = 0;
         uiBarSpatial.y = GalacticTDGame.UI_HEIGHT - uiBarSpatial.height;
         return uiBar;
@@ -79,6 +83,7 @@ public class PlayScreenInitSystem extends InitializationSystem {
         shipTouchable.event = new Event() {
             @Override
             public void fireEvent() {
+                // For now, consider this as just cancelling the movement
                 Gdx.app.log("Home Base", "Touched");
             }
         };
@@ -86,7 +91,7 @@ public class PlayScreenInitSystem extends InitializationSystem {
 
     private void createShips() {
         for (int i = 0; i < 3; ++i) {
-            int shipId = archetypeBuilder.buildArchetype(PlayScreenArchetypeBuilder.SHIP_SPRITE);
+            final int shipId = archetypeBuilder.buildArchetype(PlayScreenArchetypeBuilder.SHIP_SPRITE);
 
             Renderable shipRenderable = renderableComponentMapper.get(shipId);
             shipRenderable.texture = gameInstance.assets.manager.get("Owens_Frank.jpg", Texture.class);
@@ -121,7 +126,9 @@ public class PlayScreenInitSystem extends InitializationSystem {
             shipTouchable.event = new Event() {
                 @Override
                 public void fireEvent() {
+                    // Add this entity to the user-initiated movement system
                     Gdx.app.log(String.format("Ship #%d", test), "Touched");
+                    contextTouchSystem.openContextForShipMovement(shipId);
                 }
             };
         }

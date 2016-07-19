@@ -11,10 +11,13 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.goonsquad.galactictd.GalacticTDGame;
 import com.goonsquad.galactictd.systems.archetypes.PlayScreenArchetypeBuilder;
+import com.goonsquad.galactictd.systems.game.WarpGeneratingSystem;
+import com.goonsquad.galactictd.systems.graphics.ContextRenderSystem;
 import com.goonsquad.galactictd.systems.graphics.GameRenderSystem;
 import com.goonsquad.galactictd.systems.graphics.OutlineSystem;
 import com.goonsquad.galactictd.systems.graphics.UiRenderSystem;
 import com.goonsquad.galactictd.systems.initialization.PlayScreenInitSystem;
+import com.goonsquad.galactictd.systems.input.ContextTouchSystem;
 import com.goonsquad.galactictd.systems.input.GameTouchSystem;
 import com.goonsquad.galactictd.systems.input.UiTouchSystem;
 import com.goonsquad.galactictd.systems.positional.MoveToPointSystem;
@@ -23,6 +26,7 @@ import com.goonsquad.galactictd.systems.positional.RotationSystem;
 public class PlayScreen implements Screen {
     public static final float GAME_WIDTH = 1920;
     public static final float GAME_HEIGHT = 1080;
+    public static final float HUD_HEIGHT = 100f;
     private static final String TAG = "PlayScreen";
     private GalacticTDGame gameInstance;
     private World playScreenWorld;
@@ -84,23 +88,28 @@ public class PlayScreen implements Screen {
             defaultTexture = gameInstance.assets.manager.get("Owens_Frank.jpg", Texture.class);
             WorldConfiguration worldConfig = new WorldConfiguration();
             //Init Systems
-            worldConfig.setSystem(new PlayScreenArchetypeBuilder());
+            worldConfig.setSystem(new PlayScreenArchetypeBuilder(gameInstance));
             worldConfig.setSystem(new PlayScreenInitSystem(this.gameInstance));
             //Input Systems
             UiTouchSystem uiTouchSystem = new UiTouchSystem(gameInstance.getUiViewport());
             worldConfig.setSystem(uiTouchSystem);
+            ContextTouchSystem contextTouchSystem = new ContextTouchSystem(gameInstance.getUiViewport());
+            worldConfig.setSystem(contextTouchSystem);
             GameTouchSystem gameTouchSystem = new GameTouchSystem(gameViewport);
             worldConfig.setSystem(gameTouchSystem);
             //Update Systems
+            worldConfig.setSystem(new WarpGeneratingSystem());
             worldConfig.setSystem(new MoveToPointSystem());
             worldConfig.setSystem(new RotationSystem());
             //Render Systems
             worldConfig.setSystem(new GameRenderSystem(gameCamera, defaultTexture));
+            worldConfig.setSystem(new ContextRenderSystem(gameCamera, defaultTexture));
             worldConfig.setSystem(new UiRenderSystem(gameInstance.getUiCamera(), defaultTexture));
             worldConfig.setSystem(new OutlineSystem(gameInstance.getUiCamera()));
 
             playScreenWorld = new World(worldConfig);
             inputMultiplexer.addProcessor(uiTouchSystem);
+            inputMultiplexer.addProcessor(contextTouchSystem);
             inputMultiplexer.addProcessor(gameTouchSystem);
         }
     }
