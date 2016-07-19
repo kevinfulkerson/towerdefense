@@ -33,10 +33,20 @@ public abstract class RenderSystem extends BaseEntitySystem {
     private Camera camera;
     private Texture missingTextureImage;
 
+    private float drawX;
+    private float drawY;
+    private float drawOriginX;
+    private float drawOriginY;
+    private float drawWidth;
+    private float drawHeight;
+    private float drawRotation;
+    private boolean drawCurrentEntity;
+
     public RenderSystem(Camera camera, Aspect.Builder aspect, Texture missingTextureImage) {
         super(aspect.all(Layer.class).one(Text.class, Renderable.class));
         this.camera = camera;
         this.missingTextureImage = missingTextureImage;
+        this.batch = new SpriteBatch();
     }
 
     @Override
@@ -48,7 +58,6 @@ public abstract class RenderSystem extends BaseEntitySystem {
             }
         };
         sortedEs = new SortedEntityComponentArray<Layer>(layerComparator, layerComponentMapper);
-        batch = new SpriteBatch();
     }
 
     @Override
