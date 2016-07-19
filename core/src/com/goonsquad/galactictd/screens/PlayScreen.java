@@ -26,7 +26,7 @@ import com.goonsquad.galactictd.systems.positional.RotationSystem;
 public class PlayScreen implements Screen {
     public static final float GAME_WIDTH = 1920;
     public static final float GAME_HEIGHT = 1080;
-    public static final float HUD_HEIGHT = 100f;
+    public static final float HUD_HEIGHT = 35f;
     private static final String TAG = "PlayScreen";
     private GalacticTDGame gameInstance;
     private World playScreenWorld;

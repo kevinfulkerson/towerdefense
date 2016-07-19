@@ -42,18 +42,36 @@ public class Spatial extends com.artemis.PooledComponent {
     }
 
     public void setOriginX(float x) {
-        this.x = x - width / 2f;
+        if (this.spatialType == BoundsType.Rectangle) {
+            this.x = x - width / 2f;
+        } else if (this.spatialType == BoundsType.Circle) {
+            this.centerX = x;
+        }
     }
 
     public void setOriginY(float y) {
-        this.y = y - height / 2f;
+        if (this.spatialType == BoundsType.Rectangle) {
+            this.y = y - height / 2f;
+        } else if (this.spatialType == BoundsType.Circle) {
+            this.centerY = y;
+        }
     }
 
     public float getOriginX() {
-        return x + width / 2f;
+        if (this.spatialType == BoundsType.Rectangle) {
+            return this.x + this.width / 2f;
+        } else if (this.spatialType == BoundsType.Circle) {
+            return this.centerX;
+        }
+        return 0;
     }
 
     public float getOriginY() {
-        return y + height / 2f;
+        if (this.spatialType == BoundsType.Rectangle) {
+            return this.y + this.height / 2f;
+        } else if (this.spatialType == BoundsType.Circle) {
+            return this.centerY;
+        }
+        return 0;
     }
 }

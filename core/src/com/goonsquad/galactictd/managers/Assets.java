@@ -95,6 +95,7 @@ public class Assets implements Disposable {
         manager.load("pathRight.png", Texture.class);
         manager.load("pathStraight.png", Texture.class);
         manager.load("ScreenIntro.png", Texture.class);
+        manager.load("ship.png", Texture.class);
         manager.load("topBar.png", Texture.class);
         manager.load("tower-green.png", Texture.class);
         manager.load("tower-red.png", Texture.class);
