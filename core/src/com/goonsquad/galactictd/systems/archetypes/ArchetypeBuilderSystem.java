@@ -4,6 +4,8 @@ import com.artemis.Archetype;
 import com.artemis.ArchetypeBuilder;
 import com.artemis.BaseSystem;
 import com.artemis.Component;
+import com.badlogic.gdx.assets.AssetManager;
+import com.goonsquad.galactictd.GalacticTDGame;
 import com.goonsquad.galactictd.components.graphics.DrawBoxAround;
 import com.goonsquad.galactictd.components.graphics.DrawInUi;
 import com.goonsquad.galactictd.components.graphics.Renderable;
@@ -17,16 +19,18 @@ import java.util.Map;
 
 public abstract class ArchetypeBuilderSystem extends BaseSystem {
     private Map<String, Archetype> createdArchetypes;
+    protected GalacticTDGame gameInstance;
     public static final String invisibleButton = "invisible_button";
     public static final String sprite = "sprite";
     public static final String uiLabel = "ui_label";
     public static final String uiButton = "ui_button";
     public static final String textLabel = "text_label";
 
-    public ArchetypeBuilderSystem() {
+    public ArchetypeBuilderSystem(GalacticTDGame gameInstance) {
         createdArchetypes = new HashMap<String, Archetype>();
         createdArchetypes.put(null, null);
         this.setEnabled(false);
+        this.gameInstance = gameInstance;
     }
 
     @Override
