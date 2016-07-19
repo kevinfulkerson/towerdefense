@@ -12,14 +12,17 @@ public class RotationSystem extends IteratingSystem {
     private ComponentMapper<Rotatable> rotatableComponentMapper;
     private ComponentMapper<RotationSpeed> rotationSpeedComponentMapper;
 
+    private Rotatable rotatable;
+    private RotationSpeed rotationSpeed;
+
     public RotationSystem() {
         super(Aspect.all(Rotatable.class, RotationSpeed.class));
     }
 
     @Override
     protected void process(int entityId) {
-        Rotatable rotatable = rotatableComponentMapper.get(entityId);
-        RotationSpeed rotationSpeed = rotationSpeedComponentMapper.get(entityId);
+        rotatable = rotatableComponentMapper.get(entityId);
+        rotationSpeed = rotationSpeedComponentMapper.get(entityId);
 
         if(rotatable.rotating) {
             // Check if we are set to rotate continually
@@ -54,6 +57,5 @@ public class RotationSystem extends IteratingSystem {
                 }
             }
         }
-
     }
 }

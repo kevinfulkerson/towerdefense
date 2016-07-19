@@ -43,6 +43,14 @@ public class Spatial extends com.artemis.PooledComponent {
         return false;
     }
 
+    public void setOriginX(float x) {
+        this.x = x - width / 2f;
+    }
+
+    public void setOriginY(float y) {
+        this.y = y - height / 2f;
+    }
+
     public float getOriginX() {
         return x + width / 2f;
     }

@@ -46,8 +46,8 @@ public class MoveToPointSystem extends IteratingSystem {
 
             progress = MathUtils.clamp(progress, 0, 1);
 
-            currentSpatial.x = MathUtils.lerp(currentSpatial.getOriginX(), movementDestination1.destinationX, progress);
-            currentSpatial.y = MathUtils.lerp(currentSpatial.getOriginY(), movementDestination1.destinationY, progress);
+            currentSpatial.setOriginX(MathUtils.lerp(currentSpatial.getOriginX(), movementDestination1.destinationX, progress));
+            currentSpatial.setOriginY(MathUtils.lerp(currentSpatial.getOriginY(), movementDestination1.destinationY, progress));
 
             if (progress >= 1) {
                 if (moveToPoint.resetPositionOnArrival) {
