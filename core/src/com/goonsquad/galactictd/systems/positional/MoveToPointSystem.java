@@ -38,7 +38,7 @@ public class MoveToPointSystem extends IteratingSystem {
             movementSpeed = movementSpeedComponentMapper.get(entityId);
 
             float distanceToDestination =
-                    (float) Math.sqrt(Vector2.dst2(currentSpatial.x, currentSpatial.y, movementDestination1.destinationX, movementDestination1.destinationY));
+                    (float) Math.sqrt(Vector2.dst2(currentSpatial.getOriginX(), currentSpatial.getOriginY(), movementDestination1.destinationX, movementDestination1.destinationY));
 
             float travelDistance = movementSpeed.unitsPerSecond * world.getDelta();
 
@@ -46,8 +46,8 @@ public class MoveToPointSystem extends IteratingSystem {
 
             progress = MathUtils.clamp(progress, 0, 1);
 
-            currentSpatial.x = MathUtils.lerp(currentSpatial.x, movementDestination1.destinationX, progress);
-            currentSpatial.y = MathUtils.lerp(currentSpatial.y, movementDestination1.destinationY, progress);
+            currentSpatial.x = MathUtils.lerp(currentSpatial.getOriginX(), movementDestination1.destinationX, progress);
+            currentSpatial.y = MathUtils.lerp(currentSpatial.getOriginY(), movementDestination1.destinationY, progress);
 
             if (progress >= 1) {
                 if (moveToPoint.resetPositionOnArrival) {

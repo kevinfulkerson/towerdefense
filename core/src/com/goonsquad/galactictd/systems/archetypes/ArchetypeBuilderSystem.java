@@ -10,6 +10,8 @@ import com.goonsquad.galactictd.components.graphics.Renderable;
 import com.goonsquad.galactictd.components.graphics.Text;
 import com.goonsquad.galactictd.components.input.Touchable;
 import com.goonsquad.galactictd.components.layers.Layer;
+import com.goonsquad.galactictd.components.positional.Rotatable;
+import com.goonsquad.galactictd.components.positional.RotationSpeed;
 import com.goonsquad.galactictd.components.positional.Spatial;
 
 import java.util.HashMap;
@@ -37,9 +39,9 @@ public abstract class ArchetypeBuilderSystem extends BaseSystem {
 
     //Archetypes that are used in all worlds.
     private void createDefaultArchetypes() {
-        this.addArchetypeToSystem(invisibleButton, Spatial.class, Layer.class, Touchable.class, DrawInUi.class);
+        this.addArchetypeToSystem(invisibleButton, Spatial.class, Rotatable.class, RotationSpeed.class, Layer.class, Touchable.class, DrawInUi.class);
 
-        this.addArchetypeToSystem(sprite, Spatial.class, Renderable.class, DrawBoxAround.class, Layer.class);
+        this.addArchetypeToSystem(sprite, Spatial.class, Rotatable.class, RotationSpeed.class, Renderable.class, DrawBoxAround.class, Layer.class);
 
         this.addArchetypeToSystem(uiLabel, sprite, DrawInUi.class);
         this.addArchetypeToSystem(uiButton, uiLabel, Touchable.class);

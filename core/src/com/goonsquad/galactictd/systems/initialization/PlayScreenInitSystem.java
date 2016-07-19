@@ -3,6 +3,7 @@ package com.goonsquad.galactictd.systems.initialization;
 import com.artemis.ComponentMapper;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.MathUtils;
 import com.goonsquad.galactictd.GalacticTDGame;
 import com.goonsquad.galactictd.components.graphics.Renderable;
 import com.goonsquad.galactictd.components.input.Event;
@@ -12,6 +13,8 @@ import com.goonsquad.galactictd.components.positional.MoveToPoint;
 import com.goonsquad.galactictd.components.positional.MovementDestination;
 import com.goonsquad.galactictd.components.positional.MovementSpeed;
 import com.goonsquad.galactictd.components.positional.ResetPosition;
+import com.goonsquad.galactictd.components.positional.Rotatable;
+import com.goonsquad.galactictd.components.positional.RotationSpeed;
 import com.goonsquad.galactictd.components.positional.Spatial;
 import com.goonsquad.galactictd.systems.archetypes.ArchetypeBuilderSystem;
 import com.goonsquad.galactictd.systems.archetypes.PlayScreenArchetypeBuilder;
@@ -27,6 +30,8 @@ public class PlayScreenInitSystem extends InitializationSystem {
     private ComponentMapper<MovementDestination> movementDestinationComponentMapper;
     private ComponentMapper<MovementSpeed> movementSpeedComponentMapper;
     private ComponentMapper<ResetPosition> resetPositionComponentMapper;
+    private ComponentMapper<Rotatable> rotatableComponentMapper;
+    private ComponentMapper<RotationSpeed> rotationSpeedComponentMapper;
     private ComponentMapper<Layer> layerComponentMapper;
     private MoveToPointSystem moveToPointSystem;
 
@@ -88,6 +93,28 @@ public class PlayScreenInitSystem extends InitializationSystem {
 
             Spatial shipPosition = spatialComponentMapper.get(shipId);
             shipPosition.setBounds(200 * (i + 2), 200 * (i + 2), 200, 200);
+
+            Rotatable shipRotatable = rotatableComponentMapper.get(shipId);
+            if(i == 1) {
+                shipRotatable.rotationInRadians = 0;
+                shipRotatable.rotating = true;
+                shipRotatable.progress = 0f;
+                shipRotatable.rotationTargetAngle = MathUtils.PI/2;
+            } else {
+                shipRotatable.rotationInRadians = 0f;
+                shipRotatable.rotating = true;
+                shipRotatable.progress = 0f;
+                shipRotatable.continuousRotation = true;
+            }
+
+            RotationSpeed shipRotationSpeed = rotationSpeedComponentMapper.get(shipId);
+            if(i == 1) {
+                shipRotationSpeed.radiansPerTick = RotationSpeed.VERY_SLOW_ROTATION;
+            } else if(i == 2) {
+                shipRotationSpeed.radiansPerTick = -RotationSpeed.FAST_ROTATION;
+            } else {
+                shipRotationSpeed.radiansPerTick = RotationSpeed.FAST_ROTATION;
+            }
 
             final int test = i + 1;
             Touchable shipTouchable = touchableComponentMapper.get(shipId);
