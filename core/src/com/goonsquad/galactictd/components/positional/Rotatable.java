@@ -1,5 +1,7 @@
 package com.goonsquad.galactictd.components.positional;
 
+import com.badlogic.gdx.math.MathUtils;
+
 public class Rotatable extends com.artemis.PooledComponent {
 
     public boolean rotating;
@@ -15,5 +17,9 @@ public class Rotatable extends com.artemis.PooledComponent {
         rotationInRadians = 0f;
         progress = 0f;
         rotationTargetAngle = 0f;
+    }
+
+    public float getRotationInDegrees() {
+        return rotationInRadians * 180f / MathUtils.PI;
     }
 }

@@ -13,7 +13,7 @@ public class RotationSystem extends IteratingSystem {
     private ComponentMapper<RotationSpeed> rotationSpeedComponentMapper;
 
     private Rotatable rotatable;
-    private RotationSpeed rotationSpeed;
+    private float radiansToRotate;
 
     public RotationSystem() {
         super(Aspect.all(Rotatable.class, RotationSpeed.class));
@@ -22,25 +22,24 @@ public class RotationSystem extends IteratingSystem {
     @Override
     protected void process(int entityId) {
         rotatable = rotatableComponentMapper.get(entityId);
-        rotationSpeed = rotationSpeedComponentMapper.get(entityId);
+        radiansToRotate = rotationSpeedComponentMapper.get(entityId).radiansPerSecond * world.getDelta();
 
-        if(rotatable.rotating) {
+        if (rotatable.rotating) {
             // Check if we are set to rotate continually
-            if(rotatable.continuousRotation)
-            {
+            if (rotatable.continuousRotation) {
                 // Just manually rotate ourselves some amount
-                rotatable.rotationInRadians += rotationSpeed.radiansPerTick * world.getDelta();
+                rotatable.rotationInRadians += radiansToRotate;
                 rotatable.rotationInRadians %= MathUtils.PI2;
             } else {
                 // If our progress is at 0, the rotation hasn't been setup
-                if(MathUtils.isZero(rotatable.progress)) {
+                if (MathUtils.isZero(rotatable.progress)) {
                     // Get the normalized target angle and set that as the target angle
                     rotatable.rotationTargetAngle = MathUtils.lerpAngle(rotatable.rotationInRadians,
                             rotatable.rotationTargetAngle, 1);
                 }
 
                 // Calculate the current progress
-                rotatable.progress = (rotationSpeed.radiansPerTick * world.getDelta())
+                rotatable.progress = radiansToRotate
                         / Math.abs(rotatable.rotationTargetAngle - rotatable.rotationInRadians);
 
                 // Clamp the progress to be between 0 and 1
@@ -51,7 +50,7 @@ public class RotationSystem extends IteratingSystem {
                         rotatable.rotationTargetAngle, rotatable.progress);
 
                 // If we are done, reset the rotation state
-                if(MathUtils.isEqual(rotatable.progress, 1)) {
+                if (MathUtils.isEqual(rotatable.progress, 1)) {
                     rotatable.rotating = false;
                     rotatable.progress = 0;
                 }

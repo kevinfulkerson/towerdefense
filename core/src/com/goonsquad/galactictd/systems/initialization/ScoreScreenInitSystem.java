@@ -3,6 +3,7 @@ package com.goonsquad.galactictd.systems.initialization;
 import com.artemis.ComponentMapper;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.goonsquad.galactictd.GalacticTDGame;
 import com.goonsquad.galactictd.components.graphics.Renderable;
@@ -12,6 +13,7 @@ import com.goonsquad.galactictd.components.input.Touchable;
 import com.goonsquad.galactictd.components.positional.MoveToPoint;
 import com.goonsquad.galactictd.components.positional.MovementDestination;
 import com.goonsquad.galactictd.components.positional.MovementSpeed;
+import com.goonsquad.galactictd.components.positional.Rotatable;
 import com.goonsquad.galactictd.components.positional.Spatial;
 import com.goonsquad.galactictd.components.positional.ResetPosition;
 import com.goonsquad.galactictd.screens.HomeScreen;
@@ -20,6 +22,7 @@ import com.goonsquad.galactictd.systems.archetypes.ScoreScreenArchetypeBuilder;
 public class ScoreScreenInitSystem extends InitializationSystem {
     private ScoreScreenArchetypeBuilder archetypeBuilder;
     private ComponentMapper<Spatial> spatialComponentMapper;
+    private ComponentMapper<Rotatable> rotatableComponentMapper;
     private ComponentMapper<Renderable> renderableComponentMapper;
     private ComponentMapper<Touchable> touchableComponentMapper;
     private ComponentMapper<MoveToPoint> moveToPointComponentMapper;
@@ -74,11 +77,12 @@ public class ScoreScreenInitSystem extends InitializationSystem {
         redStartingCords.resetPositionY = 0;
 
         Spatial redSpatial = spatialComponentMapper.get(redShip);
-        redSpatial.rotation = 270;
         redSpatial.setBounds(
                 redStartingCords.resetPositionX, redStartingCords.resetPositionY,
                 shipSize.x, shipSize.y);
 
+        Rotatable redRotatable = rotatableComponentMapper.get(redShip);
+        redRotatable.rotationInRadians = 1.5f * MathUtils.PI;
 
         MoveToPoint moveToPoint = moveToPointComponentMapper.get(redShip);
         moveToPoint.resetPositionOnArrival = true;
@@ -86,7 +90,7 @@ public class ScoreScreenInitSystem extends InitializationSystem {
 
         MovementDestination movementDestination = movementDestinationComponentMapper.create(redShip);
         movementDestination.destinationX = GalacticTDGame.UI_WIDTH + redSpatial.width;
-        movementDestination.destinationY = redSpatial.y;
+        movementDestination.destinationY = redSpatial.y + redSpatial.height / 2f;
 
         MovementSpeed speed = movementSpeedComponentMapper.create(redShip);
         speed.unitsPerSecond = shipSpeedPerSecond;
@@ -104,10 +108,12 @@ public class ScoreScreenInitSystem extends InitializationSystem {
         greenStartingCords.resetPositionY = GalacticTDGame.UI_HEIGHT - shipSize.y;
 
         Spatial greenSpatial = spatialComponentMapper.get(greenShip);
-        greenSpatial.rotation = 90;
         greenSpatial.setBounds(
                 greenStartingCords.resetPositionX, greenStartingCords.resetPositionY,
                 shipSize.x, shipSize.y);
+
+        Rotatable greenRotatable = rotatableComponentMapper.get(greenShip);
+        greenRotatable.rotationInRadians = 0.5f * MathUtils.PI;
 
         MoveToPoint moveToPoint = moveToPointComponentMapper.get(greenShip);
         moveToPoint.resetPositionOnArrival = true;
@@ -115,7 +121,7 @@ public class ScoreScreenInitSystem extends InitializationSystem {
 
         MovementDestination movementDestination = movementDestinationComponentMapper.create(greenShip);
         movementDestination.destinationX = 0 - shipSize.x * 2;
-        movementDestination.destinationY = greenSpatial.y;
+        movementDestination.destinationY = greenSpatial.y + greenSpatial.height / 2f;
 
         MovementSpeed speed = movementSpeedComponentMapper.create(greenShip);
         speed.unitsPerSecond = shipSpeedPerSecond;
