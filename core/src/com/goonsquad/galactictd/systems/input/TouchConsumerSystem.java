@@ -57,12 +57,12 @@ public abstract class TouchConsumerSystem extends BaseEntitySystem implements In
 
     @Override
     public void inserted(int entityId) {
-        sortedEs.insert(entityId);
+        sortedEs.insertValue(entityId);
     }
 
     @Override
     protected void removed(int entityId) {
-        sortedEs.remove(entityId);
+        sortedEs.removeValue(entityId);
     }
 
     @Override
