@@ -81,44 +81,27 @@ public abstract class RenderSystem extends BaseEntitySystem {
     @Override
     protected void processSystem() {
         for (int entityId : sortedEs) {
+            drawCurrentEntity = true;
             entitySpatial = spatialComponentMapper.get(entityId);
-            if (textComponentMapper.has(entityId)) {
-                Text text = textComponentMapper.get(entityId);
-                text.font.draw(batch, text.text, entitySpatial.x, entitySpatial.y);
-            }
+            drawEntityText(entityId);
+
             if (renderableComponentMapper.has(entityId)) {
                 entityRenderable = renderableComponentMapper.get(entityId);
-                if (entityRenderable.texture == null)
-                    entityRenderable.texture = missingTextureImage;
-                batch.setColor(entityRenderable.r, entityRenderable.g, entityRenderable.b, entityRenderable.a);
-                if (entitySpatial.spatialType == BoundsType.Rectangle) {
+                setEntityGraphics();
+                setSpatialData();
+                setRotationData();
+                if (drawCurrentEntity) {
                     batch.draw(
                             entityRenderable.texture,
-                            entitySpatial.x,
-                            entitySpatial.y,
-                            entitySpatial.width / 2f,
-                            entitySpatial.height / 2f,
-                            entitySpatial.width,
-                            entitySpatial.height,
+                            drawX,
+                            drawY,
+                            drawOriginX,
+                            drawOriginY,
+                            drawWidth,
+                            drawHeight,
                             entityRenderable.scaleX,
                             entityRenderable.scaleY,
-                            entitySpatial.rotation,
-                            0, 0,
-                            entityRenderable.texture.getWidth(),
-                            entityRenderable.texture.getHeight(),
-                            false, false);
-                } else if (entitySpatial.spatialType == BoundsType.Circle) {
-                    batch.draw(
-                            entityRenderable.texture,
-                            entitySpatial.centerX - entitySpatial.radius,
-                            entitySpatial.centerY - entitySpatial.radius,
-                            entitySpatial.radius,
-                            entitySpatial.radius,
-                            entitySpatial.radius * 2,
-                            entitySpatial.radius * 2,
-                            entityRenderable.scaleX,
-                            entityRenderable.scaleY,
-                            entitySpatial.rotation,
+                            drawRotation,
                             0, 0,
                             entityRenderable.texture.getWidth(),
                             entityRenderable.texture.getHeight(),
