@@ -41,7 +41,7 @@ public class MoveToPointSystem extends IteratingSystem {
             movementSpeed = movementSpeedComponentMapper.get(entityId);
 
             distanceToDestination =
-                    (float) Math.sqrt(Vector2.dst2(currentSpatial.x, currentSpatial.y, movementDestination1.destinationX, movementDestination1.destinationY));
+                    (float) Math.sqrt(Vector2.dst2(currentSpatial.getOriginX(), currentSpatial.getOriginY(), movementDestination1.destinationX, movementDestination1.destinationY));
 
             travelDistance = movementSpeed.unitsPerSecond * world.getDelta();
 
