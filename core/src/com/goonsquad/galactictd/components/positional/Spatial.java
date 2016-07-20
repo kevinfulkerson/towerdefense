@@ -11,7 +11,6 @@ public class Spatial extends com.artemis.PooledComponent {
     public float radius = 0;
     public float width = 0;
     public float height = 0;
-    public float rotation = 0;
     public BoundsType spatialType = BoundsType.Rectangle;
 
     @Override
@@ -23,7 +22,6 @@ public class Spatial extends com.artemis.PooledComponent {
         radius = 0;
         width = 0;
         height = 0;
-        rotation = 0;
         spatialType = null;
     }
 
@@ -41,6 +39,14 @@ public class Spatial extends com.artemis.PooledComponent {
             return Vector2.dst(centerX, centerY, x, y) <= this.radius;
         }
         return false;
+    }
+
+    public void setOriginX(float x) {
+        this.x = x - width / 2f;
+    }
+
+    public void setOriginY(float y) {
+        this.y = y - height / 2f;
     }
 
     public float getOriginX() {

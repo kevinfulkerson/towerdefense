@@ -55,6 +55,8 @@ public class ContextTouchSystem extends TouchConsumerSystem {
 
             // Reset the touch handler
             currentEntityId = INVALID_ENTITY;
+
+            return true;
         }
         return false;
     }

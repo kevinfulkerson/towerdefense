@@ -194,8 +194,8 @@ public class HomeScreenInitSystem extends InitializationSystem {
         dockMoveToPoint.moving = false;
 
         MovementDestination movementDestination = movementDestinationComponentMapper.create(settingsDock);
-        movementDestination.destinationX = GalacticTDGame.UI_WIDTH - dockSpatial.width;
-        movementDestination.destinationY = 0;
+        movementDestination.destinationX = GalacticTDGame.UI_WIDTH - dockSpatial.width / 2;
+        movementDestination.destinationY = dockSpatial.height / 2f;
 
         MovementSpeed movementSpeed = movementSpeedComponentMapper.create(settingsDock);
         movementSpeed.unitsPerSecond = 3000f;

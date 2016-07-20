@@ -6,10 +6,12 @@ import com.artemis.ComponentMapper;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.goonsquad.galactictd.components.graphics.Renderable;
 import com.goonsquad.galactictd.components.graphics.Text;
 import com.goonsquad.galactictd.components.layers.Layer;
 import com.goonsquad.galactictd.components.positional.BoundsType;
+import com.goonsquad.galactictd.components.positional.Rotatable;
 import com.goonsquad.galactictd.components.positional.Spatial;
 import com.goonsquad.galactictd.systems.utils.SortedEntityComponentArray;
 
@@ -19,12 +21,14 @@ import java.util.Comparator;
 //Uses a SortedEntityComponentArray to draw entities based on their Layer component.
 public abstract class RenderSystem extends BaseEntitySystem {
     private ComponentMapper<Spatial> spatialComponentMapper;
+    private ComponentMapper<Rotatable> rotatableComponentMapper;
     private ComponentMapper<Renderable> renderableComponentMapper;
     private ComponentMapper<Layer> layerComponentMapper;
     private ComponentMapper<Text> textComponentMapper;
 
     private Text entityText;
     private Spatial entitySpatial;
+    private Rotatable entityRotatable;
     private Renderable entityRenderable;
 
     private SortedEntityComponentArray<Layer> sortedEs;
@@ -72,6 +76,7 @@ public abstract class RenderSystem extends BaseEntitySystem {
     protected void processSystem() {
         for (int entityId : sortedEs) {
             entitySpatial = spatialComponentMapper.get(entityId);
+            entityRotatable = rotatableComponentMapper.get(entityId);
             if (textComponentMapper.has(entityId)) {
                 entityText = textComponentMapper.get(entityId);
                 entityText.font.draw(batch, entityText.text, entitySpatial.x, entitySpatial.y);
@@ -92,7 +97,7 @@ public abstract class RenderSystem extends BaseEntitySystem {
                             entitySpatial.height,
                             entityRenderable.scaleX,
                             entityRenderable.scaleY,
-                            entitySpatial.rotation,
+                            entityRotatable.getRotationInDegrees(),
                             0, 0,
                             entityRenderable.texture.getWidth(),
                             entityRenderable.texture.getHeight(),
@@ -108,7 +113,7 @@ public abstract class RenderSystem extends BaseEntitySystem {
                             entitySpatial.radius * 2,
                             entityRenderable.scaleX,
                             entityRenderable.scaleY,
-                            entitySpatial.rotation,
+                            entityRotatable.getRotationInDegrees(),
                             0, 0,
                             entityRenderable.texture.getWidth(),
                             entityRenderable.texture.getHeight(),
