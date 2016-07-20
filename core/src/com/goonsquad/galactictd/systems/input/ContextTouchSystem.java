@@ -5,9 +5,7 @@ import com.artemis.ComponentMapper;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.goonsquad.galactictd.GalacticTDGame;
-import com.goonsquad.galactictd.components.input.Event;
 import com.goonsquad.galactictd.components.input.MovementContext;
-import com.goonsquad.galactictd.components.input.Touchable;
 import com.goonsquad.galactictd.components.layers.Layer;
 import com.goonsquad.galactictd.components.layers.LayerLevel;
 import com.goonsquad.galactictd.components.positional.MoveToPoint;
@@ -15,7 +13,6 @@ import com.goonsquad.galactictd.components.positional.MovementDestination;
 import com.goonsquad.galactictd.components.positional.MovementSpeed;
 import com.goonsquad.galactictd.components.positional.Spatial;
 import com.goonsquad.galactictd.systems.archetypes.PlayScreenArchetypeBuilder;
-import com.goonsquad.galactictd.systems.positional.MoveToPointSystem;
 
 public class ContextTouchSystem extends TouchConsumerSystem {
 
@@ -57,6 +54,8 @@ public class ContextTouchSystem extends TouchConsumerSystem {
 
             // Reset the touch handler
             currentEntityId = INVALID_ENTITY;
+
+            return true;
         }
         return false;
     }
