@@ -9,18 +9,21 @@ public class ResetPositionSystem extends com.artemis.systems.IteratingSystem {
     private ComponentMapper<ResetPosition> resetPositionComponentMapper;
     private ComponentMapper<Spatial> spatialComponentMapper;
 
+    private ResetPosition currentResetPosition;
+    private Spatial currentSpatial;
+
     public ResetPositionSystem() {
         super(Aspect.all(ResetPosition.class, Spatial.class));
     }
 
     @Override
     protected void process(int entityId) {
-        ResetPosition resetPosition = resetPositionComponentMapper.get(entityId);
-        if (resetPosition.positionNeedsReset) {
-            Spatial spatial = spatialComponentMapper.get(entityId);
-            spatial.x = resetPosition.resetPositionX;
-            spatial.y = resetPosition.resetPositionY;
-            resetPosition.positionNeedsReset = false;
+        currentResetPosition = resetPositionComponentMapper.get(entityId);
+        if (currentResetPosition.positionNeedsReset) {
+            currentSpatial = spatialComponentMapper.get(entityId);
+            currentSpatial.x = currentResetPosition.resetPositionX;
+            currentSpatial.y = currentResetPosition.resetPositionY;
+            currentResetPosition.positionNeedsReset = false;
         }
     }
 }

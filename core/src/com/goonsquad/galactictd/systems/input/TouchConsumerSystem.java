@@ -17,21 +17,26 @@ import java.util.Comparator;
 //First this system checks if any of its entities were touched.
 //If so the system enables itself and runs the touched entity's event.
 public abstract class TouchConsumerSystem extends BaseEntitySystem implements InputProcessor {
+
     protected ComponentMapper<Touchable> touchableComponentMapper;
     protected ComponentMapper<Spatial> spatialComponentMapper;
     protected ComponentMapper<Layer> layerComponentMapper;
+
     protected SortedEntityComponentArray<Layer> sortedEs;
     protected Comparator<Layer> layerComp;
-    protected int currentTouchedEntity;
     protected Viewport viewport;
+
+    protected int currentTouchedEntityId;
     protected Vector2 touchLoc;
     protected boolean justTouched;
+    protected Touchable currentEntityTouchable;
+    protected Spatial currentEntitySpatial;
 
     public TouchConsumerSystem(Viewport viewport, Aspect.Builder aspect) {
         super(aspect.all(Touchable.class, Spatial.class, Layer.class));
         this.viewport = viewport;
-        touchLoc = new Vector2();
         this.justTouched = false;
+        this.touchLoc = new Vector2();
     }
 
     @Override
@@ -48,9 +53,9 @@ public abstract class TouchConsumerSystem extends BaseEntitySystem implements In
     @Override
     protected final void processSystem() {
         if (justTouched) {
-            Touchable touchable = touchableComponentMapper.get(currentTouchedEntity);
-            if (touchable.event != null) {
-                touchable.event.fireEvent();
+            currentEntityTouchable = touchableComponentMapper.get(currentTouchedEntityId);
+            if (currentEntityTouchable.event != null) {
+                currentEntityTouchable.event.fireEvent();
             }
         }
     }
@@ -71,19 +76,26 @@ public abstract class TouchConsumerSystem extends BaseEntitySystem implements In
     }
 
     protected boolean checkIfEntitiesWereTouched(Vector2 touchLoc) {
-        Spatial entitySpatial;
-        Touchable entityTouch;
-
         for (int id : sortedEs) {
-            entityTouch = touchableComponentMapper.get(id);
-            if (entityTouch.acceptingTouch) {
-                entitySpatial = spatialComponentMapper.get(id);
-                if (entitySpatial.containsPoint(touchLoc.x, touchLoc.y)) {
-                    currentTouchedEntity = id;
+            currentEntityTouchable = touchableComponentMapper.get(id);
+            if (currentEntityTouchable.acceptingTouch) {
+                currentEntitySpatial = spatialComponentMapper.get(id);
+                if (currentEntitySpatial.containsPoint(touchLoc.x, touchLoc.y)) {
+                    currentTouchedEntityId = id;
                     this.justTouched = true;
                     return true;
                 }
             }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        if (isEnabled()) {
+            touchLoc.set(screenX, screenY);
+            touchLoc = viewport.unproject(touchLoc);
+            return checkIfEntitiesWereTouched(touchLoc);
         }
         return false;
     }
@@ -100,16 +112,6 @@ public abstract class TouchConsumerSystem extends BaseEntitySystem implements In
 
     @Override
     public boolean keyTyped(char character) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        if (isEnabled()) {
-            touchLoc.set(screenX, screenY);
-            touchLoc = viewport.unproject(touchLoc);
-            return checkIfEntitiesWereTouched(touchLoc);
-        }
         return false;
     }
 

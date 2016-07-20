@@ -21,6 +21,7 @@ import com.goonsquad.galactictd.systems.input.ContextTouchSystem;
 import com.goonsquad.galactictd.systems.input.GameTouchSystem;
 import com.goonsquad.galactictd.systems.input.UiTouchSystem;
 import com.goonsquad.galactictd.systems.positional.MoveToPointSystem;
+import com.goonsquad.galactictd.systems.positional.RotationSystem;
 
 public class PlayScreen implements Screen {
     public static final float GAME_WIDTH = 1920;
@@ -99,6 +100,7 @@ public class PlayScreen implements Screen {
             //Update Systems
             worldConfig.setSystem(new WarpGeneratingSystem());
             worldConfig.setSystem(new MoveToPointSystem());
+            worldConfig.setSystem(new RotationSystem());
             //Render Systems
             worldConfig.setSystem(new GameRenderSystem(gameCamera, defaultTexture));
             worldConfig.setSystem(new ContextRenderSystem(gameCamera, defaultTexture));

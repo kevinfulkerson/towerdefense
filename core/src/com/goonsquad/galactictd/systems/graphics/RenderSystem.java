@@ -6,11 +6,11 @@ import com.artemis.ComponentMapper;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.MathUtils;
 import com.goonsquad.galactictd.components.graphics.Renderable;
 import com.goonsquad.galactictd.components.graphics.Text;
 import com.goonsquad.galactictd.components.layers.Layer;
 import com.goonsquad.galactictd.components.positional.BoundsType;
+import com.goonsquad.galactictd.components.positional.Rotatable;
 import com.goonsquad.galactictd.components.positional.Spatial;
 import com.goonsquad.galactictd.systems.utils.SortedEntityComponentArray;
 
@@ -20,11 +20,13 @@ import java.util.Comparator;
 //Uses a SortedEntityComponentArray to draw entities based on their Layer component.
 public abstract class RenderSystem extends BaseEntitySystem {
     private ComponentMapper<Spatial> spatialComponentMapper;
+    private ComponentMapper<Rotatable> rotatableComponentMapper;
     private ComponentMapper<Renderable> renderableComponentMapper;
     private ComponentMapper<Layer> layerComponentMapper;
     private ComponentMapper<Text> textComponentMapper;
 
     private Spatial entitySpatial;
+    private Rotatable entityRotatable;
     private Renderable entityRenderable;
     private Text entityText;
 
@@ -89,7 +91,7 @@ public abstract class RenderSystem extends BaseEntitySystem {
                 entityRenderable = renderableComponentMapper.get(entityId);
                 setEntityGraphics();
                 setSpatialData();
-                setRotationData();
+                setRotationData(entityId);
                 if (drawCurrentEntity) {
                     batch.draw(
                             entityRenderable.texture,
@@ -144,8 +146,12 @@ public abstract class RenderSystem extends BaseEntitySystem {
         }
     }
 
-    private void setRotationData() {
-        drawRotation = entitySpatial.rotation;
+    private void setRotationData(int entityId) {
+        if (rotatableComponentMapper.has(entityId)) {
+            drawRotation = rotatableComponentMapper.get(entityId).getRotationInDegrees();
+        } else {
+            drawRotation = 0;
+        }
     }
 
     @Override
