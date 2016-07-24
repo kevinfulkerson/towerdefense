@@ -9,7 +9,6 @@ public class Rotatable extends com.artemis.PooledComponent {
     public boolean continuousRotation;
     public float rotationInRadians;
     public float progress;
-    public int ticks;
     public float rotationTargetAngle;
     public Vector2 rotationTargetPoint;
     public float rotationTargetAmount;
@@ -20,7 +19,6 @@ public class Rotatable extends com.artemis.PooledComponent {
         continuousRotation = false;
         rotationInRadians = 0f;
         progress = 0f;
-        ticks = 0;
         rotationTargetAngle = 0f;
         rotationTargetPoint = null;
         rotationTargetAmount = 0f;
@@ -41,7 +39,6 @@ public class Rotatable extends com.artemis.PooledComponent {
     private void prepareOneTimeRotation() {
         continuousRotation = false;
         progress = 0f;
-        ticks = 0;
         rotationTargetAmount = 0f;
         rotating = true;
     }

@@ -68,8 +68,8 @@ public class RotationSystem extends IteratingSystem {
                 }
 
                 // Calculate the current progress
-                rotatable.progress = radiansToRotate / Math.abs(rotatable.rotationTargetAmount -
-                        (radiansToRotate * rotatable.ticks++));
+                rotatable.progress = radiansToRotate /
+                        (rotatable.rotationTargetAmount -= radiansToRotate);
 
                 // Clamp the progress to be between 0 and 1
                 rotatable.progress = MathUtils.clamp(rotatable.progress, 0f, 1f);
