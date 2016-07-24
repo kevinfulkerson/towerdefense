@@ -85,30 +85,33 @@ public abstract class RenderSystem extends BaseEntitySystem {
         for (int entityId : sortedEs) {
             drawCurrentEntity = true;
             entitySpatial = spatialComponentMapper.get(entityId);
+            drawEntityRenderable(entityId);
             drawEntityText(entityId);
+        }
+    }
 
-            if (renderableComponentMapper.has(entityId)) {
-                entityRenderable = renderableComponentMapper.get(entityId);
-                setEntityGraphics();
-                setSpatialData();
-                setRotationData(entityId);
-                if (drawCurrentEntity) {
-                    batch.draw(
-                            entityRenderable.texture,
-                            drawX,
-                            drawY,
-                            drawOriginX,
-                            drawOriginY,
-                            drawWidth,
-                            drawHeight,
-                            entityRenderable.scaleX,
-                            entityRenderable.scaleY,
-                            drawRotation,
-                            0, 0,
-                            entityRenderable.texture.getWidth(),
-                            entityRenderable.texture.getHeight(),
-                            false, false);
-                }
+    private void drawEntityRenderable(int entityId) {
+        if (renderableComponentMapper.has(entityId)) {
+            entityRenderable = renderableComponentMapper.get(entityId);
+            setEntityGraphics();
+            setSpatialData();
+            setRotationData(entityId);
+            if (drawCurrentEntity) {
+                batch.draw(
+                        entityRenderable.texture,
+                        drawX,
+                        drawY,
+                        drawOriginX,
+                        drawOriginY,
+                        drawWidth,
+                        drawHeight,
+                        entityRenderable.scaleX,
+                        entityRenderable.scaleY,
+                        drawRotation,
+                        0, 0,
+                        entityRenderable.texture.getWidth(),
+                        entityRenderable.texture.getHeight(),
+                        false, false);
             }
         }
     }
