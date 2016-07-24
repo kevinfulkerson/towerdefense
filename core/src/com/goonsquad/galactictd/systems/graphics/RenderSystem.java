@@ -26,6 +26,7 @@ public abstract class RenderSystem extends BaseEntitySystem {
     private ComponentMapper<Layer> layerComponentMapper;
     private ComponentMapper<Text> textComponentMapper;
 
+    private Text entityText;
     private Spatial entitySpatial;
     private Rotatable entityRotatable;
     private Renderable entityRenderable;
@@ -77,8 +78,8 @@ public abstract class RenderSystem extends BaseEntitySystem {
             entitySpatial = spatialComponentMapper.get(entityId);
             entityRotatable = rotatableComponentMapper.get(entityId);
             if (textComponentMapper.has(entityId)) {
-                Text text = textComponentMapper.get(entityId);
-                text.font.draw(batch, text.text, entitySpatial.x, entitySpatial.y);
+                entityText = textComponentMapper.get(entityId);
+                entityText.font.draw(batch, entityText.text, entitySpatial.x, entitySpatial.y);
             }
             if (renderableComponentMapper.has(entityId)) {
                 entityRenderable = renderableComponentMapper.get(entityId);
@@ -96,7 +97,7 @@ public abstract class RenderSystem extends BaseEntitySystem {
                             entitySpatial.height,
                             entityRenderable.scaleX,
                             entityRenderable.scaleY,
-                            entityRotatable.rotationInRadians * 180/MathUtils.PI,
+                            entityRotatable.getRotationInDegrees(),
                             0, 0,
                             entityRenderable.texture.getWidth(),
                             entityRenderable.texture.getHeight(),
@@ -112,7 +113,7 @@ public abstract class RenderSystem extends BaseEntitySystem {
                             entitySpatial.radius * 2,
                             entityRenderable.scaleX,
                             entityRenderable.scaleY,
-                            entityRotatable.rotationInRadians * 180/MathUtils.PI,
+                            entityRotatable.getRotationInDegrees(),
                             0, 0,
                             entityRenderable.texture.getWidth(),
                             entityRenderable.texture.getHeight(),

@@ -12,10 +12,10 @@ public class RotationSpeed extends com.artemis.PooledComponent {
     // positive values, and clockwise with negative values.
     // Non-continuous rotation will calculate the shortest
     // path and follow that.
-    public float radiansPerTick;
+    public float radiansPerSecond;
 
     @Override
     protected void reset() {
-        radiansPerTick = 0f;
+        radiansPerSecond = 0f;
     }
 }

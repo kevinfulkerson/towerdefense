@@ -5,7 +5,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 import com.goonsquad.galactictd.GalacticTDGame;
-import com.goonsquad.galactictd.components.graphics.DrawInContext;
 import com.goonsquad.galactictd.components.graphics.Renderable;
 import com.goonsquad.galactictd.components.input.Event;
 import com.goonsquad.galactictd.components.input.Touchable;
@@ -108,11 +107,11 @@ public class PlayScreenInitSystem extends InitializationSystem {
 
             RotationSpeed shipRotationSpeed = rotationSpeedComponentMapper.get(shipId);
             if(i == 1) {
-                shipRotationSpeed.radiansPerTick = RotationSpeed.VERY_SLOW_ROTATION;
+                shipRotationSpeed.radiansPerSecond = RotationSpeed.VERY_SLOW_ROTATION;
             } else if(i == 2) {
-                shipRotationSpeed.radiansPerTick = -RotationSpeed.FAST_ROTATION;
+                shipRotationSpeed.radiansPerSecond = -RotationSpeed.FAST_ROTATION;
             } else {
-                shipRotationSpeed.radiansPerTick = RotationSpeed.FAST_ROTATION;
+                shipRotationSpeed.radiansPerSecond = RotationSpeed.FAST_ROTATION;
             }
 
             final int test = i + 1;

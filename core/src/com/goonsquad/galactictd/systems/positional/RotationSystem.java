@@ -16,7 +16,7 @@ public class RotationSystem extends IteratingSystem {
 
     private Spatial spatial;
     private Rotatable rotatable;
-    private RotationSpeed rotationSpeed;
+    private float radiansToRotate;
 
     public RotationSystem() {
         super(Aspect.all(Rotatable.class, RotationSpeed.class));
@@ -25,19 +25,20 @@ public class RotationSystem extends IteratingSystem {
     @Override
     protected void process(int entityId) {
         rotatable = rotatableComponentMapper.get(entityId);
-        rotationSpeed = rotationSpeedComponentMapper.get(entityId);
+        radiansToRotate = rotationSpeedComponentMapper.get(entityId).radiansPerSecond
+                * world.getDelta();
+
         if(spatialComponentMapper.has(entityId)) {
             spatial = spatialComponentMapper.get(entityId);
         } else {
             spatial = null;
         }
 
-        if(rotatable.rotating) {
+        if (rotatable.rotating) {
             // Check if we are set to rotate continually
-            if(rotatable.continuousRotation)
-            {
+            if (rotatable.continuousRotation) {
                 // Just manually rotate ourselves some amount
-                rotatable.rotationInRadians += rotationSpeed.radiansPerTick * world.getDelta();
+                rotatable.rotationInRadians += radiansToRotate;
                 rotatable.rotationInRadians %= MathUtils.PI2;
             } else {
                 // If we have a target point and a spatial component, use the point for the angle
@@ -48,28 +49,27 @@ public class RotationSystem extends IteratingSystem {
                             (rotatable.rotationTargetPoint.x - spatial.getOriginX()));
 
                     // Normalize the angle to match the environment
-                    rotatable.rotationTargetAngle -= (MathUtils.PI * 0.5f);
+                    rotatable.rotationTargetAngle += (MathUtils.PI * 1.5f);
 
                     // Reset target point so we don't recalculate this
                     rotatable.rotationTargetPoint = null;
                 }
 
                 // If our progress is at 0, the rotation hasn't been setup
-                if(MathUtils.isZero(rotatable.progress)) {
+                if (MathUtils.isZero(rotatable.progress)) {
                     // Get the normalized target angle and set that as the target angle
                     rotatable.rotationTargetAngle = MathUtils.lerpAngle(rotatable.rotationInRadians,
                             rotatable.rotationTargetAngle, 1);
 
                     rotatable.rotationTargetAmount =
-                            ((rotatable.rotationTargetAngle - rotatable.rotationInRadians
-                                    + MathUtils.PI2 + MathUtils.PI) % MathUtils.PI2) - MathUtils.PI;
+                            Math.abs(((rotatable.rotationTargetAngle - rotatable.rotationInRadians
+                                    + MathUtils.PI2 + MathUtils.PI) % MathUtils.PI2)
+                                    - MathUtils.PI);
                 }
 
                 // Calculate the current progress
-                // TODO: optimize this mess
-                rotatable.progress = (rotationSpeed.radiansPerTick * world.getDelta())
-                        / Math.abs(Math.abs(rotatable.rotationTargetAmount) -
-                        (rotationSpeed.radiansPerTick * world.getDelta() * rotatable.ticks++));
+                rotatable.progress = radiansToRotate / Math.abs(rotatable.rotationTargetAmount -
+                        (radiansToRotate * rotatable.ticks++));
 
                 // Clamp the progress to be between 0 and 1
                 rotatable.progress = MathUtils.clamp(rotatable.progress, 0f, 1f);
@@ -78,7 +78,7 @@ public class RotationSystem extends IteratingSystem {
                 rotatable.rotationInRadians = MathUtils.lerpAngle(rotatable.rotationInRadians,
                         rotatable.rotationTargetAngle, rotatable.progress);
 
-                if(MathUtils.isEqual(rotatable.progress, 1)) {
+                if (MathUtils.isEqual(rotatable.progress, 1)) {
                     rotatable.rotating = false;
                 }
             }
