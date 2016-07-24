@@ -47,7 +47,7 @@ public abstract class RenderSystem extends BaseEntitySystem {
     private boolean drawCurrentEntity;
 
     public RenderSystem(Camera camera, Aspect.Builder aspect, Texture missingTextureImage) {
-        super(aspect.all(Layer.class).one(Text.class, Renderable.class));
+        super(aspect.all(Layer.class, Spatial.class).one(Text.class, Renderable.class));
         this.camera = camera;
         this.missingTextureImage = missingTextureImage;
         this.batch = new SpriteBatch();
