@@ -83,7 +83,7 @@ public class PlayScreenInitSystem extends InitializationSystem {
         homeBasePosition.spatialType = BoundsType.Circle;
         homeBasePosition.radius = 100f;
         homeBasePosition.centerX = PlayScreen.GAME_WIDTH * 0.50f;
-        homeBasePosition.centerY = (PlayScreen.GAME_HEIGHT - PlayScreen.HUD_HEIGHT) * 0.50f;
+        homeBasePosition.centerY = (PlayScreen.GAME_HEIGHT) * 0.50f;
 
         Touchable shipTouchable = touchableComponentMapper.get(homeBaseId);
         shipTouchable.event = new Event() {
