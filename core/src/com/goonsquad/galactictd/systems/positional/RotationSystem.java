@@ -6,12 +6,15 @@ import com.artemis.systems.IteratingSystem;
 import com.badlogic.gdx.math.MathUtils;
 import com.goonsquad.galactictd.components.positional.Rotatable;
 import com.goonsquad.galactictd.components.positional.RotationSpeed;
+import com.goonsquad.galactictd.components.positional.Spatial;
 
 public class RotationSystem extends IteratingSystem {
 
     private ComponentMapper<Rotatable> rotatableComponentMapper;
     private ComponentMapper<RotationSpeed> rotationSpeedComponentMapper;
+    private ComponentMapper<Spatial> spatialComponentMapper;
 
+    private Spatial spatial;
     private Rotatable rotatable;
     private float radiansToRotate;
 
@@ -22,7 +25,14 @@ public class RotationSystem extends IteratingSystem {
     @Override
     protected void process(int entityId) {
         rotatable = rotatableComponentMapper.get(entityId);
-        radiansToRotate = rotationSpeedComponentMapper.get(entityId).radiansPerSecond * world.getDelta();
+        radiansToRotate = rotationSpeedComponentMapper.get(entityId).radiansPerSecond
+                * world.getDelta();
+
+        if(spatialComponentMapper.has(entityId)) {
+            spatial = spatialComponentMapper.get(entityId);
+        } else {
+            spatial = null;
+        }
 
         if (rotatable.rotating) {
             // Check if we are set to rotate continually
@@ -31,16 +41,35 @@ public class RotationSystem extends IteratingSystem {
                 rotatable.rotationInRadians += radiansToRotate;
                 rotatable.rotationInRadians %= MathUtils.PI2;
             } else {
+                // If we have a target point and a spatial component, use the point for the angle
+                if (rotatable.rotationTargetPoint != null && spatial != null) {
+                    // Retrieve the angle relative to entity current location
+                    rotatable.rotationTargetAngle = MathUtils.atan2(
+                            (rotatable.rotationTargetPoint.y - spatial.getOriginY()),
+                            (rotatable.rotationTargetPoint.x - spatial.getOriginX()));
+
+                    // Normalize the angle to match the environment
+                    rotatable.rotationTargetAngle += (MathUtils.PI * 1.5f);
+
+                    // Reset target point so we don't recalculate this
+                    rotatable.rotationTargetPoint = null;
+                }
+
                 // If our progress is at 0, the rotation hasn't been setup
                 if (MathUtils.isZero(rotatable.progress)) {
                     // Get the normalized target angle and set that as the target angle
                     rotatable.rotationTargetAngle = MathUtils.lerpAngle(rotatable.rotationInRadians,
                             rotatable.rotationTargetAngle, 1);
+
+                    rotatable.rotationTargetAmount =
+                            Math.abs(((rotatable.rotationTargetAngle - rotatable.rotationInRadians
+                                    + MathUtils.PI2 + MathUtils.PI) % MathUtils.PI2)
+                                    - MathUtils.PI);
                 }
 
                 // Calculate the current progress
-                rotatable.progress = radiansToRotate
-                        / Math.abs(rotatable.rotationTargetAngle - rotatable.rotationInRadians);
+                rotatable.progress = radiansToRotate /
+                        (rotatable.rotationTargetAmount -= radiansToRotate);
 
                 // Clamp the progress to be between 0 and 1
                 rotatable.progress = MathUtils.clamp(rotatable.progress, 0f, 1f);
@@ -49,10 +78,8 @@ public class RotationSystem extends IteratingSystem {
                 rotatable.rotationInRadians = MathUtils.lerpAngle(rotatable.rotationInRadians,
                         rotatable.rotationTargetAngle, rotatable.progress);
 
-                // If we are done, reset the rotation state
                 if (MathUtils.isEqual(rotatable.progress, 1)) {
                     rotatable.rotating = false;
-                    rotatable.progress = 0;
                 }
             }
         }

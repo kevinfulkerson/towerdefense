@@ -116,15 +116,6 @@ public class PlayScreenInitSystem extends InitializationSystem {
         shipSpacial.centerX = centerX;
         shipSpacial.centerY = centerY;
 
-        Rotatable shipRotatable = rotatableComponentMapper.get(shipId);
-        shipRotatable.rotationInRadians = 0f;
-        shipRotatable.rotating = true;
-        shipRotatable.progress = 0f;
-        shipRotatable.continuousRotation = true;
-
-        RotationSpeed shipRotationSpeed = rotationSpeedComponentMapper.get(shipId);
-        shipRotationSpeed.radiansPerSecond = RotationSpeed.FAST_ROTATION;
-
         Touchable shipTouchable = touchableComponentMapper.get(shipId);
         shipTouchable.event = new Event() {
             @Override

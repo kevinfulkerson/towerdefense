@@ -24,9 +24,10 @@ import com.goonsquad.galactictd.systems.positional.MoveToPointSystem;
 import com.goonsquad.galactictd.systems.positional.RotationSystem;
 
 public class PlayScreen implements Screen {
-    public static final float GAME_WIDTH = 1920;
-    public static final float GAME_HEIGHT = 1080;
+    private static final float GAME_CAMERA_HEIGHT = 1080;
     public static final float HUD_HEIGHT = 35f;
+    public static final float GAME_WIDTH = 1920;
+    public static final float GAME_HEIGHT = 1080 - HUD_HEIGHT;
     private static final String TAG = "PlayScreen";
     private GalacticTDGame gameInstance;
     private World playScreenWorld;
@@ -40,7 +41,7 @@ public class PlayScreen implements Screen {
         this.gameInstance = game;
         inputMultiplexer = new InputMultiplexer();
         gameCamera = new OrthographicCamera();
-        gameViewport = new FitViewport(GAME_WIDTH, GAME_HEIGHT, gameCamera);
+        gameViewport = new FitViewport(GAME_WIDTH, GAME_CAMERA_HEIGHT, gameCamera);
     }
 
     @Override

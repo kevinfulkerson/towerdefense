@@ -14,6 +14,7 @@ import com.goonsquad.galactictd.components.positional.Spatial;
 public class OutlineSystem extends IteratingSystem {
     ComponentMapper<Spatial> spatialComponentMapper;
 
+    private Spatial shapeSpacial;
     private ShapeRenderer shapeRenderer;
     private Camera camera;
 
@@ -39,11 +40,11 @@ public class OutlineSystem extends IteratingSystem {
 
     @Override
     protected void process(int entityId) {
-        Spatial entitySpatial = spatialComponentMapper.get(entityId);
-        if (entitySpatial.spatialType == BoundsType.Rectangle) {
-            shapeRenderer.rect(entitySpatial.x, entitySpatial.y, entitySpatial.width, entitySpatial.height);
-        } else if (entitySpatial.spatialType == BoundsType.Circle) {
-            shapeRenderer.circle(entitySpatial.centerX, entitySpatial.centerY, entitySpatial.radius);
+        shapeSpacial = spatialComponentMapper.get(entityId);
+        if (shapeSpacial.spatialType == BoundsType.Rectangle) {
+            shapeRenderer.rect(shapeSpacial.x, shapeSpacial.y, shapeSpacial.width, shapeSpacial.height);
+        } else if (shapeSpacial.spatialType == BoundsType.Circle) {
+            shapeRenderer.circle(shapeSpacial.centerX, shapeSpacial.centerY, shapeSpacial.radius);
         }
     }
 

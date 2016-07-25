@@ -31,6 +31,6 @@ public class WarpGeneratingSystem extends com.artemis.BaseSystem {
         warpLocation.x = MathUtils.random(warpWidth, PlayScreen.GAME_WIDTH - warpWidth);
         warpLocation.y = MathUtils.random(
                 warpHeight,
-                PlayScreen.GAME_HEIGHT - PlayScreen.HUD_HEIGHT - warpHeight);
+                PlayScreen.GAME_HEIGHT - warpHeight);
     }
 }
