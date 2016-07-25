@@ -100,15 +100,9 @@ public class PlayScreenInitSystem extends InitializationSystem {
 
             Rotatable shipRotatable = rotatableComponentMapper.get(shipId);
             if(i == 1) {
-                shipRotatable.rotationInRadians = 0;
-                shipRotatable.rotating = true;
-                shipRotatable.progress = 0f;
-                shipRotatable.rotationTargetAngle = MathUtils.PI/2;
+                shipRotatable.prepareOneTimeRotation(MathUtils.PI * 0.5f);
             } else {
-                shipRotatable.rotationInRadians = 0f;
-                shipRotatable.rotating = true;
-                shipRotatable.progress = 0f;
-                shipRotatable.continuousRotation = true;
+                shipRotatable.prepareContinuousRotation();
             }
 
             RotationSpeed shipRotationSpeed = rotationSpeedComponentMapper.get(shipId);

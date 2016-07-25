@@ -10,6 +10,8 @@ import com.goonsquad.galactictd.components.layers.LayerLevel;
 import com.goonsquad.galactictd.components.positional.MoveToPoint;
 import com.goonsquad.galactictd.components.positional.MovementDestination;
 import com.goonsquad.galactictd.components.positional.MovementSpeed;
+import com.goonsquad.galactictd.components.positional.Rotatable;
+import com.goonsquad.galactictd.components.positional.RotationSpeed;
 import com.goonsquad.galactictd.components.positional.Spatial;
 import com.goonsquad.galactictd.systems.archetypes.PlayScreenArchetypeBuilder;
 
@@ -20,6 +22,8 @@ public class ContextTouchSystem extends TouchConsumerSystem {
     private ComponentMapper<MovementDestination> destinationComponentMapper;
     private ComponentMapper<MovementSpeed> movementSpeedComponentMapper;
     private ComponentMapper<MoveToPoint> moveToPointComponentMapper;
+    private ComponentMapper<Rotatable> rotatableComponentMapper;
+    private ComponentMapper<RotationSpeed> rotationSpeedComponentMapper;
 
     private PlayScreenArchetypeBuilder archetypeBuilder;
     private MovementDestination currentMovementDestination;
@@ -52,6 +56,16 @@ public class ContextTouchSystem extends TouchConsumerSystem {
             currentMoveToPoint = moveToPointComponentMapper.create(currentEntityId);
             currentMoveToPoint.moving = true;
             currentMoveToPoint.resetPositionOnArrival = false;
+
+            if(rotatableComponentMapper.has(currentEntityId)) {
+                Rotatable rotate = rotatableComponentMapper.get(currentEntityId);
+                rotate.prepareOneTimeRotation(touchLoc);
+            }
+
+            if(rotationSpeedComponentMapper.has(currentEntityId)) {
+                RotationSpeed rotationSpeed = rotationSpeedComponentMapper.get(currentEntityId);
+                rotationSpeed.radiansPerSecond = RotationSpeed.VERY_FAST_ROTATION;
+            }
 
             // Reset the touch handler
             currentEntityId = INVALID_ENTITY;
