@@ -43,7 +43,7 @@ public class Spatial extends com.artemis.PooledComponent {
 
     public void setOriginX(float x) {
         if (this.spatialType == BoundsType.Rectangle) {
-            this.x = x - width / 2f;
+            this.x = x - width * 0.5f;
         } else if (this.spatialType == BoundsType.Circle) {
             this.centerX = x;
         }
@@ -51,7 +51,7 @@ public class Spatial extends com.artemis.PooledComponent {
 
     public void setOriginY(float y) {
         if (this.spatialType == BoundsType.Rectangle) {
-            this.y = y - height / 2f;
+            this.y = y - height * 0.5f;
         } else if (this.spatialType == BoundsType.Circle) {
             this.centerY = y;
         }
@@ -59,7 +59,7 @@ public class Spatial extends com.artemis.PooledComponent {
 
     public float getOriginX() {
         if (this.spatialType == BoundsType.Rectangle) {
-            return this.x + this.width / 2f;
+            return this.x + this.width * 0.5f;
         } else if (this.spatialType == BoundsType.Circle) {
             return this.centerX;
         }
@@ -68,7 +68,7 @@ public class Spatial extends com.artemis.PooledComponent {
 
     public float getOriginY() {
         if (this.spatialType == BoundsType.Rectangle) {
-            return this.y + this.height / 2f;
+            return this.y + this.height * 0.5f;
         } else if (this.spatialType == BoundsType.Circle) {
             return this.centerY;
         }
