@@ -2,13 +2,14 @@ package com.goonsquad.galactictd.systems.initialization;
 
 import com.artemis.ComponentMapper;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.MathUtils;
 import com.goonsquad.galactictd.GalacticTDGame;
 import com.goonsquad.galactictd.components.graphics.Renderable;
 import com.goonsquad.galactictd.components.input.Event;
 import com.goonsquad.galactictd.components.input.Touchable;
 import com.goonsquad.galactictd.components.layers.Layer;
+import com.goonsquad.galactictd.components.positional.BoundsType;
 import com.goonsquad.galactictd.components.positional.MoveToPoint;
 import com.goonsquad.galactictd.components.positional.MovementDestination;
 import com.goonsquad.galactictd.components.positional.MovementSpeed;
@@ -39,6 +40,8 @@ public class PlayScreenInitSystem extends InitializationSystem {
     private ContextTouchSystem contextTouchSystem;
 
     private GalacticTDGame gameInstance;
+    private Texture shipTexture;
+    private final float shipRadius = 100f;
 
     public PlayScreenInitSystem(GalacticTDGame game) {
         this.gameInstance = game;
@@ -46,6 +49,7 @@ public class PlayScreenInitSystem extends InitializationSystem {
 
     @Override
     protected void populateWorld() {
+        shipTexture = gameInstance.assets.manager.get("ship.png", Texture.class);
         createTopUiBar();
         createPlayer();
         createHomeBase();
@@ -76,7 +80,10 @@ public class PlayScreenInitSystem extends InitializationSystem {
         homeBaseRenderable.texture = gameInstance.assets.manager.get("Owens_Frank.jpg", Texture.class);
 
         Spatial homeBasePosition = spatialComponentMapper.get(homeBaseId);
-        homeBasePosition.setBounds(200, 200, 200, 200); // TODO: figure out where this goes
+        homeBasePosition.spatialType = BoundsType.Circle;
+        homeBasePosition.radius = 100f;
+        homeBasePosition.centerX = PlayScreen.GAME_WIDTH * 0.50f;
+        homeBasePosition.centerY = (PlayScreen.GAME_HEIGHT) * 0.50f;
 
         Touchable shipTouchable = touchableComponentMapper.get(homeBaseId);
         shipTouchable.event = new Event() {
@@ -89,43 +96,37 @@ public class PlayScreenInitSystem extends InitializationSystem {
     }
 
     private void createShips() {
-        for (int i = 0; i < 3; ++i) {
-            final int shipId = archetypeBuilder.buildArchetype(PlayScreenArchetypeBuilder.SHIP_SPRITE);
-
-            Renderable shipRenderable = renderableComponentMapper.get(shipId);
-            shipRenderable.texture = gameInstance.assets.manager.get("Owens_Frank.jpg", Texture.class);
-
-            Spatial shipPosition = spatialComponentMapper.get(shipId);
-            shipPosition.setBounds(200 * (i + 2), 200 * (i + 2), 200, 200);
-
-            Rotatable shipRotatable = rotatableComponentMapper.get(shipId);
-            if(i == 1) {
-                shipRotatable.prepareOneTimeRotation(MathUtils.PI * 0.5f);
-            } else {
-                shipRotatable.prepareContinuousRotation();
-            }
-
-            RotationSpeed shipRotationSpeed = rotationSpeedComponentMapper.get(shipId);
-            if(i == 1) {
-                shipRotationSpeed.radiansPerSecond = RotationSpeed.VERY_SLOW_ROTATION;
-            } else if(i == 2) {
-                shipRotationSpeed.radiansPerSecond = -RotationSpeed.FAST_ROTATION;
-            } else {
-                shipRotationSpeed.radiansPerSecond = RotationSpeed.FAST_ROTATION;
-            }
-
-            final int test = i + 1;
-            Touchable shipTouchable = touchableComponentMapper.get(shipId);
-            shipTouchable.event = new Event() {
-                @Override
-                public void fireEvent() {
-                    // Add this entity to the user-initiated movement system
-                    Gdx.app.log(String.format("Ship #%d", test), "Touched");
-                    contextTouchSystem.openContextForShipMovement(shipId);
-                }
-            };
-        }
+        createShip(Color.BLUE, PlayScreen.GAME_WIDTH * 0.50f, PlayScreen.GAME_HEIGHT * 0.80f);
+        createShip(Color.GREEN, PlayScreen.GAME_WIDTH * 0.75f, PlayScreen.GAME_HEIGHT * 0.30f);
+        createShip(Color.RED, PlayScreen.GAME_WIDTH * 0.25f, PlayScreen.GAME_HEIGHT * 0.30f);
     }
+
+    private void createShip(final Color color, float centerX, float centerY) {
+        final int shipId = archetypeBuilder.buildArchetype(PlayScreenArchetypeBuilder.SHIP_SPRITE);
+
+        Renderable shipRenderable = renderableComponentMapper.get(shipId);
+        shipRenderable.texture = shipTexture;
+        shipRenderable.r = color.r;
+        shipRenderable.g = color.g;
+        shipRenderable.b = color.b;
+
+        Spatial shipSpacial = spatialComponentMapper.get(shipId);
+        shipSpacial.spatialType = BoundsType.Circle;
+        shipSpacial.radius = shipRadius;
+        shipSpacial.centerX = centerX;
+        shipSpacial.centerY = centerY;
+
+        Touchable shipTouchable = touchableComponentMapper.get(shipId);
+        shipTouchable.event = new Event() {
+            @Override
+            public void fireEvent() {
+                // Add this entity to the user-initiated movement system
+                Gdx.app.log("Ship " + color.toString(), "Touched");
+                contextTouchSystem.openContextForShipMovement(shipId);
+            }
+        };
+    }
+
 
     private void createOverlays() {
         // TODO: create the information overlays
